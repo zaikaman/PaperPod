@@ -1,0 +1,187 @@
+openapi: 3.0.3
+info:
+  title: PaperPod Ingestion & Document Processing API
+  version: 1.0.0
+  description: Endpoints for uploading PDFs, importing arXiv papers, extracting figures, and generating conversational briefings.
+paths:
+  /api/v1/papers/upload:
+    post:
+      summary: Upload PDF document for ingestion
+      operationId: uploadPaperPdf
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                depth:
+                  type: string
+                  enum: [executive_brief, deep_dive]
+                  default: executive_brief
+      responses:
+        '202':
+          description: Paper accepted for ingestion and podcast synthesis
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestionJobResponse'
+        '400':
+          description: Invalid PDF file or corrupted document
+        '402':
+          description: Quota exceeded - Payment or upgrade required
+
+  /api/v1/papers/arxiv:
+    post:
+      summary: Import academic paper via arXiv URL or ID
+      operationId: importArxivPaper
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - arxiv_url_or_id
+              properties:
+                arxiv_url_or_id:
+                  type: string
+                  example: "https://arxiv.org/abs/1706.03762"
+                depth:
+                  type: string
+                  enum: [executive_brief, deep_dive]
+                  default: executive_brief
+      responses:
+        '202':
+          description: ArXiv paper fetched and queued for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestionJobResponse'
+        '404':
+          description: ArXiv ID not found or inaccessible
+
+  /api/v1/papers/{paper_id}:
+    get:
+      summary: Get paper details, extracted figures, and processing status
+      operationId: getPaperDetails
+      parameters:
+        - name: paper_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Full paper entity with figures and episode reference
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaperDetailsResponse'
+        '404':
+          description: Paper not found
+
+components:
+  schemas:
+    IngestionJobResponse:
+      type: object
+      required:
+        - paper_id
+        - episode_id
+        - status
+        - estimated_completion_seconds
+      properties:
+        paper_id:
+          type: string
+          format: uuid
+        episode_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending, parsing, generating_audio, ready, failed]
+        estimated_completion_seconds:
+          type: integer
+          example: 12
+
+    PaperDetailsResponse:
+      type: object
+      required:
+        - id
+        - title
+        - status
+        - figures
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        authors:
+          type: array
+          items:
+            type: string
+        abstract:
+          type: string
+        status:
+          type: string
+          enum: [pending, parsing, ready, failed]
+        total_pages:
+          type: integer
+        figures:
+          type: array
+          items:
+            $ref: '#/components/schemas/FigureItem'
+        episode:
+          $ref: '#/components/schemas/EpisodeSummary'
+
+    FigureItem:
+      type: object
+      required:
+        - id
+        - figure_number
+        - caption
+        - image_url
+        - page_number
+        - bounding_box
+      properties:
+        id:
+          type: string
+          format: uuid
+        figure_number:
+          type: string
+          example: "Figure 3"
+        caption:
+          type: string
+        image_url:
+          type: string
+        page_number:
+          type: integer
+        bounding_box:
+          type: object
+          properties:
+            x0: { type: number }
+            y0: { type: number }
+            x1: { type: number }
+            y1: { type: number }
+
+    EpisodeSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        depth_type:
+          type: string
+        duration_seconds:
+          type: integer
+        audio_url:
+          type: string
+        status:
+          type: string

@@ -1,0 +1,133 @@
+openapi: 3.0.3
+info:
+  title: PaperPod Audio Briefing & Live Interruption API
+  version: 1.0.0
+  description: Endpoints for streaming podcast dialogue, timestamp synchronization, and live voice interruption Q&A.
+paths:
+  /api/v1/episodes/{episode_id}/timeline:
+    get:
+      summary: Retrieve synchronized transcript turns and figure timestamp triggers
+      operationId: getEpisodeTimeline
+      parameters:
+        - name: episode_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Synchronized dialogue segments and HUD timing markers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EpisodeTimelineResponse'
+
+  /api/v1/episodes/{episode_id}/interrupt:
+    post:
+      summary: Submit live voice or text question during audio playback
+      operationId: submitVoiceInterruption
+      parameters:
+        - name: episode_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - playback_timestamp_ms
+                - query_text
+              properties:
+                playback_timestamp_ms:
+                  type: integer
+                  description: Current audio position in milliseconds
+                query_text:
+                  type: string
+                  description: Transcribed user question
+                  example: "Wait, what does the loss function in equation 4 minimize?"
+      responses:
+        '200':
+          description: Contextual clarification audio response from expert host
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterruptionClarificationResponse'
+        '402':
+          description: Free tier voice interruption limit reached
+
+components:
+  schemas:
+    EpisodeTimelineResponse:
+      type: object
+      required:
+        - episode_id
+        - audio_url
+        - duration_seconds
+        - segments
+      properties:
+        episode_id:
+          type: string
+          format: uuid
+        audio_url:
+          type: string
+        duration_seconds:
+          type: integer
+        segments:
+          type: array
+          items:
+            $ref: '#/components/schemas/DialogueSegment'
+
+    DialogueSegment:
+      type: object
+      required:
+        - id
+        - sequence_index
+        - speaker
+        - dialogue_text
+        - audio_start_ms
+        - audio_end_ms
+      properties:
+        id:
+          type: string
+          format: uuid
+        sequence_index:
+          type: integer
+        speaker:
+          type: string
+          enum: [alex, taylor]
+        dialogue_text:
+          type: string
+        audio_start_ms:
+          type: integer
+        audio_end_ms:
+          type: integer
+        referenced_figure_id:
+          type: string
+          format: uuid
+          nullable: true
+
+    InterruptionClarificationResponse:
+      type: object
+      required:
+        - clarification_text
+        - audio_url
+        - duration_ms
+        - resume_timestamp_ms
+      properties:
+        clarification_text:
+          type: string
+        audio_url:
+          type: string
+        duration_ms:
+          type: integer
+        resume_timestamp_ms:
+          type: integer
+        relevant_section_heading:
+          type: string
+          nullable: true
