@@ -1,0 +1,57 @@
+openapi: 3.0.3
+info:
+  title: PaperPod RevenueCat Entitlement & Paywall Integration Contract
+  version: 1.0.0
+  description: Client-side RevenueCat offering identifiers, entitlement keys, and user tier mappings.
+components:
+  schemas:
+    RevenueCatEntitlements:
+      type: object
+      description: Entitlements defined in RevenueCat Dashboard
+      properties:
+        pro_access:
+          type: boolean
+          description: Grants unlimited paper briefings, deep dives, unlimited voice interruptions, and offline listening.
+        student_pass:
+          type: boolean
+          description: Lifetime student entitlement with full pro capabilities.
+
+    RevenueCatOfferings:
+      type: object
+      description: Packages and pricing configured in RevenueCat Offerings
+      properties:
+        default:
+          type: object
+          properties:
+            monthly:
+              type: object
+              properties:
+                identifier: { type: string, example: "paperpod_pro_monthly" }
+                price_string: { type: string, example: "$7.99" }
+            annual:
+              type: object
+              properties:
+                identifier: { type: string, example: "paperpod_pro_annual" }
+                price_string: { type: string, example: "$49.99" }
+            lifetime:
+              type: object
+              properties:
+                identifier: { type: string, example: "paperpod_student_lifetime" }
+                price_string: { type: string, example: "$39.99" }
+
+    PaywallTriggers:
+      type: object
+      description: Client-side event points that trigger RevenueCat Paywalls v2
+      properties:
+        VOICE_INTERRUPT_LIMIT:
+          type: string
+          example: "trigger_voice_interruption_second_attempt"
+        WEEKLY_CONVERSION_LIMIT:
+          type: string
+          example: "trigger_weekly_paper_limit_exceeded"
+        DEEP_DIVE_REQUEST:
+          type: string
+          example: "trigger_full_deep_dive_briefing"
+        OFFLINE_DOWNLOAD_REQUEST:
+          type: string
+          example: "trigger_offline_audio_download"
