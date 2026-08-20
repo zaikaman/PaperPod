@@ -127,18 +127,18 @@
 
 ### Tests for User Story 4
 
-- [ ] T048 [P] [US4] Unit test for user entitlement verification and quota counters in `backend/tests/unit/test_entitlements.py`
-- [ ] T049 [P] [US4] Unit test for RevenueCat webhook handler and entitlement synchronization in `backend/tests/unit/test_revenuecat_sync.py`
+- [x] T048 [P] [US4] Unit test for user entitlement verification and quota counters in `backend/tests/unit/test_entitlements.py`
+- [x] T049 [P] [US4] Unit test for RevenueCat webhook handler and entitlement synchronization in `backend/tests/unit/test_revenuecat_sync.py`
 
 ### Implementation for User Story 4
 
-- [ ] T050 [P] [US4] Create RevenueCat StoreKit configuration file for local $0 sandbox testing (`paperpod_pro_monthly`, `paperpod_pro_annual`, `paperpod_student_lifetime`) in `client/PaperPod.storekit`
-- [ ] T051 [P] [US4] Implement RevenueCat Purchases SDK wrapper, offering loader, and purchaser info listener in `client/src/services/purchases.ts`
-- [ ] T052 [US4] Implement user entitlement context and quota tracker hook (`useEntitlements`) in `client/src/context/EntitlementContext.tsx`
-- [ ] T053 [US4] Implement Dynamic Paywall v2 modal component with student discount toggle in `client/src/components/paywall/PaywallModal.tsx`
-- [ ] T054 [US4] Implement contextual paywall trigger hooks for second voice interruption, 3rd weekly paper conversion, and offline download in `client/src/hooks/usePaywallTrigger.ts`
-- [ ] T055 [US4] Implement Customer Center screen with active plan details, change plan options, and restore purchases button in `client/src/screens/CustomerCenterScreen.tsx`
-- [ ] T056 [US4] Implement backend RevenueCat webhook endpoint to sync subscription events with Supabase `user_entitlements` in `backend/src/api/webhooks.py`
+- [x] T050 [P] [US4] Create RevenueCat StoreKit configuration file for local $0 sandbox testing (`paperpod_pro_monthly`, `paperpod_pro_annual`, `paperpod_student_lifetime`) in `client/PaperPod.storekit`
+- [x] T051 [P] [US4] Implement RevenueCat Purchases SDK wrapper, offering loader, and purchaser info listener in `client/src/services/purchases.ts`
+- [x] T052 [US4] Implement user entitlement context and quota tracker hook (`useEntitlements`) in `client/src/context/EntitlementContext.tsx`
+- [x] T053 [US4] Implement Dynamic Paywall v2 modal component with student discount toggle in `client/src/components/paywall/PaywallModal.tsx`
+- [x] T054 [US4] Implement contextual paywall trigger hooks for second voice interruption, 3rd weekly paper conversion, and offline download in `client/src/hooks/usePaywallTrigger.ts`
+- [x] T055 [US4] Implement Customer Center screen with active plan details, change plan options, and restore purchases button in `client/src/screens/CustomerCenterScreen.tsx`
+- [x] T056 [US4] Implement backend RevenueCat webhook endpoint to sync subscription events with Supabase `user_entitlements` in `backend/src/api/webhooks.py`
 
 **Checkpoint**: Monetization architecture complete with working StoreKit sandbox, dynamic paywalls, and Customer Center.
 

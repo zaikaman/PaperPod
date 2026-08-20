@@ -7,9 +7,11 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.api.entitlements import router as entitlements_router
 from src.api.episodes import router as episodes_router
 from src.api.interruption import router as interruption_router
 from src.api.papers import router as papers_router
+from src.api.webhooks import router as webhooks_router
 from src.core.config import get_settings
 
 logging.basicConfig(
@@ -50,6 +52,8 @@ app.add_middleware(
 app.include_router(papers_router)
 app.include_router(episodes_router)
 app.include_router(interruption_router)
+app.include_router(entitlements_router)
+app.include_router(webhooks_router)
 
 
 @app.get("/health", tags=["System"], status_code=status.HTTP_200_OK)

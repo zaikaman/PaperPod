@@ -1,0 +1,152 @@
+{
+  "identifier" : "E2B7A849",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "39.99",
+      "familyShareable" : false,
+      "internalID" : "6478901234",
+      "localizations" : [
+        {
+          "description" : "Lifetime full access for verified students and academic researchers.",
+          "displayName" : "Student Lifetime Pass",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "paperpod_student_lifetime",
+      "referenceName" : "PaperPod Student Lifetime",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21489012",
+      "localizations" : [
+        {
+          "description" : "Unlimited interactive AI audio research briefings and deep dives.",
+          "displayName" : "PaperPod Pro Access",
+          "locale" : "en_US"
+        }
+      ],
+      "name" : "PaperPod Pro Access",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "7.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6478901235",
+          "introductoryOffer" : {
+            "internalID" : "4A9D3F82",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "Unlimited voice Q&A, 15-min deep dives, and offline listening.",
+              "displayName" : "PaperPod Pro Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "paperpod_pro_monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "PaperPod Pro Monthly",
+          "subscriptionGroupID" : "21489012",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "49.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6478901236",
+          "introductoryOffer" : {
+            "internalID" : "8C2E7A14",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P2W"
+          },
+          "localizations" : [
+            {
+              "description" : "Best value: Unlimited voice Q&A, deep dives, 14-day free trial.",
+              "displayName" : "PaperPod Pro Annual",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "paperpod_pro_annual",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "PaperPod Pro Annual",
+          "subscriptionGroupID" : "21489012",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

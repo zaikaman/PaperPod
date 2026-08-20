@@ -1,2 +1,2 @@
 // PaperPod Paywall Components
-export {};
+export * from './PaywallModal';

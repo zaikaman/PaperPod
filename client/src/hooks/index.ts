@@ -1,2 +1,2 @@
 // PaperPod Hooks
-export {};
+export * from './usePaywallTrigger';

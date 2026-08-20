@@ -23,6 +23,7 @@ import {
   X,
   Layers,
   Sparkles,
+  Crown,
 } from 'lucide-react-native';
 import { theme } from '../theme';
 import { Paper, Episode, DialogueSegment, PaperFigure } from '../types';
@@ -33,12 +34,16 @@ import { DEMO_EPISODE_SEGMENTS } from '../data/demoEpisode';
 import { FigureHud, FigureGallery, ZoomableFigure } from '../components/hud';
 import { VoiceInterruptModal, ClarificationBubble } from '../components/interruption';
 import { interruptionManager, InterruptionStateData } from '../services/interruptionManager';
+import { useEntitlements } from '../context/EntitlementContext';
+import { usePaywallTrigger } from '../hooks/usePaywallTrigger';
+import { PaywallModal } from '../components/paywall/PaywallModal';
 
 interface PlayerScreenProps {
   paper: Paper;
   initialEpisodeId?: string;
   onBack: () => void;
   onOpenInterruptionModal?: () => void;
+  onOpenCustomerCenter?: () => void;
 }
 
 const DEFAULT_SEGMENTS: DialogueSegment[] = DEMO_EPISODE_SEGMENTS;
@@ -106,7 +111,17 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
   initialEpisodeId,
   onBack,
   onOpenInterruptionModal,
+  onOpenCustomerCenter,
 }) => {
+  const { isPro, recordVoiceQuestion } = useEntitlements();
+  const {
+    isPaywallVisible,
+    paywallReason,
+    openPaywall,
+    closePaywall,
+    checkVoiceInterruptTrigger,
+  } = usePaywallTrigger();
+
   const [playbackState, setPlaybackState] = useState<PlaybackState>(audioPlayer.getState());
   const [activeSegmentIndex, setActiveSegmentIndex] = useState(0);
   const [episodeSegments, setEpisodeSegments] = useState<DialogueSegment[]>(DEFAULT_SEGMENTS);
@@ -262,11 +277,16 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
           <ArrowLeft size={20} color="#FFFFFF" />
         </TouchableOpacity>
 
-        <View style={styles.storyTagPill}>
+        <TouchableOpacity
+          style={styles.storyTagPill}
+          onPress={() => (onOpenCustomerCenter ? onOpenCustomerCenter() : openPaywall('CUSTOMER_CENTER_UPGRADE'))}
+          activeOpacity={0.8}
+        >
+          <Crown size={12} color={isPro ? '#F59E0B' : '#D97736'} style={{ marginRight: 4 }} />
           <Text style={styles.storyTagText} numberOfLines={1}>
             {paper.title || 'Attention Is All You Need'}
           </Text>
-        </View>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -401,6 +421,11 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
         <TouchableOpacity
           style={styles.floatingMicBtn}
           onPress={async () => {
+            const allowed = checkVoiceInterruptTrigger(paper.id);
+            if (!allowed) {
+              return;
+            }
+            recordVoiceQuestion(paper.id);
             await interruptionManager.startInterruption();
             setInterruptionModalVisible(true);
             if (onOpenInterruptionModal) {
@@ -419,6 +444,13 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
         visible={interruptionModalVisible}
         episodeId={initialEpisodeId || currentEpisode?.id || 'demo-episode-1706'}
         onClose={() => setInterruptionModalVisible(false)}
+      />
+
+      {/* Paywall Modal */}
+      <PaywallModal
+        visible={isPaywallVisible}
+        onClose={closePaywall}
+        reason={paywallReason || 'VOICE_INTERRUPT_LIMIT'}
       />
 
       {/* Figure Gallery Drawer Modal */}

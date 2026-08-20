@@ -1,6 +1,7 @@
 /**
  * PaperPod Discovery & Ingestion Home Screen
  * 100% Faithful Clone of Reference Screen 1 with Authentic Academic Research Content.
+ * Integrated with RevenueCat Dynamic Paywalls v2 & Customer Center.
  */
 import React, { useState } from 'react';
 import {
@@ -23,14 +24,20 @@ import {
   Layers,
   Sparkles,
   Search,
+  Crown,
+  Zap,
 } from 'lucide-react-native';
 import { theme } from '../theme';
 import { api } from '../services/api';
 import { Paper } from '../types';
+import { useEntitlements } from '../context/EntitlementContext';
+import { usePaywallTrigger } from '../hooks/usePaywallTrigger';
+import { PaywallModal } from '../components/paywall/PaywallModal';
 
 interface HomeScreenProps {
   onSelectPaper: (paper: Paper, episodeId?: string) => void;
   onOpenDetail?: (paper: Paper) => void;
+  onOpenCustomerCenter?: () => void;
 }
 
 const CATEGORIES = [
@@ -93,20 +100,41 @@ const PRESET_PAPERS = [
   },
 ];
 
-export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectPaper, onOpenDetail }) => {
+export const HomeScreen: React.FC<HomeScreenProps> = ({
+  onSelectPaper,
+  onOpenDetail,
+  onOpenCustomerCenter,
+}) => {
   const [arxivInput, setArxivInput] = useState('');
   const [isIngesting, setIsIngesting] = useState(false);
 
+  const { isPro, conversionsUsed, recordPaperConversion } = useEntitlements();
+  const {
+    isPaywallVisible,
+    paywallReason,
+    openPaywall,
+    closePaywall,
+    checkWeeklyConversionTrigger,
+  } = usePaywallTrigger();
+
   const handleIngest = async () => {
+    // Check weekly conversion quota limit for free users
+    const allowed = checkWeeklyConversionTrigger();
+    if (!allowed) {
+      return;
+    }
+
     const query = arxivInput.trim() || '1706.03762';
     setIsIngesting(true);
     try {
       const res = await api.ingestArxiv(query);
+      recordPaperConversion();
       if (res.paper) {
         onSelectPaper(res.paper, res.episode_id);
       }
     } catch (e) {
       console.warn('Ingestion fallback to demo:', e);
+      recordPaperConversion();
       const demoPaper: Paper = {
         id: 'paper-attention-1706',
         title: 'Attention Is All You Need',
@@ -151,8 +179,17 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectPaper, onOpenDet
         <TouchableOpacity style={styles.navIconBtn} activeOpacity={0.7}>
           <ArrowLeft size={20} color="#FFFFFF" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navIconBtn} activeOpacity={0.7}>
-          <Headphones size={20} color="#FFFFFF" />
+
+        {/* Customer Center & Membership Pill */}
+        <TouchableOpacity
+          style={styles.membershipPill}
+          onPress={() => (onOpenCustomerCenter ? onOpenCustomerCenter() : openPaywall('CUSTOMER_CENTER_UPGRADE'))}
+          activeOpacity={0.8}
+        >
+          <Crown size={14} color={isPro ? '#F59E0B' : theme.colors.primary} />
+          <Text style={[styles.membershipPillText, isPro && styles.membershipPillTextPro]}>
+            {isPro ? 'PRO' : `${conversionsUsed}/2 USED`}
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -275,6 +312,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectPaper, onOpenDet
           ))}
         </View>
       </ScrollView>
+
+      {/* Paywall Modal */}
+      <PaywallModal
+        visible={isPaywallVisible}
+        onClose={closePaywall}
+        reason={paywallReason || 'WEEKLY_CONVERSION_LIMIT'}
+      />
     </View>
   );
 };
@@ -294,6 +338,26 @@ const styles = StyleSheet.create({
   },
   navIconBtn: {
     padding: 6,
+  },
+  membershipPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: 'rgba(255, 255, 255, 0.07)',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  membershipPillText: {
+    fontSize: 10.5,
+    fontWeight: '700',
+    color: theme.colors.primary,
+    letterSpacing: 0.6,
+  },
+  membershipPillTextPro: {
+    color: '#F59E0B',
   },
   scroll: {
     flex: 1,
@@ -320,143 +384,149 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   heroTitle: {
-    fontSize: 19,
+    fontSize: 20,
     fontWeight: '700',
-    letterSpacing: -0.3,
     color: '#FFFFFF',
+    letterSpacing: -0.3,
     textAlign: 'center',
     marginBottom: 6,
   },
   heroSubtitle: {
     fontSize: 12,
-    lineHeight: 17,
+    lineHeight: 18,
     color: '#7E828B',
     textAlign: 'center',
-    maxWidth: 300,
+    paddingHorizontal: 8,
+    marginBottom: 18,
   },
   ingestionBox: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#111215',
+    borderRadius: 30,
+    paddingLeft: 14,
+    paddingRight: 6,
+    paddingVertical: 6,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.08)',
-    borderRadius: 24,
-    height: 48,
-    paddingLeft: 16,
-    paddingRight: 6,
-    marginTop: 18,
     width: '100%',
   },
   searchIcon: {
-    marginRight: 10,
+    marginRight: 8,
   },
   ingestInput: {
     flex: 1,
-    fontSize: 13,
     color: '#FFFFFF',
-    paddingVertical: 0,
+    fontSize: 12.5,
+    paddingVertical: 4,
   },
   ingestActionBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    borderWidth: 1.2,
-    borderColor: 'rgba(217, 119, 54, 0.4)',
-    backgroundColor: 'rgba(217, 119, 54, 0.1)',
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#C86A32',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
   },
   ingestActionBtnFilled: {
-    backgroundColor: '#D97736',
-    borderColor: '#D97736',
+    backgroundColor: '#C86A32',
+    borderColor: '#C86A32',
   },
   sectionHeader: {
     marginTop: 18,
     marginBottom: 12,
   },
   sectionTitle: {
-    fontSize: 10.5,
+    fontSize: 10,
     fontWeight: '700',
-    letterSpacing: 1.4,
-    color: '#656870',
+    letterSpacing: 1.6,
+    color: '#6E727A',
     textTransform: 'uppercase',
   },
   categoriesRow: {
+    paddingRight: 10,
     gap: 12,
-    paddingBottom: 10,
   },
   categoryCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#121316',
+    backgroundColor: '#111215',
+    borderRadius: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.06)',
-    borderRadius: 18,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    gap: 12,
-    minWidth: 165,
+    minWidth: 175,
   },
   categoryCardFirst: {
-    borderColor: 'rgba(217, 119, 54, 0.3)',
-    backgroundColor: '#151518',
+    borderColor: 'rgba(200, 106, 50, 0.35)',
   },
   categoryIconBox: {
-    width: 34,
-    height: 34,
-    borderRadius: 8,
+    width: 38,
+    height: 38,
+    borderRadius: 10,
+    backgroundColor: 'rgba(217, 119, 54, 0.1)',
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight: 12,
   },
   categoryTextCol: {
-    flex: 1,
+    justifyContent: 'center',
   },
   categoryTitleText: {
-    fontSize: 13,
+    fontSize: 12.5,
     fontWeight: '600',
     color: '#FFFFFF',
+    marginBottom: 2,
   },
   categoryCountText: {
-    fontSize: 11,
-    color: '#6E727A',
-    marginTop: 2,
+    fontSize: 10.5,
+    color: '#656870',
   },
   storiesList: {
-    gap: 14,
-    marginTop: 2,
+    gap: 10,
+    marginBottom: 10,
   },
   storyCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 6,
-    gap: 14,
+    backgroundColor: '#111215',
+    borderRadius: 16,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.06)',
   },
   storyThumb: {
     width: 48,
     height: 48,
-    borderRadius: 12,
-    backgroundColor: '#16171A',
+    borderRadius: 10,
+    marginRight: 12,
+    backgroundColor: '#1A1A1E',
   },
   storyInfoCol: {
     flex: 1,
+    justifyContent: 'center',
   },
   storyTitleText: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
-    color: '#EDEDED',
+    color: '#FFFFFF',
+    marginBottom: 3,
   },
   storySubText: {
-    fontSize: 12,
-    color: '#6E727A',
-    marginTop: 3,
+    fontSize: 11,
+    color: '#656870',
   },
   wireframePlayBtn: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    borderWidth: 1.2,
-    borderColor: '#D97736',
+    borderWidth: 1,
+    borderColor: 'rgba(217, 119, 54, 0.5)',
     alignItems: 'center',
     justifyContent: 'center',
+    marginLeft: 8,
   },
 });
