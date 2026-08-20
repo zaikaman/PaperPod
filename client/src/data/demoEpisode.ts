@@ -4,9 +4,9 @@ export const DEMO_EPISODE_SEGMENTS: DialogueSegment[] = [
   {
     "sequence_index": 1,
     "speaker": "alex",
-    "dialogue_text": "Welcome back to PaperPod! Today, Dr. Taylor and I are diving into Attention Is All You Need. Dr. Taylor, why was ditching recurrence such a monumental breakthrough?",
+    "dialogue_text": "Welcome back to PaperPod! Today, Dr. Taylor and I are diving into one of the most cited papers in AI: Attention Is All You Need. Dr. Taylor, why was ditching recurrence such a monumental breakthrough?",
     "audio_start_ms": 0,
-    "audio_end_ms": 11904,
+    "audio_end_ms": 13656,
     "referenced_figure_number": null,
     "referenced_figure_id": null,
     "words": [
@@ -33,117 +33,157 @@ export const DEMO_EPISODE_SEGMENTS: DialogueSegment[] = [
       {
         "text": "Today",
         "start_ms": 2562,
-        "end_ms": 2975
+        "end_ms": 2937
       },
       {
         "text": "Dr.",
-        "start_ms": 3225,
-        "end_ms": 3550
+        "start_ms": 3150,
+        "end_ms": 3462
       },
       {
         "text": "Taylor",
-        "start_ms": 3575,
-        "end_ms": 3962
+        "start_ms": 3487,
+        "end_ms": 3850
       },
       {
         "text": "and",
-        "start_ms": 4062,
-        "end_ms": 4162
+        "start_ms": 3937,
+        "end_ms": 4025
       },
       {
         "text": "I",
-        "start_ms": 4187,
-        "end_ms": 4312
+        "start_ms": 4050,
+        "end_ms": 4150
       },
       {
         "text": "are",
-        "start_ms": 4337,
-        "end_ms": 4462
+        "start_ms": 4175,
+        "end_ms": 4287
       },
       {
         "text": "diving",
-        "start_ms": 4475,
-        "end_ms": 4862
+        "start_ms": 4300,
+        "end_ms": 4675
       },
       {
         "text": "into",
-        "start_ms": 4875,
-        "end_ms": 5075
+        "start_ms": 4687,
+        "end_ms": 4862
+      },
+      {
+        "text": "one",
+        "start_ms": 4887,
+        "end_ms": 5037
+      },
+      {
+        "text": "of",
+        "start_ms": 5050,
+        "end_ms": 5112
+      },
+      {
+        "text": "the",
+        "start_ms": 5137,
+        "end_ms": 5212
+      },
+      {
+        "text": "most",
+        "start_ms": 5225,
+        "end_ms": 5462
+      },
+      {
+        "text": "cited",
+        "start_ms": 5487,
+        "end_ms": 5800
+      },
+      {
+        "text": "papers",
+        "start_ms": 5825,
+        "end_ms": 6237
+      },
+      {
+        "text": "in",
+        "start_ms": 6262,
+        "end_ms": 6337
+      },
+      {
+        "text": "AI",
+        "start_ms": 6350,
+        "end_ms": 6712
       },
       {
         "text": "Attention",
-        "start_ms": 5087,
-        "end_ms": 5575
+        "start_ms": 6912,
+        "end_ms": 7362
       },
       {
         "text": "Is",
-        "start_ms": 5600,
-        "end_ms": 5725
+        "start_ms": 7387,
+        "end_ms": 7512
       },
       {
         "text": "All",
-        "start_ms": 5750,
-        "end_ms": 5887
+        "start_ms": 7537,
+        "end_ms": 7662
       },
       {
         "text": "You",
-        "start_ms": 5912,
-        "end_ms": 6025
+        "start_ms": 7675,
+        "end_ms": 7787
       },
       {
         "text": "Need",
-        "start_ms": 6037,
-        "end_ms": 6400
+        "start_ms": 7800,
+        "end_ms": 8150
       },
       {
         "text": "Dr.",
-        "start_ms": 7275,
-        "end_ms": 7637
+        "start_ms": 9037,
+        "end_ms": 9400
       },
       {
         "text": "Taylor",
-        "start_ms": 7662,
-        "end_ms": 8012
-      },
-      {
-        "text": "why",
-        "start_ms": 8237,
-        "end_ms": 8400
-      },
-      {
-        "text": "was",
-        "start_ms": 8425,
-        "end_ms": 8612
-      },
-      {
-        "text": "ditching",
-        "start_ms": 8637,
-        "end_ms": 8962
-      },
-      {
-        "text": "recurrence",
-        "start_ms": 8975,
-        "end_ms": 9475
-      },
-      {
-        "text": "such",
-        "start_ms": 9500,
-        "end_ms": 9687
-      },
-      {
-        "text": "a",
-        "start_ms": 9712,
+        "start_ms": 9425,
         "end_ms": 9775
       },
       {
+        "text": "why",
+        "start_ms": 10000,
+        "end_ms": 10162
+      },
+      {
+        "text": "was",
+        "start_ms": 10187,
+        "end_ms": 10375
+      },
+      {
+        "text": "ditching",
+        "start_ms": 10400,
+        "end_ms": 10725
+      },
+      {
+        "text": "recurrence",
+        "start_ms": 10737,
+        "end_ms": 11237
+      },
+      {
+        "text": "such",
+        "start_ms": 11262,
+        "end_ms": 11450
+      },
+      {
+        "text": "a",
+        "start_ms": 11475,
+        "end_ms": 11537
+      },
+      {
         "text": "monumental",
-        "start_ms": 9800,
-        "end_ms": 10450
+        "start_ms": 11562,
+        "end_ms": 12212
       },
       {
         "text": "breakthrough",
-        "start_ms": 10462,
-        "end_ms": 11000
+        "start_ms": 12225,
+        "end_ms": 12762
       }
     ]
   },
@@ -151,245 +191,245 @@ export const DEMO_EPISODE_SEGMENTS: DialogueSegment[] = [
     "sequence_index": 2,
     "speaker": "taylor",
     "dialogue_text": "Great question, Alex. Traditional recurrent models processed words one by one, like reading a book through a keyhole. The Transformer looks at the entire sentence at once using self-attention. If you look at Figure 1 in the HUD, you can see how multi-head attention connects all tokens simultaneously.",
-    "audio_start_ms": 11904,
-    "audio_end_ms": 32256,
+    "audio_start_ms": 13656,
+    "audio_end_ms": 34008,
     "referenced_figure_number": "Figure 1",
     "referenced_figure_id": null,
     "words": [
       {
         "text": "Great",
-        "start_ms": 12004,
-        "end_ms": 12316
+        "start_ms": 13756,
+        "end_ms": 14068
       },
       {
         "text": "question",
-        "start_ms": 12329,
-        "end_ms": 12841
+        "start_ms": 14081,
+        "end_ms": 14593
       },
       {
         "text": "Alex",
-        "start_ms": 13016,
-        "end_ms": 13579
+        "start_ms": 14768,
+        "end_ms": 15331
       },
       {
         "text": "Traditional",
-        "start_ms": 14441,
-        "end_ms": 15041
+        "start_ms": 16193,
+        "end_ms": 16793
       },
       {
         "text": "recurrent",
-        "start_ms": 15054,
-        "end_ms": 15441
+        "start_ms": 16806,
+        "end_ms": 17193
       },
       {
         "text": "models",
-        "start_ms": 15454,
-        "end_ms": 15841
+        "start_ms": 17206,
+        "end_ms": 17593
       },
       {
         "text": "processed",
-        "start_ms": 15854,
-        "end_ms": 16416
+        "start_ms": 17606,
+        "end_ms": 18168
       },
       {
         "text": "words",
-        "start_ms": 16429,
-        "end_ms": 16741
+        "start_ms": 18181,
+        "end_ms": 18493
       },
       {
         "text": "one",
-        "start_ms": 16754,
-        "end_ms": 16991
+        "start_ms": 18506,
+        "end_ms": 18743
       },
       {
         "text": "by",
-        "start_ms": 17004,
-        "end_ms": 17154
+        "start_ms": 18756,
+        "end_ms": 18906
       },
       {
         "text": "one",
-        "start_ms": 17166,
-        "end_ms": 17529
+        "start_ms": 18918,
+        "end_ms": 19281
       },
       {
         "text": "like",
-        "start_ms": 17879,
-        "end_ms": 18091
+        "start_ms": 19631,
+        "end_ms": 19843
       },
       {
         "text": "reading",
-        "start_ms": 18104,
-        "end_ms": 18404
+        "start_ms": 19856,
+        "end_ms": 20156
       },
       {
         "text": "a",
-        "start_ms": 18416,
-        "end_ms": 18479
+        "start_ms": 20168,
+        "end_ms": 20231
       },
       {
         "text": "book",
-        "start_ms": 18491,
-        "end_ms": 18766
+        "start_ms": 20243,
+        "end_ms": 20518
       },
       {
         "text": "through",
-        "start_ms": 18779,
-        "end_ms": 18941
+        "start_ms": 20531,
+        "end_ms": 20693
       },
       {
         "text": "a",
-        "start_ms": 18954,
-        "end_ms": 19016
+        "start_ms": 20706,
+        "end_ms": 20768
       },
       {
         "text": "keyhole",
-        "start_ms": 19029,
-        "end_ms": 19579
+        "start_ms": 20781,
+        "end_ms": 21331
       },
       {
         "text": "The",
-        "start_ms": 20441,
-        "end_ms": 20604
+        "start_ms": 22193,
+        "end_ms": 22356
       },
       {
         "text": "Transformer",
-        "start_ms": 20616,
-        "end_ms": 21329
+        "start_ms": 22368,
+        "end_ms": 23081
       },
       {
         "text": "looks",
-        "start_ms": 21341,
-        "end_ms": 21641
+        "start_ms": 23093,
+        "end_ms": 23393
       },
       {
         "text": "at",
-        "start_ms": 21654,
-        "end_ms": 21716
+        "start_ms": 23406,
+        "end_ms": 23468
       },
       {
         "text": "the",
-        "start_ms": 21729,
-        "end_ms": 21791
+        "start_ms": 23481,
+        "end_ms": 23543
       },
       {
         "text": "entire",
-        "start_ms": 21804,
-        "end_ms": 22279
+        "start_ms": 23556,
+        "end_ms": 24031
       },
       {
         "text": "sentence",
-        "start_ms": 22291,
-        "end_ms": 22766
+        "start_ms": 24043,
+        "end_ms": 24518
       },
       {
         "text": "at",
-        "start_ms": 22779,
-        "end_ms": 22904
+        "start_ms": 24531,
+        "end_ms": 24656
       },
       {
         "text": "once",
-        "start_ms": 22916,
-        "end_ms": 23204
+        "start_ms": 24668,
+        "end_ms": 24956
       },
       {
         "text": "using",
-        "start_ms": 23216,
-        "end_ms": 23566
+        "start_ms": 24968,
+        "end_ms": 25318
       },
       {
         "text": "self-attention",
-        "start_ms": 23579,
-        "end_ms": 24454
+        "start_ms": 25331,
+        "end_ms": 26206
       },
       {
         "text": "If",
-        "start_ms": 25329,
-        "end_ms": 25516
+        "start_ms": 27081,
+        "end_ms": 27268
       },
       {
         "text": "you",
-        "start_ms": 25529,
-        "end_ms": 25641
+        "start_ms": 27281,
+        "end_ms": 27393
       },
       {
         "text": "look",
-        "start_ms": 25654,
-        "end_ms": 25841
+        "start_ms": 27406,
+        "end_ms": 27593
       },
       {
         "text": "at",
-        "start_ms": 25854,
-        "end_ms": 25966
+        "start_ms": 27606,
+        "end_ms": 27718
       },
       {
         "text": "Figure 1",
-        "start_ms": 25979,
-        "end_ms": 26491
+        "start_ms": 27731,
+        "end_ms": 28243
       },
       {
         "text": "in",
-        "start_ms": 26504,
-        "end_ms": 26591
+        "start_ms": 28256,
+        "end_ms": 28343
       },
       {
         "text": "the",
-        "start_ms": 26604,
-        "end_ms": 26666
+        "start_ms": 28356,
+        "end_ms": 28418
       },
       {
         "text": "HUD",
-        "start_ms": 26679,
-        "end_ms": 27016
+        "start_ms": 28431,
+        "end_ms": 28768
       },
       {
         "text": "you",
-        "start_ms": 27379,
-        "end_ms": 27491
+        "start_ms": 29131,
+        "end_ms": 29243
       },
       {
         "text": "can",
-        "start_ms": 27504,
-        "end_ms": 27679
+        "start_ms": 29256,
+        "end_ms": 29431
       },
       {
         "text": "see",
-        "start_ms": 27691,
-        "end_ms": 27879
+        "start_ms": 29443,
+        "end_ms": 29631
       },
       {
         "text": "how",
-        "start_ms": 27891,
-        "end_ms": 28041
+        "start_ms": 29643,
+        "end_ms": 29793
       },
       {
         "text": "multi-head",
-        "start_ms": 28054,
-        "end_ms": 28616
+        "start_ms": 29806,
+        "end_ms": 30368
       },
       {
         "text": "attention",
-        "start_ms": 28629,
-        "end_ms": 29104
+        "start_ms": 30381,
+        "end_ms": 30856
       },
       {
         "text": "connects",
-        "start_ms": 29116,
-        "end_ms": 29554
+        "start_ms": 30868,
+        "end_ms": 31306
       },
       {
         "text": "all",
-        "start_ms": 29566,
-        "end_ms": 29829
+        "start_ms": 31318,
+        "end_ms": 31581
       },
       {
         "text": "tokens",
-        "start_ms": 29841,
-        "end_ms": 30304
+        "start_ms": 31593,
+        "end_ms": 32056
       },
       {
         "text": "simultaneously",
-        "start_ms": 30316,
-        "end_ms": 31366
+        "start_ms": 32068,
+        "end_ms": 33118
       }
     ]
   },
@@ -397,140 +437,140 @@ export const DEMO_EPISODE_SEGMENTS: DialogueSegment[] = [
     "sequence_index": 3,
     "speaker": "alex",
     "dialogue_text": "And in Figure 1, the encoder-decoder structure is super clean. But what about the math in Equation 1? Scaled dot-product attention looks intimidating with all those matrices!",
-    "audio_start_ms": 32256,
-    "audio_end_ms": 44640,
+    "audio_start_ms": 34008,
+    "audio_end_ms": 46392,
     "referenced_figure_number": "Figure 1",
     "referenced_figure_id": null,
     "words": [
       {
         "text": "And",
-        "start_ms": 32356,
-        "end_ms": 32556
+        "start_ms": 34108,
+        "end_ms": 34308
       },
       {
         "text": "in",
-        "start_ms": 32581,
-        "end_ms": 32681
+        "start_ms": 34333,
+        "end_ms": 34433
       },
       {
         "text": "Figure 1",
-        "start_ms": 32706,
-        "end_ms": 33343
+        "start_ms": 34458,
+        "end_ms": 35095
       },
       {
         "text": "the",
-        "start_ms": 33593,
-        "end_ms": 33681
+        "start_ms": 35345,
+        "end_ms": 35433
       },
       {
         "text": "encoder-decoder",
-        "start_ms": 33706,
-        "end_ms": 34656
+        "start_ms": 35458,
+        "end_ms": 36408
       },
       {
         "text": "structure",
-        "start_ms": 34668,
-        "end_ms": 35156
+        "start_ms": 36420,
+        "end_ms": 36908
       },
       {
         "text": "is",
-        "start_ms": 35181,
-        "end_ms": 35306
+        "start_ms": 36933,
+        "end_ms": 37058
       },
       {
         "text": "super",
-        "start_ms": 35331,
-        "end_ms": 35656
+        "start_ms": 37083,
+        "end_ms": 37408
       },
       {
         "text": "clean",
-        "start_ms": 35668,
-        "end_ms": 36056
+        "start_ms": 37420,
+        "end_ms": 37808
       },
       {
         "text": "But",
-        "start_ms": 36943,
-        "end_ms": 37131
+        "start_ms": 38695,
+        "end_ms": 38883
       },
       {
         "text": "what",
-        "start_ms": 37156,
-        "end_ms": 37318
+        "start_ms": 38908,
+        "end_ms": 39070
       },
       {
         "text": "about",
-        "start_ms": 37343,
-        "end_ms": 37581
+        "start_ms": 39095,
+        "end_ms": 39333
       },
       {
         "text": "the",
-        "start_ms": 37606,
-        "end_ms": 37706
+        "start_ms": 39358,
+        "end_ms": 39458
       },
       {
         "text": "math",
-        "start_ms": 37718,
-        "end_ms": 38043
+        "start_ms": 39470,
+        "end_ms": 39795
       },
       {
         "text": "in",
-        "start_ms": 38068,
-        "end_ms": 38168
+        "start_ms": 39820,
+        "end_ms": 39920
       },
       {
         "text": "Equation",
-        "start_ms": 38193,
-        "end_ms": 38668
+        "start_ms": 39945,
+        "end_ms": 40420
       },
       {
         "text": "1",
-        "start_ms": 38693,
-        "end_ms": 38993
+        "start_ms": 40445,
+        "end_ms": 40745
       },
       {
         "text": "Scaled",
-        "start_ms": 39868,
-        "end_ms": 40331
+        "start_ms": 41620,
+        "end_ms": 42083
       },
       {
         "text": "dot-product",
-        "start_ms": 40356,
-        "end_ms": 40918
+        "start_ms": 42108,
+        "end_ms": 42670
       },
       {
         "text": "attention",
-        "start_ms": 40943,
-        "end_ms": 41431
+        "start_ms": 42695,
+        "end_ms": 43183
       },
       {
         "text": "looks",
-        "start_ms": 41456,
-        "end_ms": 41668
+        "start_ms": 43208,
+        "end_ms": 43420
       },
       {
         "text": "intimidating",
-        "start_ms": 41681,
-        "end_ms": 42406
+        "start_ms": 43433,
+        "end_ms": 44158
       },
       {
         "text": "with",
-        "start_ms": 42418,
-        "end_ms": 42581
+        "start_ms": 44170,
+        "end_ms": 44333
       },
       {
         "text": "all",
-        "start_ms": 42606,
-        "end_ms": 42781
+        "start_ms": 44358,
+        "end_ms": 44533
       },
       {
         "text": "those",
-        "start_ms": 42806,
-        "end_ms": 43006
+        "start_ms": 44558,
+        "end_ms": 44758
       },
       {
         "text": "matrices",
-        "start_ms": 43031,
-        "end_ms": 43743
+        "start_ms": 44783,
+        "end_ms": 45495
       }
     ]
   },
@@ -538,285 +578,285 @@ export const DEMO_EPISODE_SEGMENTS: DialogueSegment[] = [
     "sequence_index": 4,
     "speaker": "taylor",
     "dialogue_text": "It is actually very intuitive! Think of Queries, Keys, and Values like a library lookup. Your query is what you want to find, the keys are book titles, and the values are the contents. Computing the dot product gives you relevance scores, and dividing by the square root of key dimension keeps softmax gradients stable.",
-    "audio_start_ms": 44640,
-    "audio_end_ms": 66408,
+    "audio_start_ms": 46392,
+    "audio_end_ms": 68160,
     "referenced_figure_number": null,
     "referenced_figure_id": null,
     "words": [
       {
         "text": "It",
-        "start_ms": 44740,
-        "end_ms": 44902
+        "start_ms": 46492,
+        "end_ms": 46654
       },
       {
         "text": "is",
-        "start_ms": 44915,
-        "end_ms": 45052
+        "start_ms": 46667,
+        "end_ms": 46804
       },
       {
         "text": "actually",
-        "start_ms": 45065,
-        "end_ms": 45540
+        "start_ms": 46817,
+        "end_ms": 47292
       },
       {
         "text": "very",
-        "start_ms": 45552,
-        "end_ms": 45890
+        "start_ms": 47304,
+        "end_ms": 47642
       },
       {
         "text": "intuitive",
-        "start_ms": 45902,
-        "end_ms": 46652
+        "start_ms": 47654,
+        "end_ms": 48404
       },
       {
         "text": "Think",
-        "start_ms": 47515,
-        "end_ms": 47740
+        "start_ms": 49267,
+        "end_ms": 49492
       },
       {
         "text": "of",
-        "start_ms": 47752,
-        "end_ms": 47865
+        "start_ms": 49504,
+        "end_ms": 49617
       },
       {
         "text": "Queries",
-        "start_ms": 47877,
-        "end_ms": 48365
+        "start_ms": 49629,
+        "end_ms": 50117
       },
       {
         "text": "Keys",
-        "start_ms": 48540,
-        "end_ms": 49002
+        "start_ms": 50292,
+        "end_ms": 50754
       },
       {
         "text": "and",
-        "start_ms": 49140,
-        "end_ms": 49290
+        "start_ms": 50892,
+        "end_ms": 51042
       },
       {
         "text": "Values",
-        "start_ms": 49302,
-        "end_ms": 49802
+        "start_ms": 51054,
+        "end_ms": 51554
       },
       {
         "text": "like",
-        "start_ms": 49815,
-        "end_ms": 49965
+        "start_ms": 51567,
+        "end_ms": 51717
       },
       {
         "text": "a",
-        "start_ms": 49977,
-        "end_ms": 50027
+        "start_ms": 51729,
+        "end_ms": 51779
       },
       {
         "text": "library",
-        "start_ms": 50040,
-        "end_ms": 50515
+        "start_ms": 51792,
+        "end_ms": 52267
       },
       {
         "text": "lookup",
-        "start_ms": 50527,
-        "end_ms": 51090
+        "start_ms": 52279,
+        "end_ms": 52842
       },
       {
         "text": "Your",
-        "start_ms": 51952,
-        "end_ms": 52177
+        "start_ms": 53704,
+        "end_ms": 53929
       },
       {
         "text": "query",
-        "start_ms": 52190,
-        "end_ms": 52590
+        "start_ms": 53942,
+        "end_ms": 54342
       },
       {
         "text": "is",
-        "start_ms": 52602,
-        "end_ms": 52727
+        "start_ms": 54354,
+        "end_ms": 54479
       },
       {
         "text": "what",
-        "start_ms": 52740,
-        "end_ms": 52890
+        "start_ms": 54492,
+        "end_ms": 54642
       },
       {
         "text": "you",
-        "start_ms": 52902,
-        "end_ms": 53002
+        "start_ms": 54654,
+        "end_ms": 54754
       },
       {
         "text": "want",
-        "start_ms": 53015,
-        "end_ms": 53202
+        "start_ms": 54767,
+        "end_ms": 54954
       },
       {
         "text": "to",
-        "start_ms": 53215,
-        "end_ms": 53290
+        "start_ms": 54967,
+        "end_ms": 55042
       },
       {
         "text": "find",
-        "start_ms": 53302,
-        "end_ms": 53690
+        "start_ms": 55054,
+        "end_ms": 55442
       },
       {
         "text": "the",
-        "start_ms": 53902,
-        "end_ms": 54002
+        "start_ms": 55654,
+        "end_ms": 55754
       },
       {
         "text": "keys",
-        "start_ms": 54015,
-        "end_ms": 54340
+        "start_ms": 55767,
+        "end_ms": 56092
       },
       {
         "text": "are",
-        "start_ms": 54352,
-        "end_ms": 54452
+        "start_ms": 56104,
+        "end_ms": 56204
       },
       {
         "text": "book",
-        "start_ms": 54465,
-        "end_ms": 54665
+        "start_ms": 56217,
+        "end_ms": 56417
       },
       {
         "text": "titles",
-        "start_ms": 54677,
-        "end_ms": 55177
+        "start_ms": 56429,
+        "end_ms": 56929
       },
       {
         "text": "and",
-        "start_ms": 55402,
-        "end_ms": 55527
+        "start_ms": 57154,
+        "end_ms": 57279
       },
       {
         "text": "the",
-        "start_ms": 55540,
-        "end_ms": 55615
+        "start_ms": 57292,
+        "end_ms": 57367
       },
       {
         "text": "values",
-        "start_ms": 55627,
-        "end_ms": 56115
+        "start_ms": 57379,
+        "end_ms": 57867
       },
       {
         "text": "are",
-        "start_ms": 56127,
-        "end_ms": 56252
+        "start_ms": 57879,
+        "end_ms": 58004
       },
       {
         "text": "the",
-        "start_ms": 56265,
-        "end_ms": 56352
+        "start_ms": 58017,
+        "end_ms": 58104
       },
       {
         "text": "contents",
-        "start_ms": 56365,
-        "end_ms": 57140
+        "start_ms": 58117,
+        "end_ms": 58892
       },
       {
         "text": "Computing",
-        "start_ms": 58015,
-        "end_ms": 58552
+        "start_ms": 59767,
+        "end_ms": 60304
       },
       {
         "text": "the",
-        "start_ms": 58565,
-        "end_ms": 58665
+        "start_ms": 60317,
+        "end_ms": 60417
       },
       {
         "text": "dot",
-        "start_ms": 58677,
-        "end_ms": 58940
+        "start_ms": 60429,
+        "end_ms": 60692
       },
       {
         "text": "product",
-        "start_ms": 58952,
-        "end_ms": 59465
+        "start_ms": 60704,
+        "end_ms": 61217
       },
       {
         "text": "gives",
-        "start_ms": 59477,
-        "end_ms": 59715
+        "start_ms": 61229,
+        "end_ms": 61467
       },
       {
         "text": "you",
-        "start_ms": 59727,
-        "end_ms": 59852
+        "start_ms": 61479,
+        "end_ms": 61604
       },
       {
         "text": "relevance",
-        "start_ms": 59865,
-        "end_ms": 60352
+        "start_ms": 61617,
+        "end_ms": 62104
       },
       {
         "text": "scores",
-        "start_ms": 60365,
-        "end_ms": 60865
+        "start_ms": 62117,
+        "end_ms": 62617
       },
       {
         "text": "and",
-        "start_ms": 61152,
-        "end_ms": 61302
+        "start_ms": 62904,
+        "end_ms": 63054
       },
       {
         "text": "dividing",
-        "start_ms": 61315,
-        "end_ms": 61777
+        "start_ms": 63067,
+        "end_ms": 63529
       },
       {
         "text": "by",
-        "start_ms": 61790,
-        "end_ms": 61940
+        "start_ms": 63542,
+        "end_ms": 63692
       },
       {
         "text": "the",
-        "start_ms": 61952,
-        "end_ms": 62065
+        "start_ms": 63704,
+        "end_ms": 63817
       },
       {
         "text": "square",
-        "start_ms": 62077,
-        "end_ms": 62465
+        "start_ms": 63829,
+        "end_ms": 64217
       },
       {
         "text": "root",
-        "start_ms": 62477,
-        "end_ms": 62652
+        "start_ms": 64229,
+        "end_ms": 64404
       },
       {
         "text": "of",
-        "start_ms": 62665,
-        "end_ms": 62765
+        "start_ms": 64417,
+        "end_ms": 64517
       },
       {
         "text": "key",
-        "start_ms": 62777,
-        "end_ms": 62990
+        "start_ms": 64529,
+        "end_ms": 64742
       },
       {
         "text": "dimension",
-        "start_ms": 63002,
-        "end_ms": 63552
+        "start_ms": 64754,
+        "end_ms": 65304
       },
       {
         "text": "keeps",
-        "start_ms": 63565,
-        "end_ms": 63865
+        "start_ms": 65317,
+        "end_ms": 65617
       },
       {
         "text": "softmax",
-        "start_ms": 63877,
-        "end_ms": 64515
+        "start_ms": 65629,
+        "end_ms": 66267
       },
       {
         "text": "gradients",
-        "start_ms": 64527,
-        "end_ms": 65015
+        "start_ms": 66279,
+        "end_ms": 66767
       },
       {
         "text": "stable",
-        "start_ms": 65027,
-        "end_ms": 65540
+        "start_ms": 66779,
+        "end_ms": 67292
       }
     ]
   }
