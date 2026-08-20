@@ -23,6 +23,7 @@ This guide gets you up and running with the PaperPod client (Expo React Native /
 ```env
 PORT=8000
 GEMINI_API_KEY=your_google_ai_studio_api_key
+GEMINI_MODEL=gemini-3.1-flash-lite
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 STORAGE_BUCKET_PAPERS=papers

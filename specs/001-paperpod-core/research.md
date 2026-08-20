@@ -62,12 +62,12 @@ This document captures the architectural research, trade-off evaluations, and co
 ## 4. AI Script Generation & Formula Translation
 
 ### Decision
-**Google Gemini 2.0 Flash / 1.5 Flash via Google AI Studio API (Free Tier).**
+**Google Gemini 3.1 Flash Lite (`gemini-3.1-flash-lite`) via Google AI Studio API (Free Tier).**
 
 ### Rationale
 - **Generous Free Quota**: Google AI Studio provides a free tier with 15 Requests Per Minute (RPM) and 1,000,000 Tokens Per Minute (TPM), more than enough for hackathon development and testing.
 - **Massive Context Window (1M+ tokens)**: Ingests entire 25-page papers in a single prompt without fragmentation, allowing the model to correlate Figure 3 benchmarks with Section 4 methodology.
-- **Fast Structured JSON Output**: Returns schema-validated JSON with dialogue lines (`speaker: "alex" | "taylor"`), text with spoken math analogies, and associated `figure_id` triggers.
+- **Fast Structured JSON Output & Lowest Latency**: Ultra-low latency generation optimized for real-time applications, returning schema-validated JSON with dialogue lines (`speaker: "alex" | "taylor"`), text with spoken math analogies, and associated `figure_id` triggers.
 
 ### Alternatives Considered
 - *OpenAI GPT-4o*: Excellent quality, but incurs per-token costs ($2.50/$10 per 1M tokens) with strict rate limits on unpaid tiers.
@@ -94,7 +94,7 @@ This document captures the architectural research, trade-off evaluations, and co
 ## 6. Live Voice Interruption & Q&A RAG Engine
 
 ### Decision
-**Hybrid Fast-Response Pipeline: Speech Recognition (Web Speech API / Expo Audio + Whisper Small) + Supabase pgvector RAG + Gemini 2.0 Flash + Instant Edge-TTS Response.**
+**Hybrid Fast-Response Pipeline: Speech Recognition (Web Speech API / Expo Audio + Whisper Small) + Supabase pgvector RAG + Gemini 3.1 Flash Lite (`gemini-3.1-flash-lite`) + Instant Edge-TTS Response.**
 
 ### Rationale
 - **Sub-1.5s Response Time**: Interruption queries target the specific active section and paper context cached in memory, producing a 2-3 sentence conversational answer in <1.2s.
@@ -124,7 +124,7 @@ This document captures the architectural research, trade-off evaluations, and co
 | **Mobile & Web Client** | React Native (Expo) + TypeScript | Open source, Expo Go free testing | $0 |
 | **Backend API & Ingestion** | Python FastAPI + PyMuPDF | Local or free cloud runner (Render / Railway free tier) | $0 |
 | **Database & Vector Storage** | Supabase (Postgres + pgvector) | 500MB DB, 1GB Storage, 50k Auth MAU | $0 |
-| **Multimodal LLM Core** | Gemini 2.0 Flash (AI Studio) | 15 RPM / 1M TPM free quota | $0 |
+| **Multimodal LLM Core** | Gemini 3.1 Flash Lite (AI Studio) | 15 RPM / 1M TPM free quota | $0 |
 | **Dual-Voice Audio Engine** | `edge-tts` (Microsoft Neural) | Unlimited neural synthesis with timestamps | $0 |
 | **In-App Purchases** | RevenueCat SDK + StoreKit Sandbox | Free tier up to $2,500 monthly revenue | $0 |
 | **Push Notifications** | OneSignal Mobile SDK | Free tier up to 10,000 subscribers | $0 |

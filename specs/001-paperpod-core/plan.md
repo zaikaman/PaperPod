@@ -11,7 +11,7 @@ PaperPod converts dense academic research papers (PDFs and arXiv links) into liv
 
 The implementation utilizes an ultra-lean, 100% free-tier architecture:
 - **Mobile/Web Client**: React Native (Expo) with strict TypeScript, Reanimated 60fps animations, Expo Audio, and RevenueCat SDK.
-- **Backend API & Ingestion**: Python FastAPI microservice utilizing `PyMuPDF` for PDF/figure parsing, Google Gemini 2.0 Flash (free tier) for conversational script generation and math analogies, and `edge-tts` for multi-voice neural speech synthesis with timestamp alignment.
+- **Backend API & Ingestion**: Python FastAPI microservice utilizing `PyMuPDF` for PDF/figure parsing, Google Gemini 3.1 Flash Lite (`gemini-3.1-flash-lite`, free tier) for conversational script generation and math analogies, and `edge-tts` for multi-voice neural speech synthesis with timestamp alignment.
 - **Database & Storage**: Supabase (PostgreSQL with `pgvector` for RAG, Supabase Storage for PDFs/figures/audio, Supabase Auth).
 - **Monetization & Retention**: RevenueCat Dynamic Paywalls v2 + StoreKit sandbox testing, and OneSignal for spaced study reminders and paper digests.
 
@@ -22,7 +22,7 @@ The implementation utilizes an ultra-lean, 100% free-tier architecture:
 **Language/Version**: TypeScript 5.4+ (Client/Web), Python 3.11+ (Backend)  
 **Primary Dependencies**: 
 - *Client*: Expo SDK 51+, React Native, React Native Reanimated, Expo Audio/AV, Lucide React Native, `react-native-purchases` (RevenueCat), `react-native-onesignal`, `@supabase/supabase-js`.
-- *Backend*: FastAPI, Uvicorn, `pymupdf` (fitz), `pdfplumber`, `google-genai` (Gemini 2.0 Flash), `edge-tts`, `pydantic-v2`.  
+- *Backend*: FastAPI, Uvicorn, `pymupdf` (fitz), `pdfplumber`, `google-genai` (`gemini-3.1-flash-lite`), `edge-tts`, `pydantic-v2`.  
 **Storage**: Supabase Managed PostgreSQL (with `pgvector` extension) + Supabase Storage buckets (`papers`, `figures`, `audio`).  
 **Testing**: 
 - *Client*: Jest, React Native Testing Library.
@@ -80,7 +80,7 @@ backend/
 │   ├── core/                # Config, logging, Supabase client
 │   ├── services/
 │   │   ├── parser.py        # PyMuPDF PDF & arXiv extraction + figure cropper
-│   │   ├── script_gen.py    # Gemini 2.0 Flash 2-host script generator
+│   │   ├── script_gen.py    # Gemini 3.1 Flash Lite 2-host script generator
 │   │   ├── audio_tts.py     # Edge-TTS multi-voice synthesis & timestamp alignment
 │   │   └── interruption.py  # Live voice Q&A RAG engine
 │   └── models/              # Pydantic schemas & DB entity models
