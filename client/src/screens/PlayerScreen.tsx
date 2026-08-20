@@ -24,15 +24,18 @@ import {
   Layers,
   Sparkles,
   Crown,
+  FileText,
 } from 'lucide-react-native';
 import { theme } from '../theme';
-import { Paper, Episode, DialogueSegment, PaperFigure } from '../types';
+import { Paper, Episode, DialogueSegment, PaperFigure, AudioBookmark } from '../types';
 import { api } from '../services/api';
 import { audioPlayer, PlaybackState } from '../services/audioPlayer';
 import { getSegmentWords } from '../utils/transcript';
 import { DEMO_EPISODE_SEGMENTS } from '../data/demoEpisode';
 import { FigureHud, FigureGallery, ZoomableFigure } from '../components/hud';
 import { VoiceInterruptModal, ClarificationBubble } from '../components/interruption';
+import { AudioBookmarkBar } from '../components/audio';
+import { SummaryCardModal } from '../components/summary';
 import { interruptionManager, InterruptionStateData } from '../services/interruptionManager';
 import { useEntitlements } from '../context/EntitlementContext';
 import { usePaywallTrigger } from '../hooks/usePaywallTrigger';
@@ -133,6 +136,12 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
   const [fullscreenModalVisible, setFullscreenModalVisible] = useState(false);
   const [inspectFigure, setInspectFigure] = useState<PaperFigure | null>(null);
 
+  // Summary Card Modal state
+  const [summaryCardModalVisible, setSummaryCardModalVisible] = useState(false);
+
+  // Audio Bookmarks state
+  const [bookmarks, setBookmarks] = useState<AudioBookmark[]>([]);
+
   // Live Voice Interruption state
   const [interruptionData, setInterruptionData] = useState<InterruptionStateData>(
     interruptionManager.getData()
@@ -182,6 +191,16 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
           console.log('[PlayerScreen] Remote timeline fallback:', timelineErr);
         }
 
+        // Fetch saved audio bookmarks
+        try {
+          const bms = await api.listAudioBookmarks(targetEpId);
+          if (isMounted && bms && bms.length > 0) {
+            setBookmarks(bms);
+          }
+        } catch (bmErr) {
+          console.log('[PlayerScreen] Bookmarks fetch fallback:', bmErr);
+        }
+
         if (epData && isMounted) {
           setCurrentEpisode(epData);
           if (epData.segments && epData.segments.length > 0 && episodeSegments === DEFAULT_SEGMENTS) {
@@ -205,6 +224,31 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
       isMounted = false;
     };
   }, [paper.id, initialEpisodeId]);
+
+  const handleAddBookmark = async (timestampMs: number, noteText?: string) => {
+    const epId = initialEpisodeId || currentEpisode?.id || 'demo-episode-1706';
+    try {
+      const res = await api.createAudioBookmark(epId, timestampMs, noteText);
+      if (res && res.bookmark) {
+        setBookmarks((prev) => {
+          const updated = [...prev, res.bookmark];
+          updated.sort((a, b) => a.timestamp_ms - b.timestamp_ms);
+          return updated;
+        });
+      }
+    } catch (e) {
+      console.warn('[PlayerScreen] Add bookmark error:', e);
+    }
+  };
+
+  const handleDeleteBookmark = async (bookmarkId: string) => {
+    try {
+      await api.deleteAudioBookmark(bookmarkId);
+      setBookmarks((prev) => prev.filter((b) => b.id !== bookmarkId));
+    } catch (e) {
+      console.warn('[PlayerScreen] Delete bookmark error:', e);
+    }
+  };
 
   const segments = episodeSegments.length > 0 ? episodeSegments : DEFAULT_SEGMENTS;
 
@@ -271,22 +315,33 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-      {/* Header: Back Arrow on Left, Story Title Pill on Right */}
+      {/* Header: Back Arrow on Left, Summary Button & Story Title Pill on Right */}
       <View style={styles.header}>
         <TouchableOpacity onPress={onBack} style={styles.navIconBtn} activeOpacity={0.7}>
           <ArrowLeft size={20} color="#FFFFFF" />
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.storyTagPill}
-          onPress={() => (onOpenCustomerCenter ? onOpenCustomerCenter() : openPaywall('CUSTOMER_CENTER_UPGRADE'))}
-          activeOpacity={0.8}
-        >
-          <Crown size={12} color={isPro ? '#F59E0B' : '#D97736'} style={{ marginRight: 4 }} />
-          <Text style={styles.storyTagText} numberOfLines={1}>
-            {paper.title || 'Attention Is All You Need'}
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.headerRightActions}>
+          <TouchableOpacity
+            style={styles.summaryBadgeBtn}
+            onPress={() => setSummaryCardModalVisible(true)}
+            activeOpacity={0.8}
+          >
+            <FileText size={11} color={theme.colors.primary} style={{ marginRight: 4 }} />
+            <Text style={styles.summaryBadgeText}>1-Tap Summary</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.storyTagPill}
+            onPress={() => (onOpenCustomerCenter ? onOpenCustomerCenter() : openPaywall('CUSTOMER_CENTER_UPGRADE'))}
+            activeOpacity={0.8}
+          >
+            <Crown size={12} color={isPro ? '#F59E0B' : '#D97736'} style={{ marginRight: 4 }} />
+            <Text style={styles.storyTagText} numberOfLines={1}>
+              {paper.title || 'Attention Is All You Need'}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView
@@ -335,6 +390,17 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
             {formatTime(playbackState.durationMillis || 66000)}
           </Text>
         </View>
+
+        {/* Interactive Audio Bookmark Bar */}
+        <AudioBookmarkBar
+          episodeId={initialEpisodeId || currentEpisode?.id || 'demo-episode-1706'}
+          currentPositionMs={playbackState.positionMillis}
+          durationMs={playbackState.durationMillis || 66000}
+          bookmarks={bookmarks}
+          onSeek={handleSeek}
+          onAddBookmark={handleAddBookmark}
+          onDeleteBookmark={handleDeleteBookmark}
+        />
 
         {/* Floating Active Speaker Badge */}
         <View style={styles.floatingSpeakerBadgeRow}>
@@ -552,6 +618,13 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
           </View>
         </View>
       </Modal>
+
+      {/* High-Density 1-Page Summary Card Modal */}
+      <SummaryCardModal
+        visible={summaryCardModalVisible}
+        paper={paper}
+        onClose={() => setSummaryCardModalVisible(false)}
+      />
     </View>
   );
 };
@@ -572,6 +645,28 @@ const styles = StyleSheet.create({
   navIconBtn: {
     padding: 6,
   },
+  headerRightActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    maxWidth: '85%',
+  },
+  summaryBadgeBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(217, 119, 54, 0.15)',
+    borderWidth: 1,
+    borderColor: 'rgba(217, 119, 54, 0.35)',
+    paddingVertical: 4.5,
+    paddingHorizontal: 9,
+    borderRadius: 14,
+  },
+  summaryBadgeText: {
+    fontSize: 10.5,
+    fontWeight: '700',
+    color: theme.colors.primary,
+    letterSpacing: 0.2,
+  },
   storyTagPill: {
     backgroundColor: 'rgba(255, 255, 255, 0.08)',
     borderWidth: 1,
@@ -579,7 +674,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingHorizontal: 12,
     paddingVertical: 4.5,
-    maxWidth: 220,
+    maxWidth: 160,
   },
   storyTagText: {
     fontSize: 11.5,

@@ -1,7 +1,7 @@
 /**
  * PaperPod Client API Service for Backend Ingestion & Playback Synchronization
  */
-import { Paper, Episode, EpisodeTimeline } from '../types';
+import { Paper, Episode, EpisodeTimeline, SummaryCard, AudioBookmark } from '../types';
 
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -149,4 +149,89 @@ export const api = {
 
     return response.json();
   },
+
+  /**
+   * Fetch high-density 1-page summary card for a paper
+   */
+  async getSummaryCard(paperId: string): Promise<SummaryCard> {
+    const response = await fetch(`${API_BASE_URL}/api/v1/papers/${paperId}/summary`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch summary card (${response.status})`);
+    }
+    return response.json();
+  },
+
+  /**
+   * Force regenerate summary card using Gemini 3.1 Flash Lite
+   */
+  async generateSummaryCard(paperId: string): Promise<SummaryCard> {
+    const response = await fetch(`${API_BASE_URL}/api/v1/papers/${paperId}/summary`, {
+      method: 'POST',
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to generate summary card (${response.status})`);
+    }
+    return response.json();
+  },
+
+  /**
+   * Save audio bookmark at current playback timestamp
+   */
+  async createAudioBookmark(
+    episodeId: string,
+    timestampMs: number,
+    noteText?: string,
+    userId: string = '00000000-0000-0000-0000-000000000001'
+  ): Promise<{ status: string; message: string; bookmark: AudioBookmark }> {
+    const response = await fetch(`${API_BASE_URL}/api/v1/episodes/${episodeId}/bookmarks`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user_id: userId,
+        timestamp_ms: timestampMs,
+        note_text: noteText,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to create bookmark (${response.status})`);
+    }
+    return response.json();
+  },
+
+  /**
+   * List all saved bookmarks for an episode
+   */
+  async listAudioBookmarks(
+    episodeId: string,
+    userId: string = '00000000-0000-0000-0000-000000000001'
+  ): Promise<AudioBookmark[]> {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/v1/episodes/${episodeId}/bookmarks?user_id=${userId}`
+      );
+      if (!response.ok) {
+        return [];
+      }
+      return response.json();
+    } catch (e) {
+      console.warn('[API] Error listing bookmarks:', e);
+      return [];
+    }
+  },
+
+  /**
+   * Delete an audio bookmark by ID
+   */
+  async deleteAudioBookmark(bookmarkId: string): Promise<{ status: string; message: string }> {
+    const response = await fetch(`${API_BASE_URL}/api/v1/bookmarks/${bookmarkId}`, {
+      method: 'DELETE',
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to delete bookmark (${response.status})`);
+    }
+    return response.json();
+  },
 };
+

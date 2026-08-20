@@ -152,15 +152,15 @@
 
 ### Tests for User Story 5
 
-- [ ] T057 [P] [US5] Unit test for summary card structured extraction and benchmark parsing in `backend/tests/unit/test_summary_gen.py`
+- [x] T057 [P] [US5] Unit test for summary card structured extraction and benchmark parsing in `backend/tests/unit/test_summary_gen.py`
 
 ### Implementation for User Story 5
 
-- [ ] T058 [P] [US5] Implement Gemini 3.1 Flash Lite summary card generator extracting thesis, quantitative results table, and limitations in `backend/src/services/summary_gen.py`
-- [ ] T059 [US5] Implement summary card and bookmark endpoints in `backend/src/api/summaries.py`
-- [ ] T060 [P] [US5] Implement Audio Bookmark action button and interactive timeline markers in `client/src/components/audio/AudioBookmarkBar.tsx`
-- [ ] T061 [US5] Implement High-Density Summary Card modal with printable/shareable visual layout in `client/src/components/summary/SummaryCardModal.tsx`
-- [ ] T062 [US5] Implement export / share summary card as image or PDF in `client/src/services/exportService.ts`
+- [x] T058 [P] [US5] Implement Gemini 3.1 Flash Lite summary card generator extracting thesis, quantitative results table, and limitations in `backend/src/services/summary_gen.py`
+- [x] T059 [US5] Implement summary card and bookmark endpoints in `backend/src/api/summaries.py`
+- [x] T060 [P] [US5] Implement Audio Bookmark action button and interactive timeline markers in `client/src/components/audio/AudioBookmarkBar.tsx`
+- [x] T061 [US5] Implement High-Density Summary Card modal with printable/shareable visual layout in `client/src/components/summary/SummaryCardModal.tsx`
+- [x] T062 [US5] Implement export / share summary card as image or PDF in `client/src/services/exportService.ts`
 
 **Checkpoint**: 1-Tap Summary Cards and Audio Bookmarks operational.
 

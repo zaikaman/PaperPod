@@ -13,12 +13,13 @@ import {
   Image,
   StatusBar,
 } from 'react-native';
-import { ArrowLeft, Star, Headphones, Sparkles, Lock } from 'lucide-react-native';
+import { ArrowLeft, Star, Headphones, Sparkles, Lock, FileText } from 'lucide-react-native';
 import { theme } from '../theme';
 import { Paper } from '../types';
 import { useEntitlements } from '../context/EntitlementContext';
 import { usePaywallTrigger } from '../hooks/usePaywallTrigger';
 import { PaywallModal } from '../components/paywall/PaywallModal';
+import { SummaryCardModal } from '../components/summary';
 
 interface PaperDetailScreenProps {
   paper: Paper;
@@ -43,6 +44,7 @@ export const PaperDetailScreen: React.FC<PaperDetailScreenProps> = ({
   } = usePaywallTrigger();
 
   const [selectedDepth, setSelectedDepth] = useState<'brief' | 'deep_dive'>('brief');
+  const [summaryCardVisible, setSummaryCardVisible] = useState(false);
 
   const handleSelectDeepDive = () => {
     if (!isPro) {
@@ -148,6 +150,16 @@ export const PaperDetailScreen: React.FC<PaperDetailScreenProps> = ({
             'The dominant sequence transduction models are based on complex recurrent or convolutional neural networks. We propose the Transformer, a model architecture eschewing recurrence and relying entirely on an attention mechanism to draw global dependencies between input and output.'}
         </Text>
 
+        {/* 1-Tap High-Density Summary Card Action Button */}
+        <TouchableOpacity
+          style={styles.summaryCardBtn}
+          onPress={() => setSummaryCardVisible(true)}
+          activeOpacity={0.85}
+        >
+          <Sparkles size={14} color={theme.colors.primary} style={{ marginRight: 6 }} />
+          <Text style={styles.summaryCardBtnText}>View 1-Tap Summary Card</Text>
+        </TouchableOpacity>
+
         {/* Action Button: Enter Audio Briefing */}
         <TouchableOpacity
           style={styles.enterButton}
@@ -159,6 +171,13 @@ export const PaperDetailScreen: React.FC<PaperDetailScreenProps> = ({
           </Text>
         </TouchableOpacity>
       </ScrollView>
+
+      {/* High-Density 1-Page Summary Card Modal */}
+      <SummaryCardModal
+        visible={summaryCardVisible}
+        paper={paper}
+        onClose={() => setSummaryCardVisible(false)}
+      />
 
       {/* Paywall Modal */}
       <PaywallModal
@@ -319,7 +338,25 @@ const styles = StyleSheet.create({
     color: '#7E828B',
     textAlign: 'center',
     paddingHorizontal: 8,
-    marginBottom: 24,
+    marginBottom: 20,
+  },
+  summaryCardBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(217, 119, 54, 0.12)',
+    borderWidth: 1,
+    borderColor: 'rgba(217, 119, 54, 0.35)',
+    paddingVertical: 12,
+    borderRadius: 24,
+    width: '100%',
+    marginBottom: 10,
+  },
+  summaryCardBtnText: {
+    fontSize: 12.5,
+    fontWeight: '700',
+    color: theme.colors.primary,
+    letterSpacing: 0.2,
   },
   enterButton: {
     width: '100%',

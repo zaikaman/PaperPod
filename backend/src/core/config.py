@@ -82,7 +82,7 @@ class Settings(BaseSettings):
 
     # Monetization (RevenueCat)
     REVENUECAT_WEBHOOK_AUTH_TOKEN: str = Field(
-        default="",
+        default="paperpod_rc_webhook_secret_2026",
         description="RevenueCat webhook authorization bearer token",
     )
 

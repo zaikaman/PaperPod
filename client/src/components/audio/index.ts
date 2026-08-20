@@ -1,2 +1,3 @@
-// PaperPod Components Barrel Export
-export {};
+export * from './AudioScrubber';
+export * from './WaveformVisualizer';
+export * from './AudioBookmarkBar';
