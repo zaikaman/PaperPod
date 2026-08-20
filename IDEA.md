@@ -1,4 +1,4 @@
-# 🎙️ ArXivCast (PaperPod) — Product Specification & Hackathon Blueprint
+# 🎙️ PaperPod — Product Specification & Hackathon Blueprint
 
 > **Tagline**: The Interactive 2-Host AI Audio Research Companion  
 > **Elevator Pitch**: Turn dense, 25-page academic papers and technical PDFs into lively, interactive 2-person podcasts you can interrupt anytime to ask questions, complete with a synchronized visual figure HUD.
@@ -7,7 +7,7 @@
 
 ## 🎯 1. Target Tracks & Award Stacking Strategy
 
-ArXivCast is strategically designed to compete across multiple prize pools simultaneously:
+PaperPod is strategically designed to compete across multiple prize pools simultaneously:
 
 | Award Track | Prize Pool | Strategy & Qualification |
 | :--- | :--- | :--- |
@@ -27,7 +27,7 @@ ArXivCast is strategically designed to compete across multiple prize pools simul
 3. **Passive vs. Active Listening**: Normal podcasts are static. When a listener doesn't understand a complex theorem or ablation study, they can't stop the hosts to ask for clarification.
 
 ### The Solution:
-ArXivCast converts technical literature into an **interactive audio experience** with two distinct AI hosts (an inquisitive analyst and a domain expert) who explain complex math and methodology using intuitive analogies, allowing the listener to interrupt at any point to ask questions.
+PaperPod converts technical literature into an **interactive audio experience** with two distinct AI hosts (an inquisitive analyst and a domain expert) who explain complex math and methodology using intuitive analogies, allowing the listener to interrupt at any point to ask questions.
 
 ---
 
@@ -71,11 +71,11 @@ ArXivCast converts technical literature into an **interactive audio experience**
 
 ## 💳 4. RevenueCat Monetization & Subscription Architecture
 
-ArXivCast leverages the full suite of RevenueCat capabilities to build a robust, ethical, and high-converting monetization flow.
+PaperPod leverages the full suite of RevenueCat capabilities to build a robust, ethical, and high-converting monetization flow.
 
 ### Tier Structure:
 
-| Feature | Free Tier | ArXivCast Pro ($7.99/mo or $49.99/yr) | Student Lifetime ($39.99) |
+| Feature | Free Tier | PaperPod Pro ($7.99/mo or $49.99/yr) | Student Lifetime ($39.99) |
 | :--- | :---: | :---: | :---: |
 | **Weekly Paper Conversions** | 2 papers / week | **Unlimited** | **Unlimited** |
 | **Audio Depth** | 3-minute executive brief | **Full 10–15 min Deep Dive** | **Full Deep Dive** |
@@ -130,12 +130,12 @@ Every second of the video is engineered to maximize judges' engagement and satis
 
 | Time | Visual on Screen | Audio / Narration |
 | :--- | :--- | :--- |
-| **0:00 – 0:20** | Split screen: A stressed student staring at a dense 30-page PDF with walls of raw equations. | *"Reading research papers is exhausting. And standard text-to-speech sounds like a robot reading raw math code. Meet ArXivCast."* |
-| **0:20 – 0:50** | Paste an arXiv URL into ArXivCast. In 3 seconds, a sleek audio wave player appears with two host avatars (Alex & Taylor). | *"Paste any arXiv link or drop a PDF. ArXivCast instantly produces a lively 2-host audio briefing that explains complex algorithms using intuitive real-world analogies."* |
+| **0:00 – 0:20** | Split screen: A stressed student staring at a dense 30-page PDF with walls of raw equations. | *"Reading research papers is exhausting. And standard text-to-speech sounds like a robot reading raw math code. Meet PaperPod."* |
+| **0:20 – 0:50** | Paste an arXiv URL into PaperPod. In 3 seconds, a sleek audio wave player appears with two host avatars (Alex & Taylor). | *"Paste any arXiv link or drop a PDF. PaperPod instantly produces a lively 2-host audio briefing that explains complex algorithms using intuitive real-world analogies."* |
 | **0:50 – 1:15** | The user is walking outside with headphones. The hosts discuss Figure 3. The screen smoothly zooms into Figure 3's benchmark chart. | *"As the hosts discuss experimental results, the Synchronized Figure HUD auto-zooms into the exact benchmark chart on your screen."* |
 | **1:15 – 1:35** | **The Magic Moment**: User taps the screen: *"Wait, what is equation 4 doing?"* The podcast pauses, Dr. Taylor explains the math intuitively, and resumes. | *"Got confused? Just interrupt. Ask any question, and the AI host clarifies in plain English before resuming the podcast seamlessly."* |
-| **1:35 – 1:50** | Tap to download summary card $\rightarrow$ Sleek RevenueCat Paywall v2 appears with Student Offer and Customer Center. | *"Powered by RevenueCat, ArXivCast offers flexible subscriptions, student passes, and instant paywall experiments."* |
-| **1:50 – 2:00** | Final hero shot of the open-source GitHub repository and app running smoothly. | *"ArXivCast: Making research accessible, conversational, and effortless for the next generation of builders."* |
+| **1:35 – 1:50** | Tap to download summary card $\rightarrow$ Sleek RevenueCat Paywall v2 appears with Student Offer and Customer Center. | *"Powered by RevenueCat, PaperPod offers flexible subscriptions, student passes, and instant paywall experiments."* |
+| **1:50 – 2:00** | Final hero shot of the open-source GitHub repository and app running smoothly. | *"PaperPod: Making research accessible, conversational, and effortless for the next generation of builders."* |
 
 ---
 
@@ -146,3 +146,4 @@ Every second of the video is engineered to maximize judges' engagement and satis
 - [ ] **2-Minute Demo Video**: High-res screen capture on real device/simulator with clear voiceover, highlighting the problem, interactive interruption, HUD sync, and RevenueCat paywall.
 - [ ] **OneSignal Integration**: Configured push notifications for paper release alerts.
 - [ ] **Devpost Submission Form**: Text description, 1024x1024 app icon, and 1179x2556 screenshots.
+
