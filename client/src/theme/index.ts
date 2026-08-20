@@ -1,66 +1,67 @@
 /**
- * PaperPod Design System Tokens & Theme
- * Faithfully styled after the obsidian & warm terracotta luxury audio reference design.
+ * PaperPod Design Tokens - 100% Faithful Clone of Luxury Reference Design
  */
 
 export const theme = {
   colors: {
-    // Deep Matte Obsidian Canvas
-    background: '#0B0C0E',
-    backgroundSubtle: '#111215',
+    // Pure Matte Obsidian Canvas
+    background: '#000000',
+    backgroundSubtle: '#090A0C',
     
-    // Glass & Card Surfaces
-    surface: '#14161A',
-    surfaceElevated: '#1D1F25',
-    surfacePressed: '#262931',
+    // Translucent Graphite Glass Surfaces
+    surface: '#111215',
+    surfaceElevated: '#17181C',
+    surfaceCard: 'rgba(255, 255, 255, 0.035)',
+    surfacePressed: '#1F2025',
     
-    // Hairline Borders
-    border: 'rgba(255, 255, 255, 0.08)',
-    borderStrong: 'rgba(255, 255, 255, 0.16)',
-    borderAccent: 'rgba(217, 119, 54, 0.35)',
+    // Hairline Translucent Borders (Ultra-Refined)
+    border: 'rgba(255, 255, 255, 0.07)',
+    borderStrong: 'rgba(255, 255, 255, 0.14)',
+    borderAccent: '#C86A32',
+    borderAccentFaded: 'rgba(200, 106, 50, 0.35)',
 
-    // Primary Luxury Terracotta Accent
+    // Warm Terracotta / Burnt Copper Accent
     primary: '#D97736',
-    primaryHover: '#E48443',
-    primaryDark: '#B85E23',
-    primaryGlow: 'rgba(217, 119, 54, 0.20)',
+    primaryWarm: '#C86A32',
+    primaryLight: '#E28647',
+    primaryGlow: 'rgba(217, 119, 54, 0.22)',
 
-    // Dual-Host Distinctive Identity
-    hostAlex: '#F59E0B',      // Solar Amber (Curious Analyst)
-    hostTaylor: '#06B6D4',    // Electric Cyan (Lead Researcher)
+    // Dual-Host Distinctive Colors
+    hostAlex: '#F59E0B',      // Solar Amber
+    hostTaylor: '#38BDF8',    // Electric Cyan
     
-    // Text Hierarchy
+    // Typography Colors
     textPrimary: '#FFFFFF',
-    textSecondary: '#8D9096',
-    textMuted: '#585B62',
-    textAccent: '#D97736',
+    textSecondary: '#8B8F97',
+    textMuted: '#52555C',
+    textDim: '#383B44',
+    textCopper: '#D97736',
 
-    // Status & Utility
+    // Status
     success: '#10B981',
-    warning: '#F59E0B',
-    error: '#EF4444',
-    cardOverlay: 'rgba(11, 12, 14, 0.70)',
   },
 
   typography: {
     heroTitle: {
-      fontSize: 26,
+      fontSize: 20,
       fontWeight: '700' as const,
-      letterSpacing: -0.5,
+      letterSpacing: -0.3,
       color: '#FFFFFF',
     },
-    sectionTitle: {
-      fontSize: 18,
+    screenTitle: {
+      fontSize: 22,
       fontWeight: '700' as const,
-      letterSpacing: -0.2,
+      letterSpacing: -0.4,
       color: '#FFFFFF',
     },
-    cardTitle: {
-      fontSize: 15,
-      fontWeight: '600' as const,
-      color: '#FFFFFF',
+    sectionHeading: {
+      fontSize: 10,
+      fontWeight: '700' as const,
+      letterSpacing: 1.6,
+      textTransform: 'uppercase' as const,
+      color: '#6E727A',
     },
-    categoryTag: {
+    tag: {
       fontSize: 11,
       fontWeight: '700' as const,
       letterSpacing: 1.2,
@@ -68,21 +69,16 @@ export const theme = {
       color: '#D97736',
     },
     body: {
-      fontSize: 13,
+      fontSize: 12.5,
       fontWeight: '400' as const,
-      lineHeight: 20,
-      color: '#8D9096',
+      lineHeight: 18,
+      color: '#8B8F97',
     },
-    caption: {
-      fontSize: 11,
-      fontWeight: '500' as const,
-      color: '#585B62',
-    },
-    timeDisplay: {
-      fontSize: 12,
-      fontWeight: '500' as const,
-      fontVariant: ['tabular-nums' as const],
-      color: '#8D9096',
+    quote: {
+      fontSize: 14,
+      fontWeight: '400' as const,
+      lineHeight: 22,
+      color: '#A0A4AD',
     },
   },
 
@@ -91,15 +87,15 @@ export const theme = {
     sm: 8,
     md: 14,
     lg: 20,
-    xl: 28,
+    xl: 26,
     xxl: 36,
   },
 
   radius: {
     sm: 8,
     md: 14,
-    lg: 20,
-    xl: 28,
+    lg: 18,
+    xl: 24,
     full: 9999,
   },
 };

@@ -1,6 +1,6 @@
 /**
  * PaperPod Interactive Audio Player Screen
- * Faithfully styled after Reference Screen 3 with Synchronized Figure HUD & Live Transcript.
+ * 100% Faithful Clone of Reference Screen 3 with Transformer Architecture Figure HUD.
  */
 import React, { useState, useEffect } from 'react';
 import {
@@ -14,19 +14,17 @@ import {
 } from 'react-native';
 import {
   ArrowLeft,
-  Share2,
-  Bookmark,
   ThumbsUp,
-  Maximize2,
+  Play,
+  Pause,
   Mic,
-  Sparkles,
+  MessageSquare,
+  Maximize2,
 } from 'lucide-react-native';
 import { theme } from '../theme';
 import { Paper, Episode, DialogueSegment, WordTiming } from '../types';
 import { api } from '../services/api';
 import { audioPlayer, PlaybackState } from '../services/audioPlayer';
-import { AudioScrubber } from '../components/audio/AudioScrubber';
-import { WaveformVisualizer } from '../components/audio/WaveformVisualizer';
 import { getSegmentWords } from '../utils/transcript';
 import { DEMO_EPISODE_SEGMENTS } from '../data/demoEpisode';
 
@@ -39,6 +37,39 @@ interface PlayerScreenProps {
 
 const DEFAULT_SEGMENTS: DialogueSegment[] = DEMO_EPISODE_SEGMENTS;
 
+const RESEARCH_COMMENTS = [
+  {
+    id: 'c1',
+    name: 'Wilson Rothman',
+    time: '28min',
+    avatar: require('../../assets/avatar_wilson.jpg'),
+    text: 'How does dividing by sqrt(d_k) in equation 1 prevent vanishing gradients in softmax?',
+    likes: 9,
+  },
+  {
+    id: 'c2',
+    name: 'Dr. Kianna Stanton',
+    time: '2h',
+    avatar: require('../../assets/avatar_kianna.jpg'),
+    text: 'Multi-head attention projects Queries, Keys, and Values into 8 parallel sub-spaces of dimension 64.',
+    likes: 31,
+  },
+];
+
+const SECTION_TITLES = [
+  'Section 1: Motivation & The Recurrence Bottleneck',
+  'Section 2: Transformer Multi-Head Self-Attention',
+  'Section 3: Scaled Dot-Product Attention Equation',
+  'Section 4: Queries, Keys, Values & Gradient Stability',
+];
+
+const formatTime = (millis: number): string => {
+  const totalSeconds = Math.max(0, Math.floor(millis / 1000));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+};
+
 export const PlayerScreen: React.FC<PlayerScreenProps> = ({
   paper,
   initialEpisodeId,
@@ -47,8 +78,6 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
 }) => {
   const [playbackState, setPlaybackState] = useState<PlaybackState>(audioPlayer.getState());
   const [activeSegmentIndex, setActiveSegmentIndex] = useState(0);
-  const [playbackSpeed, setPlaybackSpeed] = useState(1.0);
-  const [bookmarked, setBookmarked] = useState(false);
   const [episodeSegments, setEpisodeSegments] = useState<DialogueSegment[]>(DEFAULT_SEGMENTS);
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
 
@@ -73,7 +102,8 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
           if (epData.segments && epData.segments.length > 0) {
             setEpisodeSegments(epData.segments as any);
           }
-          const audioUrl = epData.audio_url || `http://localhost:8000/api/v1/papers/episodes/${epData.id}/stream`;
+          const audioUrl =
+            epData.audio_url || `http://localhost:8000/api/v1/papers/episodes/${epData.id}/stream`;
           await audioPlayer.loadAudio(audioUrl, true);
         }
       } catch (e) {
@@ -94,7 +124,6 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
     const unsubscribe = audioPlayer.subscribe((state) => {
       setPlaybackState(state);
 
-      // Find active segment by current playback timestamp
       const pos = state.positionMillis;
       const index = segments.findIndex(
         (seg) => pos >= seg.audio_start_ms && pos < seg.audio_end_ms
@@ -107,12 +136,10 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
     return () => unsubscribe();
   }, [segments, activeSegmentIndex]);
 
-  const activeSegment = segments[activeSegmentIndex] || segments[0];
-  const isHostAlex = activeSegment?.speaker === 'alex';
-
   const handleTogglePlay = async () => {
     const epId = initialEpisodeId || currentEpisode?.id || 'demo-episode-1706';
-    const audioUrl = currentEpisode?.audio_url || `http://localhost:8000/api/v1/papers/episodes/${epId}/stream`;
+    const audioUrl =
+      currentEpisode?.audio_url || `http://localhost:8000/api/v1/papers/episodes/${epId}/stream`;
     try {
       await audioPlayer.loadAudio(audioUrl, false);
       await audioPlayer.togglePlayPause();
@@ -125,46 +152,36 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
     audioPlayer.seekTo(pos);
   };
 
-  const handleSkip = (delta: number) => {
-    audioPlayer.skip(delta);
+  const handleProgressBarPress = (event: any) => {
+    const duration = playbackState.durationMillis || 66000;
+    const { locationX } = event.nativeEvent;
+    const ratio = Math.max(0, Math.min(1, locationX / 200));
+    handleSeek(Math.floor(ratio * duration));
   };
 
-  const handleChangeSpeed = () => {
-    const speeds = [1.0, 1.25, 1.5, 2.0, 0.75];
-    const nextIdx = (speeds.indexOf(playbackSpeed) + 1) % speeds.length;
-    const nextSpeed = speeds[nextIdx] || 1.0;
-    setPlaybackSpeed(nextSpeed);
-    audioPlayer.setPlaybackSpeed(nextSpeed);
-  };
+  const progressRatio =
+    playbackState.durationMillis > 0
+      ? Math.min(1, playbackState.positionMillis / playbackState.durationMillis)
+      : 0;
+
+  const currentSectionTitle =
+    SECTION_TITLES[activeSegmentIndex] ||
+    `Section ${activeSegmentIndex + 1}: Attention Mechanism`;
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor={theme.colors.background} />
+      <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-      {/* Top Navigation Bar */}
+      {/* Header: Back Arrow on Left, Pill on Right */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={onBack} style={styles.backBtn} activeOpacity={0.7}>
-          <ArrowLeft size={20} color={theme.colors.textPrimary} />
+        <TouchableOpacity onPress={onBack} style={styles.navIconBtn} activeOpacity={0.7}>
+          <ArrowLeft size={20} color="#FFFFFF" />
         </TouchableOpacity>
 
-        <View style={styles.paperTitleTag}>
-          <Text style={styles.paperTagText} numberOfLines={1}>
+        <View style={styles.storyTagPill}>
+          <Text style={styles.storyTagText} numberOfLines={1}>
             {paper.title || 'Attention Is All You Need'}
           </Text>
-        </View>
-
-        <View style={styles.headerRightActions}>
-          <TouchableOpacity
-            onPress={() => setBookmarked(!bookmarked)}
-            style={styles.actionBtn}
-            activeOpacity={0.7}
-          >
-            <Bookmark
-              size={18}
-              color={bookmarked ? theme.colors.primary : theme.colors.textSecondary}
-              fill={bookmarked ? theme.colors.primary : 'none'}
-            />
-          </TouchableOpacity>
         </View>
       </View>
 
@@ -173,127 +190,82 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Synchronized Figure HUD / Hero Visual Card (Matching Reference Screen 3) */}
-        <View style={styles.figureCard}>
-          <View style={styles.figureHeader}>
-            <View style={styles.figureBadge}>
-              <Sparkles size={12} color={theme.colors.primary} />
-              <Text style={styles.figureBadgeText}>
-                {activeSegment?.referenced_figure_id ? 'Figure 1: Transformer' : 'Figure 1: Architecture'}
-              </Text>
-            </View>
-
-            <TouchableOpacity style={styles.autoZoomPill} activeOpacity={0.8}>
-              <Maximize2 size={12} color={theme.colors.primary} />
-              <Text style={styles.autoZoomText}>Auto-Zoom</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Diagram Display Container */}
-          <View style={styles.figureImageContainer}>
-            <View style={styles.diagramMockBox}>
-              <View style={styles.diagramLayer}>
-                <Text style={styles.diagramLayerText}>Output Probabilities</Text>
-              </View>
-              <View style={[styles.diagramLayer, styles.diagramLayerActive]}>
-                <Text style={[styles.diagramLayerText, styles.diagramLayerActiveText]}>
-                  Multi-Head Self Attention
-                </Text>
-              </View>
-              <View style={styles.diagramLayer}>
-                <Text style={styles.diagramLayerText}>Positional Encoding</Text>
-              </View>
-            </View>
+        {/* Figure HUD Visual Image Card (Figure 1: Transformer Architecture Blueprint) */}
+        <View style={styles.heroVisualWrapper}>
+          <Image
+            source={require('../../assets/figure_transformer_arch.jpg')}
+            style={styles.heroVisualImage}
+            resizeMode="cover"
+          />
+          <View style={styles.figureBadge}>
+            <Text style={styles.figureBadgeText}>FIG 1: ARCHITECTURE</Text>
           </View>
         </View>
 
-        {/* Section / Chapter Heading */}
-        <View style={styles.sectionHeadingRow}>
-          <Text style={styles.chapterLabel}>
-            Section {activeSegmentIndex + 1}: {isHostAlex ? 'Core Intuition & Motivation' : 'Mathematical Formulation'}
+        {/* Section / Chapter Title */}
+        <Text style={styles.chapterTitleText}>{currentSectionTitle}</Text>
+
+        {/* Minimalist Scrubber Row */}
+        <View style={styles.scrubberRow}>
+          <TouchableOpacity
+            onPress={handleTogglePlay}
+            style={styles.playPauseToggleBtn}
+            activeOpacity={0.7}
+          >
+            {playbackState.isPlaying ? (
+              <Pause size={17} color="#D97736" />
+            ) : (
+              <Play size={17} color="#D97736" fill="#D97736" />
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.progressTrack}
+            onPress={handleProgressBarPress}
+            activeOpacity={0.9}
+          >
+            <View style={[styles.progressFill, { width: `${progressRatio * 100}%` }]} />
+          </TouchableOpacity>
+
+          <Text style={styles.timeLabel}>
+            {formatTime(playbackState.positionMillis)} /{' '}
+            {formatTime(playbackState.durationMillis || 66000)}
           </Text>
         </View>
 
-        {/* Minimalist Scrubber & Playback Controls */}
-        <AudioScrubber
-          isPlaying={playbackState.isPlaying}
-          positionMillis={playbackState.positionMillis}
-          durationMillis={playbackState.durationMillis || 45000}
-          playbackSpeed={playbackSpeed}
-          onTogglePlayPause={handleTogglePlay}
-          onSeek={handleSeek}
-          onSkip={handleSkip}
-          onChangeSpeed={handleChangeSpeed}
-        />
-
-        {/* Active Host Avatar Pill & Animated Waveform */}
-        <View style={styles.hostIndicatorCard}>
-          <View
-            style={[
-              styles.hostAvatarCircle,
-              { borderColor: isHostAlex ? theme.colors.hostAlex : theme.colors.hostTaylor },
-            ]}
-          >
-            <Text style={styles.hostAvatarInitial}>
-              {isHostAlex ? 'A' : 'T'}
-            </Text>
+        {/* Floating Active Speaker Badge */}
+        <View style={styles.floatingSpeakerBadgeRow}>
+          <View style={styles.speakerPill}>
+            <MessageSquare size={13} color="#D97736" />
           </View>
-
-          <View style={styles.hostInfo}>
-            <Text style={styles.hostName}>
-              {isHostAlex ? 'Alex (Curious Analyst)' : 'Dr. Taylor (Lead Scientist)'}
-            </Text>
-            <Text style={styles.hostRole}>
-              {isHostAlex ? 'Explaining via analogies' : 'Breaking down math equations'}
-            </Text>
-          </View>
-
-          <WaveformVisualizer
-            isPlaying={playbackState.isPlaying}
-            speaker={activeSegment?.speaker}
-            barCount={14}
-            height={28}
-          />
         </View>
 
-        {/* Interactive Synced Transcript Area */}
-        <View style={styles.transcriptContainer}>
-          <Text style={styles.transcriptSectionLabel}>LIVE SYNCED TRANSCRIPT</Text>
-
+        {/* Synced Reading / Transcript Stream */}
+        <View style={styles.transcriptStream}>
           {segments.map((seg, idx) => {
             const isCurrent = idx === activeSegmentIndex;
+            const isPast = idx < activeSegmentIndex;
+            const words = getSegmentWords(seg);
+
             return (
-              <TouchableOpacity
-                key={seg.id || idx}
-                style={[
-                  styles.transcriptLine,
-                  isCurrent && styles.transcriptLineActive,
-                ]}
-                onPress={() => handleSeek(seg.audio_start_ms)}
-                activeOpacity={0.8}
-              >
-                <Text
-                  style={[
-                    styles.transcriptSpeaker,
-                    { color: seg.speaker === 'alex' ? theme.colors.hostAlex : theme.colors.hostTaylor },
-                  ]}
-                >
-                  {seg.speaker.toUpperCase()}:
-                </Text>
-                <Text style={styles.transcriptTextWrapper}>
-                  {getSegmentWords(seg).map((w, wIdx) => {
+              <View key={seg.id || idx} style={styles.dialogueBlock}>
+                <Text style={styles.dialogueTextWrapper}>
+                  {words.map((w, wIdx) => {
                     const isSpoken = playbackState.positionMillis >= w.start_ms;
-                    const isCurrent =
+                    const isWordActive =
                       playbackState.positionMillis >= w.start_ms &&
                       playbackState.positionMillis <= w.end_ms;
+
                     return (
                       <Text
                         key={wIdx}
                         onPress={() => handleSeek(w.start_ms)}
                         style={[
-                          styles.wordInactive,
+                          styles.wordDefault,
+                          isPast && styles.wordPast,
+                          isCurrent && styles.wordCurrentSeg,
                           isSpoken && styles.wordSpoken,
-                          isCurrent && styles.wordCurrent,
+                          isWordActive && styles.wordActiveHighlight,
                         ]}
                       >
                         {w.text}{' '}
@@ -301,47 +273,45 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
                     );
                   })}
                 </Text>
-              </TouchableOpacity>
+              </View>
             );
           })}
         </View>
 
-        {/* Community & Interruption Notes Section (Cloning reference "Other Readers Say") */}
-        <View style={styles.communitySection}>
-          <Text style={styles.communitySectionLabel}>OTHER RESEARCHERS ASKED</Text>
+        {/* Other Researchers Asked Section */}
+        <View style={styles.commentsSection}>
+          <Text style={styles.commentsSectionTitle}>Other Researchers Asked</Text>
 
-          <View style={styles.communityCard}>
-            <View style={styles.communityCardHeader}>
-              <View style={styles.userAvatarBox}>
-                <Text style={styles.userAvatarInitial}>W</Text>
+          <View style={styles.commentsList}>
+            {RESEARCH_COMMENTS.map((comm) => (
+              <View key={comm.id} style={styles.commentItem}>
+                <View style={styles.commentHeaderRow}>
+                  <Image source={comm.avatar} style={styles.commentAvatar} />
+                  <View style={styles.commentUserCol}>
+                    <Text style={styles.commentUserName}>{comm.name}</Text>
+                    <Text style={styles.commentUserTime}>{comm.time}</Text>
+                  </View>
+                  <View style={styles.commentLikesRow}>
+                    <ThumbsUp size={12} color="#D97736" />
+                    <Text style={styles.commentLikesText}>{comm.likes}</Text>
+                  </View>
+                </View>
+                <Text style={styles.commentBodyText}>{comm.text}</Text>
               </View>
-              <View style={styles.userInfoBox}>
-                <Text style={styles.userName}>Wilson Rothman</Text>
-                <Text style={styles.userTime}>28min ago</Text>
-              </View>
-              <View style={styles.likeBadge}>
-                <ThumbsUp size={12} color={theme.colors.primary} />
-                <Text style={styles.likeCount}>9</Text>
-              </View>
-            </View>
-            <Text style={styles.commentText}>
-              "How does dividing by sqrt(d_k) prevent the vanishing gradient in softmax?"
-            </Text>
+            ))}
           </View>
         </View>
       </ScrollView>
 
-      {/* Floating Live Voice Interruption Button (Bottom Pill) */}
-      <View style={styles.floatingActionContainer}>
+      {/* Floating Live Interruption Button */}
+      <View style={styles.floatingMicContainer}>
         <TouchableOpacity
-          style={styles.micButton}
+          style={styles.floatingMicBtn}
           onPress={onOpenInterruptionModal}
           activeOpacity={0.85}
         >
-          <View style={styles.micIconCircle}>
-            <Mic size={18} color="#FFFFFF" />
-          </View>
-          <Text style={styles.micButtonText}>Tap to Interrupt & Ask</Text>
+          <Mic size={16} color="#FFFFFF" />
+          <Text style={styles.floatingMicText}>Tap to Interrupt & Ask</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -351,351 +321,236 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: '#000000',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 12,
+    paddingHorizontal: 22,
+    paddingTop: 12,
+    paddingBottom: 8,
   },
-  backBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: theme.colors.surface,
+  navIconBtn: {
+    padding: 6,
+  },
+  storyTagPill: {
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
     borderWidth: 1,
-    borderColor: theme.colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  paperTitleTag: {
-    flex: 1,
-    marginHorizontal: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
     borderRadius: 16,
-    backgroundColor: theme.colors.surface,
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 4.5,
+    maxWidth: 220,
   },
-  paperTagText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: theme.colors.textPrimary,
-  },
-  headerRightActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  actionBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: theme.colors.surface,
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
+  storyTagText: {
+    fontSize: 11.5,
+    fontWeight: '500',
+    color: '#FFFFFF',
   },
   scroll: {
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 20,
-    paddingBottom: 100,
+    paddingHorizontal: 22,
+    paddingBottom: 90,
   },
-  figureCard: {
-    backgroundColor: theme.colors.surface,
+  heroVisualWrapper: {
+    width: '100%',
+    height: 220,
     borderRadius: 22,
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-    padding: 16,
+    overflow: 'hidden',
     marginTop: 8,
     marginBottom: 16,
+    backgroundColor: '#121214',
+    position: 'relative',
   },
-  figureHeader: {
+  heroVisualImage: {
+    width: '100%',
+    height: '100%',
+  },
+  figureBadge: {
+    position: 'absolute',
+    top: 12,
+    left: 12,
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    borderWidth: 1,
+    borderColor: 'rgba(217, 119, 54, 0.5)',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
+  },
+  figureBadgeText: {
+    fontSize: 9.5,
+    fontWeight: '700',
+    color: '#D97736',
+    letterSpacing: 1,
+  },
+  chapterTitleText: {
+    fontSize: 13.5,
+    fontWeight: '600',
+    color: '#FFFFFF',
+    textAlign: 'center',
+    marginBottom: 16,
+    letterSpacing: -0.2,
+  },
+  scrubberRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 12,
+    gap: 12,
+    marginBottom: 14,
   },
-  figureBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    backgroundColor: 'rgba(217, 119, 54, 0.12)',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(217, 119, 54, 0.25)',
+  playPauseToggleBtn: {
+    padding: 4,
   },
-  figureBadgeText: {
-    fontSize: 11,
-    fontWeight: '700',
-    color: theme.colors.primary,
-  },
-  autoZoomPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    backgroundColor: 'rgba(255, 255, 255, 0.06)',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
-  },
-  autoZoomText: {
-    fontSize: 11,
-    fontWeight: '600',
-    color: theme.colors.textSecondary,
-  },
-  figureImageContainer: {
-    height: 160,
-    backgroundColor: theme.colors.backgroundSubtle,
-    borderRadius: 14,
-    alignItems: 'center',
-    justifyContent: 'center',
+  progressTrack: {
+    flex: 1,
+    height: 2.5,
+    backgroundColor: 'rgba(255, 255, 255, 0.12)',
+    borderRadius: 1.5,
     overflow: 'hidden',
   },
-  diagramMockBox: {
-    width: '85%',
-    gap: 8,
+  progressFill: {
+    height: '100%',
+    backgroundColor: '#D97736',
+    borderRadius: 1.5,
   },
-  diagramLayer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-    borderRadius: 8,
-    paddingVertical: 8,
-    alignItems: 'center',
-  },
-  diagramLayerActive: {
-    borderColor: theme.colors.primary,
-    backgroundColor: 'rgba(217, 119, 54, 0.15)',
-  },
-  diagramLayerText: {
+  timeLabel: {
     fontSize: 11,
-    fontWeight: '600',
-    color: theme.colors.textSecondary,
+    fontWeight: '500',
+    color: '#7E828B',
+    fontVariant: ['tabular-nums'],
+    minWidth: 80,
+    textAlign: 'right',
   },
-  diagramLayerActiveText: {
-    color: theme.colors.primary,
-    fontWeight: '700',
-  },
-  sectionHeadingRow: {
-    marginVertical: 6,
-  },
-  chapterLabel: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: theme.colors.textPrimary,
-    letterSpacing: -0.2,
-  },
-  hostIndicatorCard: {
-    flexDirection: 'row',
+  floatingSpeakerBadgeRow: {
     alignItems: 'center',
-    backgroundColor: theme.colors.surface,
-    borderRadius: 18,
-    padding: 12,
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-    marginVertical: 12,
-    gap: 12,
+    marginVertical: 10,
   },
-  hostAvatarCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    borderWidth: 2,
-    backgroundColor: theme.colors.backgroundSubtle,
+  speakerPill: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: 'rgba(217, 119, 54, 0.15)',
+    borderWidth: 1,
+    borderColor: '#D97736',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  hostAvatarInitial: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '700',
+  transcriptStream: {
+    marginVertical: 12,
+    gap: 16,
   },
-  hostInfo: {
-    flex: 1,
+  dialogueBlock: {
+    paddingVertical: 2,
   },
-  hostName: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: theme.colors.textPrimary,
-  },
-  hostRole: {
-    fontSize: 11,
-    color: theme.colors.textSecondary,
-    marginTop: 2,
-  },
-  transcriptContainer: {
-    marginTop: 16,
-    gap: 12,
-  },
-  transcriptSectionLabel: {
-    fontSize: 11,
-    fontWeight: '700',
-    letterSpacing: 1.2,
-    color: theme.colors.textSecondary,
-    marginBottom: 4,
-  },
-  transcriptLine: {
-    backgroundColor: theme.colors.surface,
-    borderRadius: 14,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: 'transparent',
-    opacity: 0.65,
-  },
-  transcriptLineActive: {
-    borderColor: theme.colors.borderAccent,
-    backgroundColor: 'rgba(217, 119, 54, 0.07)',
-    opacity: 1.0,
-  },
-  transcriptSpeaker: {
-    fontSize: 11,
-    fontWeight: '700',
-    letterSpacing: 0.8,
-    marginBottom: 4,
-  },
-  transcriptText: {
-    fontSize: 13.5,
-    lineHeight: 22,
-    color: theme.colors.textSecondary,
-  },
-  transcriptTextActive: {
-    color: '#FFFFFF',
-    fontWeight: '500',
-  },
-  transcriptTextWrapper: {
+  dialogueTextWrapper: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     lineHeight: 22,
   },
-  wordInactive: {
+  wordDefault: {
     fontSize: 13.5,
     lineHeight: 22,
-    color: '#656870',
+    color: '#383B44',
+  },
+  wordPast: {
+    color: '#4B4E57',
+  },
+  wordCurrentSeg: {
+    color: '#6C707A',
   },
   wordSpoken: {
     color: '#D1D5DB',
-    fontWeight: '500',
+    fontWeight: '400',
   },
-  wordCurrent: {
+  wordActiveHighlight: {
     color: '#FFFFFF',
-    backgroundColor: 'rgba(217, 119, 54, 0.40)',
+    backgroundColor: 'rgba(217, 119, 54, 0.45)',
     fontWeight: '700',
     borderRadius: 3,
   },
-  communitySection: {
-    marginTop: 24,
+  commentsSection: {
+    marginTop: 26,
   },
-  communitySectionLabel: {
-    fontSize: 11,
+  commentsSectionTitle: {
+    fontSize: 13,
     fontWeight: '700',
-    letterSpacing: 1.2,
-    color: theme.colors.textSecondary,
-    marginBottom: 12,
+    color: '#FFFFFF',
+    marginBottom: 14,
+    letterSpacing: -0.2,
   },
-  communityCard: {
-    backgroundColor: theme.colors.surface,
-    borderRadius: 16,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-    gap: 8,
+  commentsList: {
+    gap: 16,
   },
-  communityCardHeader: {
+  commentItem: {
+    gap: 6,
+  },
+  commentHeaderRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
   },
-  userAvatarBox: {
+  commentAvatar: {
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: theme.colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#1E2024',
   },
-  userAvatarInitial: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  userInfoBox: {
+  commentUserCol: {
     flex: 1,
   },
-  userName: {
+  commentUserName: {
     fontSize: 12,
     fontWeight: '600',
-    color: theme.colors.textPrimary,
+    color: '#FFFFFF',
   },
-  userTime: {
+  commentUserTime: {
     fontSize: 10,
-    color: theme.colors.textMuted,
+    color: '#656870',
+    marginTop: 1,
   },
-  likeBadge: {
+  commentLikesRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 10,
   },
-  likeCount: {
+  commentLikesText: {
     fontSize: 11,
     fontWeight: '600',
-    color: theme.colors.primary,
+    color: '#D97736',
   },
-  commentText: {
+  commentBodyText: {
     fontSize: 12,
     lineHeight: 18,
-    color: theme.colors.textSecondary,
-    fontStyle: 'italic',
+    color: '#8B8F97',
+    paddingLeft: 38,
   },
-  floatingActionContainer: {
+  floatingMicContainer: {
     position: 'absolute',
-    bottom: 24,
+    bottom: 20,
     left: 20,
     right: 20,
     alignItems: 'center',
   },
-  micButton: {
+  floatingMicBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
-    backgroundColor: theme.colors.primary,
-    paddingVertical: 13,
-    paddingHorizontal: 24,
-    borderRadius: 30,
-    shadowColor: theme.colors.primary,
-    shadowOffset: { width: 0, height: 6 },
+    gap: 8,
+    backgroundColor: '#D97736',
+    paddingVertical: 11,
+    paddingHorizontal: 22,
+    borderRadius: 24,
+    shadowColor: '#D97736',
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.35,
-    shadowRadius: 12,
-    elevation: 8,
+    shadowRadius: 8,
+    elevation: 6,
   },
-  micIconCircle: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  micButtonText: {
+  floatingMicText: {
     color: '#FFFFFF',
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '700',
-    letterSpacing: 0.2,
   },
 });

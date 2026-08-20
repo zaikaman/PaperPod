@@ -1,8 +1,8 @@
 /**
  * PaperPod Discovery & Ingestion Home Screen
- * Replicating the exact reference luxury aesthetic from Screen 1 & Screen 2.
+ * 100% Faithful Clone of Reference Screen 1 with Authentic Academic Research Content.
  */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -10,20 +10,19 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
+  Image,
   ActivityIndicator,
   StatusBar,
 } from 'react-native';
 import {
+  ArrowLeft,
   Headphones,
-  Sparkles,
   ArrowRight,
   Play,
-  FileText,
-  Layers,
   Cpu,
-  Atom,
-  Dna,
-  BookOpen,
+  Layers,
+  Sparkles,
+  Search,
 } from 'lucide-react-native';
 import { theme } from '../theme';
 import { api } from '../services/api';
@@ -31,69 +30,74 @@ import { Paper } from '../types';
 
 interface HomeScreenProps {
   onSelectPaper: (paper: Paper, episodeId?: string) => void;
+  onOpenDetail?: (paper: Paper) => void;
 }
 
 const CATEGORIES = [
-  { id: 'cs', title: 'Computer Science', count: '539 Papers', icon: Cpu },
-  { id: 'neural', title: 'Neural Models', count: '1,675 Papers', icon: Layers },
-  { id: 'physics', title: 'Quantum & Physics', count: '412 Papers', icon: Atom },
-  { id: 'bio', title: 'Bio-ML & Genetics', count: '280 Papers', icon: Dna },
+  {
+    id: 'cs',
+    title: 'Computer Science',
+    count: '539 Papers',
+    icon: Cpu,
+  },
+  {
+    id: 'neural',
+    title: 'Neural Architectures',
+    count: '1,675 Papers',
+    icon: Layers,
+  },
+  {
+    id: 'quantum',
+    title: 'Quantum & Physics',
+    count: '412 Papers',
+    icon: Sparkles,
+  },
 ];
 
-const PRESET_PAPERS: Partial<Paper>[] = [
+const PRESET_PAPERS = [
   {
     id: 'paper-attention-1706',
     title: 'Attention Is All You Need',
-    authors: ['Vaswani', 'Shazeer', 'Parmar', 'Uszkoreit'],
-    abstract: 'We propose the Transformer, a model architecture relying entirely on an attention mechanism to draw global dependencies.',
-    total_pages: 15,
-    status: 'ready',
+    authors: 'Ashish Vaswani, Noam Shazeer, Niki Parmar et al.',
+    subtitle: '8 Sections · 14 Min',
+    meta: '1.2M Citations · NeurIPS',
+    thumb: require('../../assets/thumb_serpent.jpg'),
     arxiv_id: '1706.03762',
-    source_type: 'arxiv_url',
-    pdf_storage_path: 'papers/1706.03762.pdf',
+    pages: 15,
+    abstract:
+      'We propose the Transformer, a model architecture eschewing recurrence and relying entirely on an attention mechanism to draw global dependencies between input and output without recurrent or convolutional layers.',
   },
   {
     id: 'paper-resnet-1512',
     title: 'Deep Residual Learning for Image Recognition',
-    authors: ['He', 'Zhang', 'Ren', 'Sun'],
-    abstract: 'We present a residual learning framework to ease the training of networks that are substantially deeper.',
-    total_pages: 12,
-    status: 'ready',
+    authors: 'Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun',
+    subtitle: '6 Sections · 11 Min',
+    meta: '185k Citations · CVPR',
+    thumb: require('../../assets/thumb_veil.jpg'),
     arxiv_id: '1512.03385',
-    source_type: 'arxiv_url',
-    pdf_storage_path: 'papers/1512.03385.pdf',
+    pages: 12,
+    abstract:
+      'Deeper neural networks are more difficult to train. We present a residual learning framework to ease the training of networks that are substantially deeper than those used previously.',
   },
   {
     id: 'paper-gpt3-2005',
     title: 'Language Models are Few-Shot Learners',
-    authors: ['Brown', 'Mann', 'Ryder', 'Subbiah'],
-    abstract: 'We demonstrate that scaling up language models greatly improves task-agnostic, few-shot performance.',
-    total_pages: 75,
-    status: 'ready',
+    authors: 'Tom B. Brown, Benjamin Mann, Nick Ryder et al.',
+    subtitle: '12 Sections · 18 Min',
+    meta: '45k Citations · NeurIPS',
+    thumb: require('../../assets/thumb_echoes.jpg'),
     arxiv_id: '2005.14165',
-    source_type: 'arxiv_url',
-    pdf_storage_path: 'papers/2005.14165.pdf',
+    pages: 75,
+    abstract:
+      'We demonstrate that scaling up language models greatly improves task-agnostic, few-shot performance, sometimes reaching competitiveness with prior state-of-the-art fine-tuning approaches.',
   },
 ];
 
-export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectPaper }) => {
+export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectPaper, onOpenDetail }) => {
   const [arxivInput, setArxivInput] = useState('');
   const [isIngesting, setIsIngesting] = useState(false);
-  const [libraryPapers, setLibraryPapers] = useState<Paper[]>([]);
-  const [activeCategory, setActiveCategory] = useState('cs');
 
-  useEffect(() => {
-    loadLibrary();
-  }, []);
-
-  const loadLibrary = async () => {
-    const fetched = await api.listPapers();
-    if (fetched && fetched.length > 0) {
-      setLibraryPapers(fetched);
-    }
-  };
-
-  const handleIngestArxiv = async () => {
+  const handleIngest = async () => {
     const query = arxivInput.trim() || '1706.03762';
     setIsIngesting(true);
     try {
@@ -101,30 +105,54 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectPaper }) => {
       if (res.paper) {
         onSelectPaper(res.paper, res.episode_id);
       }
-    } catch (e: any) {
-      console.warn('Ingestion error, using pre-loaded model:', e);
-      // Seamlessly fall back to sample paper for instant offline demonstration
-      const sample = PRESET_PAPERS[0] as Paper;
-      onSelectPaper(sample, 'demo-episode-1706');
+    } catch (e) {
+      console.warn('Ingestion fallback to demo:', e);
+      const demoPaper: Paper = {
+        id: 'paper-attention-1706',
+        title: 'Attention Is All You Need',
+        authors: ['Vaswani', 'Shazeer', 'Parmar'],
+        abstract: 'The Transformer architecture relying on self-attention.',
+        total_pages: 15,
+        status: 'ready',
+        source_type: 'arxiv_url',
+        pdf_storage_path: 'papers/1706.03762.pdf',
+      };
+      onSelectPaper(demoPaper, 'demo-episode-1706');
     } finally {
       setIsIngesting(false);
     }
   };
 
-  const displayPapers = libraryPapers.length > 0 ? libraryPapers : (PRESET_PAPERS as Paper[]);
+  const handleItemPress = (paperItem: (typeof PRESET_PAPERS)[0]) => {
+    const paperObj: Paper = {
+      id: paperItem.id,
+      title: paperItem.title,
+      authors: [paperItem.authors],
+      abstract: paperItem.abstract,
+      total_pages: paperItem.pages,
+      status: 'ready',
+      source_type: 'arxiv_url',
+      arxiv_id: paperItem.arxiv_id,
+      pdf_storage_path: `papers/${paperItem.arxiv_id}.pdf`,
+    };
+    if (onOpenDetail) {
+      onOpenDetail(paperObj);
+    } else {
+      onSelectPaper(paperObj, paperItem.id === 'paper-attention-1706' ? 'demo-episode-1706' : undefined);
+    }
+  };
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor={theme.colors.background} />
+      <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-      {/* Top Header */}
+      {/* Top Header Navigation */}
       <View style={styles.header}>
-        <View style={styles.logoRow}>
-          <BookOpen size={20} color={theme.colors.primary} />
-          <Text style={styles.logoText}>PaperPod</Text>
-        </View>
-        <TouchableOpacity style={styles.headerIconBtn} activeOpacity={0.7}>
-          <Headphones size={20} color={theme.colors.textPrimary} />
+        <TouchableOpacity style={styles.navIconBtn} activeOpacity={0.7}>
+          <ArrowLeft size={20} color="#FFFFFF" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navIconBtn} activeOpacity={0.7}>
+          <Headphones size={20} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
 
@@ -133,133 +161,118 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectPaper }) => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Featured Hero Card (Inspired by reference drama masks hero) */}
-        <View style={styles.heroCard}>
-          <View style={styles.heroIconWrapper}>
-            <View style={styles.heroGlowCircle}>
-              <Sparkles size={36} color={theme.colors.primary} />
-            </View>
+        {/* Centered Hero Academic 3D Journal Sculpture */}
+        <View style={styles.heroSection}>
+          <View style={styles.heroImageWrapper}>
+            <Image
+              source={require('../../assets/hero_research_journal.jpg')}
+              style={styles.heroImage}
+              resizeMode="contain"
+            />
           </View>
-          <Text style={styles.heroTitle}>Best Research Stories</Text>
+
+          <Text style={styles.heroTitle}>Leading Research Briefings</Text>
           <Text style={styles.heroSubtitle}>
             Transform dense academic papers into interactive 2-host audio briefings with synchronized figure tracking.
           </Text>
 
-          {/* Quick Ingestion Bar */}
-          <View style={styles.ingestionContainer}>
+          {/* Concentric Search & Ingestion Capsule */}
+          <View style={styles.ingestionBox}>
+            <Search size={16} color="#656870" style={styles.searchIcon} />
             <TextInput
-              style={styles.input}
-              placeholder="Paste arXiv link or paper ID (e.g. 1706.03762)..."
-              placeholderTextColor={theme.colors.textMuted}
+              style={styles.ingestInput}
+              placeholder="Paste arXiv link or paper ID..."
+              placeholderTextColor="#52555C"
               value={arxivInput}
               onChangeText={setArxivInput}
               autoCapitalize="none"
               autoCorrect={false}
             />
             <TouchableOpacity
-              style={styles.ingestBtn}
-              onPress={handleIngestArxiv}
+              style={[
+                styles.ingestActionBtn,
+                arxivInput.trim().length > 0 && styles.ingestActionBtnFilled,
+              ]}
+              onPress={handleIngest}
               disabled={isIngesting}
               activeOpacity={0.8}
             >
               {isIngesting ? (
                 <ActivityIndicator size="small" color="#FFFFFF" />
               ) : (
-                <>
-                  <Text style={styles.ingestBtnText}>Brief Me</Text>
-                  <ArrowRight size={14} color="#FFFFFF" />
-                </>
+                <ArrowRight
+                  size={15}
+                  color={arxivInput.trim().length > 0 ? '#FFFFFF' : '#D97736'}
+                />
               )}
             </TouchableOpacity>
           </View>
         </View>
 
-        {/* Popular Categories Section */}
+        {/* POPULAR CATEGORIES Section */}
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitleLabel}>POPULAR CATEGORIES</Text>
+          <Text style={styles.sectionTitle}>POPULAR CATEGORIES</Text>
         </View>
 
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.categoriesScroll}
+          contentContainerStyle={styles.categoriesRow}
         >
-          {CATEGORIES.map((cat) => {
-            const IconComponent = cat.icon;
-            const isSelected = activeCategory === cat.id;
+          {CATEGORIES.map((cat, idx) => {
+            const IconComp = cat.icon;
             return (
               <TouchableOpacity
                 key={cat.id}
-                style={[
-                  styles.categoryCard,
-                  isSelected && styles.categoryCardActive,
-                ]}
-                onPress={() => setActiveCategory(cat.id)}
-                activeOpacity={0.7}
+                style={[styles.categoryCard, idx === 0 && styles.categoryCardFirst]}
+                activeOpacity={0.75}
               >
                 <View style={styles.categoryIconBox}>
-                  <IconComponent
-                    size={20}
-                    color={isSelected ? theme.colors.primary : theme.colors.textSecondary}
-                  />
+                  <IconComp size={20} color="#D97736" />
                 </View>
-                <View style={styles.categoryTextBox}>
-                  <Text
-                    style={[
-                      styles.categoryTitle,
-                      isSelected && { color: theme.colors.textPrimary },
-                    ]}
-                  >
-                    {cat.title}
-                  </Text>
-                  <Text style={styles.categoryCount}>{cat.count}</Text>
+                <View style={styles.categoryTextCol}>
+                  <Text style={styles.categoryTitleText}>{cat.title}</Text>
+                  <Text style={styles.categoryCountText}>{cat.count}</Text>
                 </View>
               </TouchableOpacity>
             );
           })}
         </ScrollView>
 
-        {/* Recommended Research Papers (Cloning reference list format) */}
+        {/* RECOMMENDED RESEARCH STORIES Section */}
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitleLabel}>RECOMMENDED RESEARCH STORIES</Text>
+          <Text style={styles.sectionTitle}>RECOMMENDED PAPERS</Text>
         </View>
 
-        <View style={styles.paperList}>
-          {displayPapers.map((paper, index) => {
-            const defaultEpId = paper.id === 'paper-attention-1706' ? 'demo-episode-1706' : undefined;
-            return (
+        <View style={styles.storiesList}>
+          {PRESET_PAPERS.map((paperItem) => (
+            <TouchableOpacity
+              key={paperItem.id}
+              style={styles.storyCard}
+              onPress={() => handleItemPress(paperItem)}
+              activeOpacity={0.7}
+            >
+              {/* Scientific Graphical Thumbnail */}
+              <Image source={paperItem.thumb} style={styles.storyThumb} />
+
+              {/* Title & Author Subtitle */}
+              <View style={styles.storyInfoCol}>
+                <Text style={styles.storyTitleText} numberOfLines={1}>
+                  {paperItem.title}
+                </Text>
+                <Text style={styles.storySubText}>{paperItem.subtitle}</Text>
+              </View>
+
+              {/* Circular Copper Play Button */}
               <TouchableOpacity
-                key={paper.id || index}
-                style={styles.paperItem}
-                onPress={() => onSelectPaper(paper, defaultEpId)}
-                activeOpacity={0.7}
+                style={styles.wireframePlayBtn}
+                onPress={() => handleItemPress(paperItem)}
+                activeOpacity={0.8}
               >
-                {/* Paper Thumbnail Box */}
-                <View style={styles.thumbnailBox}>
-                  <FileText size={22} color={theme.colors.primary} />
-                </View>
-
-                {/* Title & Metadata */}
-                <View style={styles.paperInfo}>
-                  <Text style={styles.paperTitle} numberOfLines={1}>
-                    {paper.title}
-                  </Text>
-                  <Text style={styles.paperMeta}>
-                    {paper.total_pages || 8} Sections · {12 + index * 3} Min Audio
-                  </Text>
-                </View>
-
-                {/* Terracotta Circular Play Button */}
-                <TouchableOpacity
-                  style={styles.playCircleBtn}
-                  onPress={() => onSelectPaper(paper, defaultEpId)}
-                  activeOpacity={0.8}
-                >
-                  <Play size={14} color={theme.colors.primary} fill={theme.colors.primary} />
-                </TouchableOpacity>
+                <Play size={13} color="#D97736" fill="#D97736" style={{ marginLeft: 2 }} />
               </TouchableOpacity>
-            );
-          })}
+            </TouchableOpacity>
+          ))}
         </View>
       </ScrollView>
     </View>
@@ -269,206 +282,181 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onSelectPaper }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: '#000000',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 16,
-    paddingBottom: 12,
+    paddingHorizontal: 22,
+    paddingTop: 12,
+    paddingBottom: 8,
   },
-  logoRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  logoText: {
-    fontSize: 18,
-    fontWeight: '700',
-    letterSpacing: -0.3,
-    color: theme.colors.textPrimary,
-  },
-  headerIconBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: theme.colors.surface,
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
+  navIconBtn: {
+    padding: 6,
   },
   scroll: {
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 22,
     paddingBottom: 40,
   },
-  heroCard: {
-    backgroundColor: theme.colors.surface,
-    borderRadius: 24,
-    padding: 24,
+  heroSection: {
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-    marginTop: 8,
-    marginBottom: 24,
+    paddingTop: 4,
+    paddingBottom: 22,
   },
-  heroIconWrapper: {
-    marginBottom: 16,
-  },
-  heroGlowCircle: {
-    width: 68,
-    height: 68,
-    borderRadius: 34,
-    backgroundColor: 'rgba(217, 119, 54, 0.12)',
-    borderWidth: 1,
-    borderColor: 'rgba(217, 119, 54, 0.3)',
+  heroImageWrapper: {
+    width: 140,
+    height: 125,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 12,
+  },
+  heroImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 16,
   },
   heroTitle: {
-    fontSize: 22,
+    fontSize: 19,
     fontWeight: '700',
-    color: theme.colors.textPrimary,
-    letterSpacing: -0.4,
+    letterSpacing: -0.3,
+    color: '#FFFFFF',
     textAlign: 'center',
+    marginBottom: 6,
   },
   heroSubtitle: {
-    fontSize: 13,
-    lineHeight: 18,
-    color: theme.colors.textSecondary,
+    fontSize: 12,
+    lineHeight: 17,
+    color: '#7E828B',
     textAlign: 'center',
-    marginTop: 8,
-    maxWidth: 280,
+    maxWidth: 300,
   },
-  ingestionContainer: {
-    width: '100%',
-    marginTop: 20,
-    gap: 10,
-  },
-  input: {
-    backgroundColor: theme.colors.backgroundSubtle,
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-    borderRadius: 14,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    fontSize: 13,
-    color: theme.colors.textPrimary,
-  },
-  ingestBtn: {
-    backgroundColor: theme.colors.primary,
-    borderRadius: 14,
-    paddingVertical: 12,
+  ingestionBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
+    backgroundColor: '#111215',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.08)',
+    borderRadius: 24,
+    height: 48,
+    paddingLeft: 16,
+    paddingRight: 6,
+    marginTop: 18,
+    width: '100%',
   },
-  ingestBtnText: {
-    color: '#FFFFFF',
+  searchIcon: {
+    marginRight: 10,
+  },
+  ingestInput: {
+    flex: 1,
     fontSize: 13,
-    fontWeight: '700',
-    letterSpacing: 0.2,
+    color: '#FFFFFF',
+    paddingVertical: 0,
+  },
+  ingestActionBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 1.2,
+    borderColor: 'rgba(217, 119, 54, 0.4)',
+    backgroundColor: 'rgba(217, 119, 54, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  ingestActionBtnFilled: {
+    backgroundColor: '#D97736',
+    borderColor: '#D97736',
   },
   sectionHeader: {
-    marginBottom: 14,
+    marginTop: 18,
+    marginBottom: 12,
   },
-  sectionTitleLabel: {
-    fontSize: 11,
+  sectionTitle: {
+    fontSize: 10.5,
     fontWeight: '700',
-    letterSpacing: 1.2,
-    color: theme.colors.textSecondary,
+    letterSpacing: 1.4,
+    color: '#656870',
+    textTransform: 'uppercase',
   },
-  categoriesScroll: {
+  categoriesRow: {
     gap: 12,
-    paddingBottom: 24,
+    paddingBottom: 10,
   },
   categoryCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: theme.colors.surface,
+    backgroundColor: '#121316',
     borderWidth: 1,
-    borderColor: theme.colors.border,
-    borderRadius: 16,
+    borderColor: 'rgba(255, 255, 255, 0.06)',
+    borderRadius: 18,
     paddingHorizontal: 14,
     paddingVertical: 12,
     gap: 12,
-    minWidth: 170,
+    minWidth: 165,
   },
-  categoryCardActive: {
-    borderColor: theme.colors.borderAccent,
-    backgroundColor: 'rgba(217, 119, 54, 0.08)',
+  categoryCardFirst: {
+    borderColor: 'rgba(217, 119, 54, 0.3)',
+    backgroundColor: '#151518',
   },
   categoryIconBox: {
-    width: 38,
-    height: 38,
-    borderRadius: 10,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  categoryTextBox: {
-    flex: 1,
-  },
-  categoryTitle: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: theme.colors.textSecondary,
-  },
-  categoryCount: {
-    fontSize: 11,
-    color: theme.colors.textMuted,
-    marginTop: 2,
-  },
-  paperList: {
-    gap: 12,
-  },
-  paperItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: theme.colors.surface,
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-    borderRadius: 18,
-    padding: 12,
-    gap: 14,
-  },
-  thumbnailBox: {
-    width: 52,
-    height: 52,
-    borderRadius: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.04)',
-    borderWidth: 1,
-    borderColor: theme.colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  paperInfo: {
-    flex: 1,
-  },
-  paperTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: theme.colors.textPrimary,
-  },
-  paperMeta: {
-    fontSize: 12,
-    color: theme.colors.textSecondary,
-    marginTop: 4,
-  },
-  playCircleBtn: {
     width: 34,
     height: 34,
-    borderRadius: 17,
-    borderWidth: 1.5,
-    borderColor: theme.colors.primary,
+    borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingLeft: 2,
+  },
+  categoryTextCol: {
+    flex: 1,
+  },
+  categoryTitleText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#FFFFFF',
+  },
+  categoryCountText: {
+    fontSize: 11,
+    color: '#6E727A',
+    marginTop: 2,
+  },
+  storiesList: {
+    gap: 14,
+    marginTop: 2,
+  },
+  storyCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 6,
+    gap: 14,
+  },
+  storyThumb: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    backgroundColor: '#16171A',
+  },
+  storyInfoCol: {
+    flex: 1,
+  },
+  storyTitleText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#EDEDED',
+  },
+  storySubText: {
+    fontSize: 12,
+    color: '#6E727A',
+    marginTop: 3,
+  },
+  wireframePlayBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    borderWidth: 1.2,
+    borderColor: '#D97736',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
