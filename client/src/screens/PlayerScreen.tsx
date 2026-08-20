@@ -1,6 +1,6 @@
 /**
  * PaperPod Interactive Audio Player Screen
- * 100% Faithful Clone of Reference Screen 3 with Transformer Architecture Figure HUD.
+ * 100% Faithful Clone of Reference Screen 3 with Synchronized Visual Figure HUD & Pinch-Zoom Inspection.
  */
 import React, { useState, useEffect } from 'react';
 import {
@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Image,
   StatusBar,
+  Modal,
 } from 'react-native';
 import {
   ArrowLeft,
@@ -19,14 +20,17 @@ import {
   Pause,
   Mic,
   MessageSquare,
-  Maximize2,
+  X,
+  Layers,
+  Sparkles,
 } from 'lucide-react-native';
 import { theme } from '../theme';
-import { Paper, Episode, DialogueSegment, WordTiming } from '../types';
+import { Paper, Episode, DialogueSegment, PaperFigure } from '../types';
 import { api } from '../services/api';
 import { audioPlayer, PlaybackState } from '../services/audioPlayer';
 import { getSegmentWords } from '../utils/transcript';
 import { DEMO_EPISODE_SEGMENTS } from '../data/demoEpisode';
+import { FigureHud, FigureGallery, ZoomableFigure } from '../components/hud';
 
 interface PlayerScreenProps {
   paper: Paper;
@@ -36,6 +40,31 @@ interface PlayerScreenProps {
 }
 
 const DEFAULT_SEGMENTS: DialogueSegment[] = DEMO_EPISODE_SEGMENTS;
+
+const DEFAULT_DEMO_FIGURES: PaperFigure[] = [
+  {
+    id: 'fig-transformer-001',
+    paper_id: 'paper-attention-1706',
+    figure_number: 'Figure 1',
+    caption: 'Figure 1: The Transformer - model architecture with Scaled Dot-Product & Multi-Head Attention.',
+    storage_path: 'figures/1706.03762_figure_1.png',
+    public_url: 'https://storage.paperpod.ai/figures/1706.03762_figure_1.png',
+    page_number: 3,
+    bounding_box: { x0: 50.0, y0: 100.0, x1: 500.0, y1: 450.0 },
+    aspect_ratio: 1.15,
+  },
+  {
+    id: 'fig-transformer-002',
+    paper_id: 'paper-attention-1706',
+    figure_number: 'Figure 2',
+    caption: 'Figure 2: (left) Scaled Dot-Product Attention. (right) Multi-Head Attention consists of several attention layers running in parallel.',
+    storage_path: 'figures/1706.03762_figure_2.png',
+    public_url: 'https://storage.paperpod.ai/figures/1706.03762_figure_2.png',
+    page_number: 4,
+    bounding_box: { x0: 60.0, y0: 120.0, x1: 480.0, y1: 420.0 },
+    aspect_ratio: 1.25,
+  },
+];
 
 const RESEARCH_COMMENTS = [
   {
@@ -80,31 +109,60 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
   const [activeSegmentIndex, setActiveSegmentIndex] = useState(0);
   const [episodeSegments, setEpisodeSegments] = useState<DialogueSegment[]>(DEFAULT_SEGMENTS);
   const [currentEpisode, setCurrentEpisode] = useState<Episode | null>(null);
+  const [paperFigures, setPaperFigures] = useState<PaperFigure[]>(paper.figures || DEFAULT_DEMO_FIGURES);
 
-  // Load episode audio and segments dynamically
+  // Gallery & Fullscreen Inspect Modals
+  const [galleryVisible, setGalleryVisible] = useState(false);
+  const [fullscreenModalVisible, setFullscreenModalVisible] = useState(false);
+  const [inspectFigure, setInspectFigure] = useState<PaperFigure | null>(null);
+
+  // Load episode audio, timeline, and figure triggers dynamically
   useEffect(() => {
     let isMounted = true;
 
     async function loadEpisodeData() {
       try {
         let epData: Episode | null = null;
-        if (initialEpisodeId) {
-          epData = await api.getEpisode(initialEpisodeId);
-        } else if (paper.id) {
+        let epId = initialEpisodeId;
+
+        if (!epId && paper.id) {
           const paperDetail = await api.getPaper(paper.id);
           if (paperDetail.episodes && paperDetail.episodes.length > 0) {
             epData = paperDetail.episodes[0] || null;
+            epId = epData?.id;
           }
+        } else if (epId) {
+          epData = await api.getEpisode(epId);
+        }
+
+        const targetEpId = epId || 'demo-episode-1706';
+
+        // Try fetching synchronized timeline from backend
+        try {
+          const timeline = await api.getEpisodeTimeline(targetEpId);
+          if (timeline && isMounted) {
+            if (timeline.segments && timeline.segments.length > 0) {
+              setEpisodeSegments(timeline.segments);
+            }
+            if (timeline.figures && timeline.figures.length > 0) {
+              setPaperFigures(timeline.figures);
+            }
+          }
+        } catch (timelineErr) {
+          console.log('[PlayerScreen] Remote timeline fallback:', timelineErr);
         }
 
         if (epData && isMounted) {
           setCurrentEpisode(epData);
-          if (epData.segments && epData.segments.length > 0) {
+          if (epData.segments && epData.segments.length > 0 && episodeSegments === DEFAULT_SEGMENTS) {
             setEpisodeSegments(epData.segments as any);
           }
           const audioUrl =
             epData.audio_url || `http://localhost:8000/api/v1/papers/episodes/${epData.id}/stream`;
           await audioPlayer.loadAudio(audioUrl, true);
+        } else if (!epData && isMounted) {
+          const defaultUrl = `http://localhost:8000/api/v1/papers/episodes/${targetEpId}/stream`;
+          await audioPlayer.loadAudio(defaultUrl, true);
         }
       } catch (e) {
         console.warn('[PlayerScreen] Could not fetch remote episode, using fallback:', e);
@@ -168,11 +226,22 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
     SECTION_TITLES[activeSegmentIndex] ||
     `Section ${activeSegmentIndex + 1}: Attention Mechanism`;
 
+  const handleExpandFigure = (fig: PaperFigure | null) => {
+    setInspectFigure(fig);
+    setFullscreenModalVisible(true);
+  };
+
+  // Determine fullscreen image source
+  const inspectImageSource =
+    inspectFigure?.public_url && inspectFigure.public_url.startsWith('http')
+      ? { uri: inspectFigure.public_url }
+      : require('../../assets/figure_transformer_arch.jpg');
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-      {/* Header: Back Arrow on Left, Pill on Right */}
+      {/* Header: Back Arrow on Left, Story Title Pill on Right */}
       <View style={styles.header}>
         <TouchableOpacity onPress={onBack} style={styles.navIconBtn} activeOpacity={0.7}>
           <ArrowLeft size={20} color="#FFFFFF" />
@@ -190,17 +259,16 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Figure HUD Visual Image Card (Figure 1: Transformer Architecture Blueprint) */}
-        <View style={styles.heroVisualWrapper}>
-          <Image
-            source={require('../../assets/figure_transformer_arch.jpg')}
-            style={styles.heroVisualImage}
-            resizeMode="cover"
-          />
-          <View style={styles.figureBadge}>
-            <Text style={styles.figureBadgeText}>FIG 1: ARCHITECTURE</Text>
-          </View>
-        </View>
+        {/* Synchronized Visual Figure HUD */}
+        <FigureHud
+          paper={paper}
+          figures={paperFigures}
+          currentTimestampMs={playbackState.positionMillis}
+          segments={segments}
+          activeSegmentIndex={activeSegmentIndex}
+          onOpenGallery={() => setGalleryVisible(true)}
+          onExpandFullScreen={handleExpandFigure}
+        />
 
         {/* Section / Chapter Title */}
         <Text style={styles.chapterTitleText}>{currentSectionTitle}</Text>
@@ -314,6 +382,106 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
           <Text style={styles.floatingMicText}>Tap to Interrupt & Ask</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Figure Gallery Drawer Modal */}
+      <FigureGallery
+        visible={galleryVisible}
+        onClose={() => setGalleryVisible(false)}
+        figures={paperFigures}
+        activeFigureId={segments[activeSegmentIndex]?.referenced_figure_id}
+        segments={segments}
+        onSelectFigure={(fig, timestampMs) => {
+          if (timestampMs !== undefined) {
+            handleSeek(timestampMs);
+          }
+        }}
+      />
+
+      {/* Full-Screen Immersive Pinch-to-Zoom Inspection Modal */}
+      <Modal
+        visible={fullscreenModalVisible}
+        transparent={false}
+        animationType="fade"
+        onRequestClose={() => setFullscreenModalVisible(false)}
+      >
+        <View style={styles.fullscreenModalContainer}>
+          <StatusBar barStyle="light-content" backgroundColor="#000000" />
+
+          {/* Fullscreen Modal Header */}
+          <View style={styles.fullscreenHeader}>
+            <View style={styles.fullscreenTitleCol}>
+              <View style={styles.fullscreenBadgeRow}>
+                <View style={styles.figureBadge}>
+                  <Text style={styles.figureBadgeText}>
+                    {inspectFigure?.figure_number?.toUpperCase() || 'FIGURE 1: ARCHITECTURE'}
+                  </Text>
+                </View>
+                <View style={styles.syncPulsePill}>
+                  <View style={styles.syncDot} />
+                  <Text style={styles.syncText}>AUDIO ACTIVE</Text>
+                </View>
+              </View>
+              <Text style={styles.fullscreenPageText}>
+                Page {inspectFigure?.page_number || 3} · High-DPI Vector Crop
+              </Text>
+            </View>
+
+            <TouchableOpacity
+              onPress={() => setFullscreenModalVisible(false)}
+              style={styles.fullscreenCloseBtn}
+              activeOpacity={0.7}
+            >
+              <X size={20} color="#FFFFFF" />
+            </TouchableOpacity>
+          </View>
+
+          {/* Interactive Pinch-to-Zoom & Pan Canvas */}
+          <View style={styles.zoomCanvasWrapper}>
+            <ZoomableFigure
+              source={inspectImageSource}
+              aspectRatio={inspectFigure?.aspect_ratio || 1.15}
+              maxScale={4.0}
+              minScale={1.0}
+            />
+          </View>
+
+          {/* Bottom Caption & Audio Scrubber in Fullscreen */}
+          <View style={styles.fullscreenFooter}>
+            <Text style={styles.fullscreenCaptionText}>
+              {inspectFigure?.caption ||
+                'Figure 1: The Transformer - model architecture with Scaled Dot-Product & Multi-Head Attention.'}
+            </Text>
+
+            {/* Compact Scrubber in Fullscreen */}
+            <View style={styles.fullscreenScrubberRow}>
+              <TouchableOpacity
+                onPress={handleTogglePlay}
+                style={styles.playPauseToggleBtn}
+                activeOpacity={0.7}
+              >
+                {playbackState.isPlaying ? (
+                  <Pause size={16} color="#D97736" />
+                ) : (
+                  <Play size={16} color="#D97736" fill="#D97736" />
+                )}
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.progressTrack}
+                onPress={handleProgressBarPress}
+                activeOpacity={0.9}
+              >
+                <View style={[styles.progressFill, { width: `${progressRatio * 100}%` }]} />
+              </TouchableOpacity>
+
+              <Text style={styles.timeLabel}>
+                {formatTime(playbackState.positionMillis)} /{' '}
+                {formatTime(playbackState.durationMillis || 66000)}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -354,37 +522,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: 22,
     paddingBottom: 90,
-  },
-  heroVisualWrapper: {
-    width: '100%',
-    height: 220,
-    borderRadius: 22,
-    overflow: 'hidden',
-    marginTop: 8,
-    marginBottom: 16,
-    backgroundColor: '#121214',
-    position: 'relative',
-  },
-  heroVisualImage: {
-    width: '100%',
-    height: '100%',
-  },
-  figureBadge: {
-    position: 'absolute',
-    top: 12,
-    left: 12,
-    backgroundColor: 'rgba(0, 0, 0, 0.75)',
-    borderWidth: 1,
-    borderColor: 'rgba(217, 119, 54, 0.5)',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 8,
-  },
-  figureBadgeText: {
-    fontSize: 9.5,
-    fontWeight: '700',
-    color: '#D97736',
-    letterSpacing: 1,
   },
   chapterTitleText: {
     fontSize: 13.5,
@@ -552,5 +689,101 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 13,
     fontWeight: '700',
+  },
+  // Fullscreen Modal Styles
+  fullscreenModalContainer: {
+    flex: 1,
+    backgroundColor: '#000000',
+    justifyContent: 'space-between',
+  },
+  fullscreenHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.08)',
+  },
+  fullscreenTitleCol: {
+    gap: 4,
+  },
+  fullscreenBadgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  figureBadge: {
+    backgroundColor: 'rgba(0, 0, 0, 0.78)',
+    borderWidth: 1,
+    borderColor: 'rgba(217, 119, 54, 0.5)',
+    paddingHorizontal: 9,
+    paddingVertical: 3.5,
+    borderRadius: 8,
+  },
+  figureBadgeText: {
+    fontSize: 9.5,
+    fontWeight: '700',
+    color: '#D97736',
+    letterSpacing: 0.8,
+  },
+  syncPulsePill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    paddingHorizontal: 7,
+    paddingVertical: 3.5,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  syncDot: {
+    width: 5,
+    height: 5,
+    borderRadius: 2.5,
+    backgroundColor: '#10B981',
+  },
+  syncText: {
+    fontSize: 8.5,
+    fontWeight: '700',
+    color: '#10B981',
+    letterSpacing: 0.6,
+  },
+  fullscreenPageText: {
+    color: '#7E828B',
+    fontSize: 11,
+    fontWeight: '500',
+  },
+  fullscreenCloseBtn: {
+    padding: 8,
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    borderRadius: 18,
+  },
+  zoomCanvasWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+  },
+  fullscreenFooter: {
+    paddingHorizontal: 20,
+    paddingTop: 14,
+    paddingBottom: 28,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255, 255, 255, 0.08)',
+    backgroundColor: '#090A0C',
+    gap: 12,
+  },
+  fullscreenCaptionText: {
+    color: '#D1D5DB',
+    fontSize: 12,
+    lineHeight: 17,
+  },
+  fullscreenScrubberRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
 });

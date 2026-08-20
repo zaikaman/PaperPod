@@ -77,18 +77,18 @@
 
 ### Tests for User Story 2
 
-- [ ] T030 [P] [US2] Unit test for vector/raster figure cropping and coordinate calculation in `backend/tests/unit/test_figure_cropper.py`
-- [ ] T031 [P] [US2] Contract test for `/api/v1/episodes/{episode_id}/timeline` in `backend/tests/contract/test_audio_api.py`
+- [x] T030 [P] [US2] Unit test for vector/raster figure cropping and coordinate calculation in `backend/tests/unit/test_figure_cropper.py`
+- [x] T031 [P] [US2] Contract test for `/api/v1/episodes/{episode_id}/timeline` in `backend/tests/contract/test_audio_api.py`
 
 ### Implementation for User Story 2
 
-- [ ] T032 [P] [US2] Implement high-DPI figure cropper and Supabase Storage uploader in `backend/src/services/figure_extractor.py`
-- [ ] T033 [US2] Implement episode timeline metadata generator linking dialogue turns to figure IDs and audio timestamps in `backend/src/services/timeline_service.py`
-- [ ] T034 [US2] Implement timeline endpoint `/api/v1/episodes/{episode_id}/timeline` in `backend/src/api/episodes.py`
-- [ ] T035 [P] [US2] Implement Synchronized Figure HUD container with active figure auto-detection from playback timestamp in `client/src/components/hud/FigureHud.tsx`
-- [ ] T036 [US2] Implement tactile pinch-to-zoom, pan, and double-tap reset gestures using React Native Reanimated in `client/src/components/hud/ZoomableFigure.tsx`
-- [ ] T037 [US2] Implement Figure Gallery drawer allowing users to browse all paper figures and tap to jump audio scrubber to that timestamp in `client/src/components/hud/FigureGallery.tsx`
-- [ ] T038 [US2] Integrate Figure HUD into PlayerScreen layout with split view and full-screen expansion modes in `client/src/screens/PlayerScreen.tsx`
+- [x] T032 [P] [US2] Implement high-DPI figure cropper and Supabase Storage uploader in `backend/src/services/figure_extractor.py`
+- [x] T033 [US2] Implement episode timeline metadata generator linking dialogue turns to figure IDs and audio timestamps in `backend/src/services/timeline_service.py`
+- [x] T034 [US2] Implement timeline endpoint `/api/v1/episodes/{episode_id}/timeline` in `backend/src/api/episodes.py`
+- [x] T035 [P] [US2] Implement Synchronized Figure HUD container with active figure auto-detection from playback timestamp in `client/src/components/hud/FigureHud.tsx`
+- [x] T036 [US2] Implement tactile pinch-to-zoom, pan, and double-tap reset gestures using React Native Reanimated in `client/src/components/hud/ZoomableFigure.tsx`
+- [x] T037 [US2] Implement Figure Gallery drawer allowing users to browse all paper figures and tap to jump audio scrubber to that timestamp in `client/src/components/hud/FigureGallery.tsx`
+- [x] T038 [US2] Integrate Figure HUD into PlayerScreen layout with split view and full-screen expansion modes in `client/src/screens/PlayerScreen.tsx`
 
 **Checkpoint**: User Stories 1 and 2 complete — Conversational audio and Synchronized Visual HUD fully synchronized.
 

@@ -1,7 +1,7 @@
 /**
  * PaperPod Client API Service for Backend Ingestion & Playback Synchronization
  */
-import { Paper, Episode } from '../types';
+import { Paper, Episode, EpisodeTimeline } from '../types';
 
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -98,6 +98,17 @@ export const api = {
     const response = await fetch(`${API_BASE_URL}/api/v1/papers/episodes/${episodeId}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch episode ${episodeId}`);
+    }
+    return response.json();
+  },
+
+  /**
+   * Fetch synchronized episode timeline with figure triggers and offsets
+   */
+  async getEpisodeTimeline(episodeId: string): Promise<EpisodeTimeline> {
+    const response = await fetch(`${API_BASE_URL}/api/v1/episodes/${episodeId}/timeline`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch timeline for episode ${episodeId}`);
     }
     return response.json();
   },

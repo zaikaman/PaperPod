@@ -144,7 +144,18 @@ async def _process_and_generate_pipeline(
         logger.warning(f"Storage upload skipped/fallback: {e}")
         pdf_public_url = f"https://storage.paperpod.ai/{pdf_storage_path}"
 
-    # 2. Build Paper Record
+    # 2. Extract Figures from PDF
+    figures_list = parsed_data.get("figures", [])
+    if pdf_bytes:
+        try:
+            from src.services.figure_extractor import extract_and_crop_paper_figures
+            extracted_figs = extract_and_crop_paper_figures(pdf_bytes, paper_id=paper_id)
+            if extracted_figs:
+                figures_list = [f.model_dump() for f in extracted_figs]
+        except Exception as e:
+            logger.warning(f"Figure extraction pipeline warning: {e}")
+
+    # 3. Build Paper Record
     paper_record = {
         "id": paper_id,
         "user_id": user_id,
@@ -159,21 +170,34 @@ async def _process_and_generate_pipeline(
         "pdf_public_url": pdf_public_url,
         "status": PaperStatus.READY.value,
         "sections": parsed_data.get("sections", []),
-        "figures": parsed_data.get("figures", []),
+        "figures": figures_list,
     }
 
     # Save to local cache
     _local_papers_db[paper_id] = paper_record
 
-    # 3. Generate 2-Host Script via Gemini
+    # 4. Generate 2-Host Script via Gemini
     script_output = await generate_podcast_script(parsed_data, depth_type=depth_type.value)
 
-    # 4. Synthesize Dual-Voice Audio via Edge-TTS
+    # 5. Synthesize Dual-Voice Audio via Edge-TTS
     raw_segments = [s.model_dump() for s in script_output.segments]
     audio_bytes, timed_segments, duration_seconds = await synthesize_full_episode(raw_segments)
 
-    # 5. Upload Master MP3 Audio to Storage & Cache
+    # 6. Synchronize Dialogue Turns with Figures
+    from src.services.timeline_service import build_synchronized_timeline
     episode_id = str(uuid.uuid4())
+    audio_url = f"http://localhost:{settings.PORT}/api/v1/papers/episodes/{episode_id}/stream"
+
+    timeline_data = build_synchronized_timeline(
+        episode_id=episode_id,
+        paper_id=paper_id,
+        audio_url=audio_url,
+        duration_seconds=duration_seconds,
+        raw_segments=timed_segments,
+        figures=figures_list,
+    )
+
+    # 7. Upload Master MP3 Audio to Storage & Cache
     _local_audio_cache[episode_id] = audio_bytes
 
     audio_storage_path = f"audio/{episode_id}.mp3"
@@ -187,10 +211,7 @@ async def _process_and_generate_pipeline(
     except Exception as e:
         logger.warning(f"Audio storage upload fallback: {e}")
 
-    # Use direct streaming endpoint for reliable web & mobile playback
-    audio_url = f"http://localhost:{settings.PORT}/api/v1/papers/episodes/{episode_id}/stream"
-
-    # 6. Build Episode Record
+    # 8. Build Episode Record
     episode_record = {
         "id": episode_id,
         "paper_id": paper_id,
@@ -202,7 +223,7 @@ async def _process_and_generate_pipeline(
         "audio_storage_path": audio_storage_path,
         "audio_url": audio_url,
         "status": EpisodeStatus.READY.value,
-        "segments": timed_segments,
+        "segments": timeline_data["segments"],
     }
 
     _local_episodes_db[episode_id] = episode_record

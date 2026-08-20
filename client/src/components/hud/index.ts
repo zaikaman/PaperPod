@@ -1,2 +1,3 @@
-// PaperPod HUD Components
-export {};
+export * from './FigureHud';
+export * from './ZoomableFigure';
+export * from './FigureGallery';
