@@ -38,6 +38,11 @@ check_feature_branch() {
     local branch
     branch=$(spec_kit_effective_branch_name "$raw")
 
+    # Allow working directly on main or master
+    if [[ "$branch" == "main" || "$branch" == "master" ]]; then
+        return 0
+    fi
+
     # Accept sequential prefix (3+ digits) but exclude malformed timestamps
     # Malformed: 7-or-8 digit date + 6-digit time with no trailing slug (e.g. "2026031-143022" or "20260319-143022")
     local is_sequential=false
