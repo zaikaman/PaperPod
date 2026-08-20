@@ -198,6 +198,205 @@ For the complete documentation as a single Markdown file, see [llms-full.txt](ht
 ## Subscription Guidance
 
 - [Apple Monthly Subscription with 12-Month Commitment](https://www.revenuecat.com/docs/subscription-guidance/apple-monthly-with-commitment.md): How RevenueCat supports Apple annual subscriptions with monthly commitment terms.
+
+---
+
+# Package & SDK Reference (Verified via Context7)
+
+## 0. Expo SDK 57 (Client Framework)
+- **Expo SDK Version**: `expo@~57.0.14` (SDK 57)
+- **React Native Version**: `0.86.2`
+- **React Version**: `19.2.0`
+- **Key Modules**:
+  - `expo-av` / `expo-audio`: Audio playback and streaming
+  - `expo-file-system`: Offline caching of papers and audio
+  - `react-native-reanimated`: 60fps gesture animations & HUD zoom
+  - `lucide-react-native`: Modern vector icons
+  - `@supabase/supabase-js`: Supabase JavaScript client
+  - `react-native-purchases`: RevenueCat SDK v8+
+  - `react-native-onesignal`: OneSignal SDK v5+
+
+## 1. OpenAI Python SDK (Gemini OpenAI-Compatible Endpoint)
+- **Library ID**: `/openai/openai-python`
+- **Package**: `openai>=1.68.0`
+- **Environment Variables**:
+  - `GEMINI_BASE_URL`: e.g. `https://cheapkeyai.shop/v1`
+  - `GEMINI_API_KEY`: API Key
+  - `GEMINI_MODEL`: `gemini-3.1-flash-lite`
+
+### Client Initialization & Structured Output Syntax:
+```python
+import os
+from openai import AsyncOpenAI, OpenAI
+from pydantic import BaseModel
+
+# Synchronous Client
+client = OpenAI(
+    base_url=os.environ.get("GEMINI_BASE_URL", "https://cheapkeyai.shop/v1"),
+    api_key=os.environ.get("GEMINI_API_KEY"),
+)
+
+# Asynchronous Client (for FastAPI async routes)
+async_client = AsyncOpenAI(
+    base_url=os.environ.get("GEMINI_BASE_URL", "https://cheapkeyai.shop/v1"),
+    api_key=os.environ.get("GEMINI_API_KEY"),
+)
+
+# Chat Completion with JSON mode / structured output
+response = client.chat.completions.create(
+    model=os.environ.get("GEMINI_MODEL", "gemini-3.1-flash-lite"),
+    messages=[
+        {"role": "system", "content": "You are an AI research podcast scriptwriter. Return valid JSON only."},
+        {"role": "user", "content": "Generate a 2-host script for this paper..."}
+    ],
+    response_format={"type": "json_object"},
+    temperature=0.7,
+)
+content = response.choices[0].message.content
+```
+
+---
+
+## 2. RevenueCat React Native SDK (`react-native-purchases`)
+- **Library ID**: `/revenuecat/react-native-purchases`
+- **Package**: `react-native-purchases>=8.0.0`
+- **Key Methods**:
+```typescript
+import Purchases, { PurchasesPackage, CustomerInfo, LOG_LEVEL } from 'react-native-purchases';
+import { Platform } from 'react-native';
+
+// 1. Configure SDK on startup
+export const initPurchases = async () => {
+  Purchases.setLogLevel(LOG_LEVEL.DEBUG);
+  const apiKey = Platform.select({
+    ios: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_KEY || '',
+    android: process.env.EXPO_PUBLIC_REVENUECAT_GOOGLE_KEY || '',
+    default: process.env.EXPO_PUBLIC_REVENUECAT_APPLE_KEY || '',
+  });
+  await Purchases.configure({ apiKey });
+};
+
+// 2. Fetch Offerings
+export const getOfferings = async () => {
+  const offerings = await Purchases.getOfferings();
+  return offerings.current;
+};
+
+// 3. Purchase a Package
+export const purchasePackage = async (pkg: PurchasesPackage): Promise<CustomerInfo> => {
+  const { customerInfo } = await Purchases.purchasePackage(pkg);
+  return customerInfo;
+};
+
+// 4. Get Customer Info & Active Entitlements
+export const checkEntitlements = async (): Promise<boolean> => {
+  const customerInfo = await Purchases.getCustomerInfo();
+  return typeof customerInfo.entitlements.active['pro'] !== 'undefined' ||
+         typeof customerInfo.entitlements.active['student'] !== 'undefined';
+};
+```
+
+---
+
+## 3. OneSignal React Native SDK (v5+)
+- **Library ID**: `/onesignal/react-native-onesignal`
+- **Package**: `react-native-onesignal>=5.2.0`
+- **Key Methods**:
+```typescript
+import { OneSignal, LogLevel } from 'react-native-onesignal';
+
+export function initializeOneSignal(appId: string) {
+  // 1. Initialize
+  OneSignal.initialize(appId);
+  OneSignal.Debug.setLogLevel(LogLevel.Debug);
+
+  // 2. Request Permission
+  OneSignal.Notifications.requestPermission(true);
+
+  // 3. Notification click listener
+  OneSignal.Notifications.addEventListener('click', (event) => {
+    console.log('Notification clicked:', event.notification.title);
+    const customData = event.notification.additionalData;
+    // Route to player or digest screen
+  });
+}
+```
+
+---
+
+## 4. Supabase Python Client (`supabase-py`)
+- **Library ID**: `/supabase/supabase-py`
+- **Package**: `supabase>=2.10.0`
+- **Key Methods**:
+```python
+import os
+from supabase import create_client, Client
+
+url: str = os.environ.get("SUPABASE_URL", "")
+key: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
+supabase: Client = create_client(url, key)
+
+# Insert paper record returning ID
+res = supabase.table("papers").insert({
+    "title": "Attention Is All You Need",
+    "arxiv_id": "1706.03762",
+    "status": "processing"
+}).select("id").execute()
+
+# Upload figure or audio file to storage
+def upload_file(bucket: str, path: str, file_bytes: bytes, content_type: str):
+    return supabase.storage.from_(bucket).upload(
+        path=path,
+        file=file_bytes,
+        file_options={"content-type": content_type, "upsert": "true"}
+    )
+```
+
+---
+
+## 5. Edge-TTS (`edge-tts` with SubMaker)
+- **Library ID**: `/rany2/edge-tts`
+- **Package**: `edge-tts>=6.1.18`
+- **Key Methods**:
+```python
+import asyncio
+import edge_tts
+
+async def synthesize_dialogue(text: str, voice: str, output_mp3: str):
+    # Boundary WordBoundary gives exact word/sentence offset timestamps
+    communicate = edge_tts.Communicate(text, voice, boundary="WordBoundary")
+    submaker = edge_tts.SubMaker()
+    
+    with open(output_mp3, "wb") as f:
+        async for chunk in communicate.stream():
+            if chunk["type"] == "audio":
+                f.write(chunk["data"])
+            elif chunk["type"] == "WordBoundary":
+                submaker.feed(chunk)
+                
+    return submaker.get_srt()
+```
+
+---
+
+## 6. PyMuPDF (`pymupdf` / `fitz`)
+- **Library ID**: `/pymupdf/pymupdf`
+- **Package**: `pymupdf>=1.24.0`
+- **Key Methods**:
+```python
+import pymupdf  # fitz
+
+doc = pymupdf.open("sample.pdf")
+for page_num, page in enumerate(doc):
+    # Extract structured text blocks
+    text_blocks = page.get_text("blocks")
+    
+    # Extract high-DPI figure crops
+    # rect = pymupdf.Rect(x0, y0, x1, y1)
+    # pix = page.get_pixmap(dpi=200, clip=rect)
+    # pix.save(f"figure_{page_num}.png")
+```
+
 - [Google Prepaid Plans](https://www.revenuecat.com/docs/subscription-guidance/google-prepaid-plans.md): Setting up your prepaid plan in Google Play Console
 - [Google Subscription with Add-ons](https://www.revenuecat.com/docs/subscription-guidance/google-subscription-with-addons.md)
 - [Billing Issues & Grace Periods](https://www.revenuecat.com/docs/subscription-guidance/how-grace-periods-work.md): What happens when a user encounters a billing issue

@@ -10,13 +10,13 @@
 
 **Purpose**: Establish workspace directories, dependencies, linting, and environment configs for both client and backend.
 
-- [ ] T001 Initialize project structure with `backend/` and `client/` directories per plan.md
-- [ ] T002 Initialize Python backend virtual environment and dependencies in `backend/requirements.txt` (`fastapi`, `uvicorn`, `pymupdf`, `pdfplumber`, `google-genai`, `edge-tts`, `supabase`, `pydantic`, `pytest`, `httpx`)
-- [ ] T003 [P] Initialize Expo React Native TypeScript project in `client/package.json` with Expo SDK 51+, Reanimated, Expo Audio/AV, Lucide Icons, and `@supabase/supabase-js`
-- [ ] T004 [P] Configure backend linting and formatting in `backend/pyproject.toml`
-- [ ] T005 [P] Configure client TypeScript compiler in `client/tsconfig.json` and linter in `client/.eslintrc.js`
-- [ ] T006 [P] Create backend environment template in `backend/.env.example`
-- [ ] T007 [P] Create client environment template in `client/.env.example`
+- [x] T001 Initialize project structure with `backend/` and `client/` directories per plan.md
+- [x] T002 Initialize Python backend virtual environment and dependencies in `backend/requirements.txt` (`fastapi`, `uvicorn`, `pymupdf`, `pdfplumber`, `openai`, `edge-tts`, `supabase`, `pydantic`, `pytest`, `pytest-asyncio`, `httpx`, `python-dotenv`, `beautifulsoup4`)
+- [x] T003 [P] Initialize Expo React Native TypeScript project in `client/package.json` with Expo SDK 57 (`expo@~57.0.14`), React Native 0.86.2, React 19.2, Reanimated, Expo Audio/AV, Lucide Icons, and `@supabase/supabase-js`
+- [x] T004 [P] Configure backend linting and formatting in `backend/pyproject.toml`
+- [x] T005 [P] Configure client TypeScript compiler in `client/tsconfig.json` and linter in `client/.eslintrc.js`
+- [x] T006 [P] Create backend environment template in `backend/.env.example`
+- [x] T007 [P] Create client environment template in `client/.env.example`
 
 ---
 

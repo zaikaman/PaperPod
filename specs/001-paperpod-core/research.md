@@ -62,16 +62,25 @@ This document captures the architectural research, trade-off evaluations, and co
 ## 4. AI Script Generation & Formula Translation
 
 ### Decision
-**Google Gemini 3.1 Flash Lite (`gemini-3.1-flash-lite`) via Google AI Studio API (Free Tier).**
+**Google Gemini 3.1 Flash Lite (`gemini-3.1-flash-lite`) via OpenAI-Compatible Endpoint (`from openai import OpenAI` / `AsyncOpenAI`) with `GEMINI_BASE_URL`, `GEMINI_API_KEY`, and `GEMINI_MODEL`.**
 
 ### Rationale
-- **Generous Free Quota**: Google AI Studio provides a free tier with 15 Requests Per Minute (RPM) and 1,000,000 Tokens Per Minute (TPM), more than enough for hackathon development and testing.
+- **Custom Base URL & OpenAI SDK Compatibility**: Integrates via standard `openai` Python client targeting `GEMINI_BASE_URL` (e.g. `https://cheapkeyai.shop/v1`), authenticated with `GEMINI_API_KEY`, running `GEMINI_MODEL` (`gemini-3.1-flash-lite`).
+- **Generous Free Quota & High Rate Limits**: High throughput for rapid script generation without vendor lock-in.
 - **Massive Context Window (1M+ tokens)**: Ingests entire 25-page papers in a single prompt without fragmentation, allowing the model to correlate Figure 3 benchmarks with Section 4 methodology.
-- **Fast Structured JSON Output & Lowest Latency**: Ultra-low latency generation optimized for real-time applications, returning schema-validated JSON with dialogue lines (`speaker: "alex" | "taylor"`), text with spoken math analogies, and associated `figure_id` triggers.
+- **Fast Structured JSON Output & Lowest Latency**: Ultra-low latency generation returning schema-validated JSON with dialogue lines (`speaker: "alex" | "taylor"`), text with spoken math analogies, and associated `figure_id` triggers.
 
-### Alternatives Considered
-- *OpenAI GPT-4o*: Excellent quality, but incurs per-token costs ($2.50/$10 per 1M tokens) with strict rate limits on unpaid tiers.
-- *Local Ollama (Llama 3.1 8B)*: Requires dedicated GPU hardware and has limited context window for 30-page documents.
+### Implementation Snippet:
+```python
+import os
+from openai import OpenAI, AsyncOpenAI
+
+client = OpenAI(
+    base_url=os.environ.get("GEMINI_BASE_URL", "https://cheapkeyai.shop/v1"),
+    api_key=os.environ.get("GEMINI_API_KEY"),
+)
+```
+
 
 ---
 

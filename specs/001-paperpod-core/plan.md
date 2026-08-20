@@ -8,12 +8,12 @@
 ## Summary
 
 PaperPod converts dense academic research papers (PDFs and arXiv links) into lively, interactive 2-host audio briefings with a synchronized visual figure HUD and low-latency voice interruption ("Wait, explain equation 4!"). 
-
+ 
 The implementation utilizes an ultra-lean, 100% free-tier architecture:
-- **Mobile/Web Client**: React Native (Expo) with strict TypeScript, Reanimated 60fps animations, Expo Audio, and RevenueCat SDK.
-- **Backend API & Ingestion**: Python FastAPI microservice utilizing `PyMuPDF` for PDF/figure parsing, Google Gemini 3.1 Flash Lite (`gemini-3.1-flash-lite`, free tier) for conversational script generation and math analogies, and `edge-tts` for multi-voice neural speech synthesis with timestamp alignment.
+- **Mobile/Web Client**: React Native (Expo SDK 57, React Native 0.86.2, React 19.2) with strict TypeScript, Reanimated 60fps animations, Expo Audio/AV, Lucide Icons, and RevenueCat SDK (`react-native-purchases`).
+- **Backend API & Ingestion**: Python FastAPI microservice utilizing `PyMuPDF` for PDF/figure parsing, Google Gemini 3.1 Flash Lite (`gemini-3.1-flash-lite`) via OpenAI Python SDK (`openai`) with custom `GEMINI_BASE_URL` and `GEMINI_API_KEY` for conversational script generation and math analogies, and `edge-tts` for multi-voice neural speech synthesis with timestamp alignment.
 - **Database & Storage**: Supabase (PostgreSQL with `pgvector` for RAG, Supabase Storage for PDFs/figures/audio, Supabase Auth).
-- **Monetization & Retention**: RevenueCat Dynamic Paywalls v2 + StoreKit sandbox testing, and OneSignal for spaced study reminders and paper digests.
+- **Monetization & Retention**: RevenueCat Dynamic Paywalls v2 + StoreKit sandbox testing, and OneSignal (v5) for spaced study reminders and paper digests.
 
 ---
 
@@ -21,8 +21,8 @@ The implementation utilizes an ultra-lean, 100% free-tier architecture:
 
 **Language/Version**: TypeScript 5.4+ (Client/Web), Python 3.11+ (Backend)  
 **Primary Dependencies**: 
-- *Client*: Expo SDK 51+, React Native, React Native Reanimated, Expo Audio/AV, Lucide React Native, `react-native-purchases` (RevenueCat), `react-native-onesignal`, `@supabase/supabase-js`.
-- *Backend*: FastAPI, Uvicorn, `pymupdf` (fitz), `pdfplumber`, `google-genai` (`gemini-3.1-flash-lite`), `edge-tts`, `pydantic-v2`.  
+- *Client*: Expo SDK 57 (`expo@~57.0.14`), React Native 0.86.2, React 19.2, React Native Reanimated, Expo Audio/AV, Lucide React Native, `react-native-purchases` (RevenueCat), `react-native-onesignal`, `@supabase/supabase-js`.
+- *Backend*: FastAPI, Uvicorn, `pymupdf` (fitz), `pdfplumber`, `openai` (`gemini-3.1-flash-lite` with custom endpoint), `edge-tts`, `supabase`, `pydantic-v2`.  
 **Storage**: Supabase Managed PostgreSQL (with `pgvector` extension) + Supabase Storage buckets (`papers`, `figures`, `audio`).  
 **Testing**: 
 - *Client*: Jest, React Native Testing Library.

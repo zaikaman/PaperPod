@@ -1,0 +1,48 @@
+{
+  "name": "paperpod-client",
+  "version": "1.0.0",
+  "main": "expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.48.1",
+    "expo": "~57.0.14",
+    "expo-av": "~15.0.1",
+    "expo-file-system": "~18.0.4",
+    "expo-haptics": "~14.0.0",
+    "expo-linear-gradient": "~14.0.1",
+    "expo-splash-screen": "~0.29.18",
+    "expo-status-bar": "~2.0.0",
+    "lucide-react-native": "^0.475.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.2",
+    "react-native-gesture-handler": "~2.20.2",
+    "react-native-onesignal": "^5.2.7",
+    "react-native-purchases": "^8.4.2",
+    "react-native-purchases-ui": "^8.4.2",
+    "react-native-reanimated": "~3.16.1",
+    "react-native-safe-area-context": "5.0.0",
+    "react-native-screens": "~4.4.0",
+    "react-native-svg": "15.9.0",
+    "react-native-web": "~0.19.13"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@types/react": "~19.0.8",
+    "@types/react-native": "^0.73.0",
+    "@typescript-eslint/eslint-plugin": "^8.24.0",
+    "@typescript-eslint/parser": "^8.24.0",
+    "eslint": "^9.20.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "typescript": "~5.7.3"
+  },
+  "private": true
+}
