@@ -4,13 +4,27 @@
  * Includes graceful web/simulator fallback to ensure zero-crash testing.
  */
 import { Platform } from 'react-native';
-import Purchases, {
+import type {
   PurchasesOffering,
   PurchasesOfferings,
   PurchasesPackage,
   CustomerInfo,
-  LOG_LEVEL,
 } from 'react-native-purchases';
+
+let Purchases: any = null;
+let LOG_LEVEL: any = { DEBUG: 'DEBUG' };
+
+if (Platform.OS !== 'web') {
+  try {
+    const purchasesModule = require('react-native-purchases');
+    Purchases = purchasesModule.default || purchasesModule;
+    if (purchasesModule.LOG_LEVEL) {
+      LOG_LEVEL = purchasesModule.LOG_LEVEL;
+    }
+  } catch (err) {
+    console.warn('[RevenueCat] Native module load error:', err);
+  }
+}
 
 export interface PaywallPackage {
   identifier: string;
@@ -93,7 +107,7 @@ class PurchasesService {
         await Purchases.setLogLevel(LOG_LEVEL.DEBUG);
         await Purchases.configure({ apiKey, appUserID: userId });
         
-        Purchases.addCustomerInfoUpdateListener((customerInfo) => {
+        Purchases.addCustomerInfoUpdateListener((customerInfo: any) => {
           this.notifyListeners(customerInfo);
         });
 
@@ -156,7 +170,7 @@ class PurchasesService {
       try {
         const offerings = await Purchases.getOfferings();
         const pkg = offerings.current?.availablePackages.find(
-          (p) => p.identifier === packageIdentifier || p.product.identifier === packageIdentifier
+          (p: any) => p.identifier === packageIdentifier || p.product.identifier === packageIdentifier
         );
 
         if (pkg) {

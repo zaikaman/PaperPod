@@ -1,2 +1,2 @@
 // PaperPod Navigation
-export {};
+export * from './deepLinkHandler';

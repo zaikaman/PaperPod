@@ -44,6 +44,7 @@ import { PaywallModal } from '../components/paywall/PaywallModal';
 interface PlayerScreenProps {
   paper: Paper;
   initialEpisodeId?: string;
+  initialTimestampMs?: number;
   onBack: () => void;
   onOpenInterruptionModal?: () => void;
   onOpenCustomerCenter?: () => void;
@@ -112,6 +113,7 @@ const formatTime = (millis: number): string => {
 export const PlayerScreen: React.FC<PlayerScreenProps> = ({
   paper,
   initialEpisodeId,
+  initialTimestampMs,
   onBack,
   onOpenInterruptionModal,
   onOpenCustomerCenter,
@@ -209,9 +211,15 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
           const audioUrl =
             epData.audio_url || `http://localhost:8000/api/v1/papers/episodes/${epData.id}/stream`;
           await audioPlayer.loadAudio(audioUrl, true);
+          if (initialTimestampMs && initialTimestampMs > 0) {
+            audioPlayer.seekTo(initialTimestampMs);
+          }
         } else if (!epData && isMounted) {
           const defaultUrl = `http://localhost:8000/api/v1/papers/episodes/${targetEpId}/stream`;
           await audioPlayer.loadAudio(defaultUrl, true);
+          if (initialTimestampMs && initialTimestampMs > 0) {
+            audioPlayer.seekTo(initialTimestampMs);
+          }
         }
       } catch (e) {
         console.warn('[PlayerScreen] Could not fetch remote episode, using fallback:', e);
@@ -223,7 +231,7 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
     return () => {
       isMounted = false;
     };
-  }, [paper.id, initialEpisodeId]);
+  }, [paper.id, initialEpisodeId, initialTimestampMs]);
 
   const handleAddBookmark = async (timestampMs: number, noteText?: string) => {
     const epId = initialEpisodeId || currentEpisode?.id || 'demo-episode-1706';

@@ -82,9 +82,11 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
   }, [visible, reason]);
 
   const triggerHaptic = () => {
-    try {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } catch {}
+    if (Platform.OS !== 'web') {
+      try {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      } catch {}
+    }
   };
 
   const handleSelectPlan = (planId: string) => {
@@ -93,9 +95,11 @@ export const PaywallModal: React.FC<PaywallModalProps> = ({
   };
 
   const handlePurchase = async () => {
-    try {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-    } catch {}
+    if (Platform.OS !== 'web') {
+      try {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      } catch {}
+    }
 
     setLoading(true);
     setStatusMessage(null);

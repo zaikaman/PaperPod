@@ -174,14 +174,14 @@
 
 ### Tests for User Story 6
 
-- [ ] T063 [P] [US6] Unit test for notification scheduling and deep-link payload generation in `backend/tests/unit/test_notifications.py`
+- [x] T063 [P] [US6] Unit test for notification scheduling and deep-link payload generation in `backend/tests/unit/test_notifications.py`
 
 ### Implementation for User Story 6
 
-- [ ] T064 [P] [US6] Implement OneSignal notification scheduler for topic digests and study reminders in `backend/src/services/notification_service.py`
-- [ ] T065 [P] [US6] Implement OneSignal Mobile SDK initialization and permission handler in `client/src/services/notifications.ts`
-- [ ] T066 [US6] Implement Topic Preference & Digest Settings screen in `client/src/screens/TopicDigestSettingsScreen.tsx`
-- [ ] T067 [US6] Implement deep-link notification routing resolving payload parameters to active player navigation in `client/src/navigation/deepLinkHandler.ts`
+- [x] T064 [P] [US6] Implement OneSignal notification scheduler for topic digests and study reminders in `backend/src/services/notification_service.py`
+- [x] T065 [P] [US6] Implement OneSignal Mobile SDK initialization and permission handler in `client/src/services/notifications.ts`
+- [x] T066 [US6] Implement Topic Preference & Digest Settings screen in `client/src/screens/TopicDigestSettingsScreen.tsx`
+- [x] T067 [US6] Implement deep-link notification routing resolving payload parameters to active player navigation in `client/src/navigation/deepLinkHandler.ts`
 
 **Checkpoint**: OneSignal notifications and deep-linking operational.
 

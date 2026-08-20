@@ -58,9 +58,11 @@ export const CustomerCenterScreen: React.FC<CustomerCenterScreenProps> = ({ onBa
   );
 
   const triggerHaptic = () => {
-    try {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    } catch {}
+    if (Platform.OS !== 'web') {
+      try {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      } catch {}
+    }
   };
 
   const handleRestore = async () => {

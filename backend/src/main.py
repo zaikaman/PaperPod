@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.api.entitlements import router as entitlements_router
 from src.api.episodes import router as episodes_router
 from src.api.interruption import router as interruption_router
+from src.api.notifications import router as notifications_router
 from src.api.papers import router as papers_router
 from src.api.summaries import router as summaries_router
 from src.api.webhooks import router as webhooks_router
@@ -54,6 +55,7 @@ app.include_router(papers_router)
 app.include_router(episodes_router)
 app.include_router(interruption_router)
 app.include_router(summaries_router)
+app.include_router(notifications_router)
 app.include_router(entitlements_router)
 app.include_router(webhooks_router)
 

@@ -233,5 +233,107 @@ export const api = {
     }
     return response.json();
   },
+
+  /**
+   * Fetch list of available research topics for notification subscriptions
+   */
+  async getNotificationTopics(): Promise<any[]> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/v1/notifications/topics`);
+      if (!response.ok) return [];
+      return response.json();
+    } catch (e) {
+      console.warn('[API] Error fetching notification topics:', e);
+      return [];
+    }
+  },
+
+  /**
+   * Fetch user notification preferences
+   */
+  async getNotificationPreferences(userId: string = '00000000-0000-0000-0000-000000000001'): Promise<any> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/v1/notifications/preferences?user_id=${userId}`);
+      if (!response.ok) return null;
+      return response.json();
+    } catch (e) {
+      console.warn('[API] Error fetching notification preferences:', e);
+      return null;
+    }
+  },
+
+  /**
+   * Update and save user notification preferences
+   */
+  async saveNotificationPreferences(preferences: {
+    user_id: string;
+    subscribed_topics: string[];
+    digest_frequency: string;
+    digest_time: string;
+    study_reminders_enabled: boolean;
+    reminder_interval_hours: number;
+    push_token?: string;
+    onesignal_player_id?: string;
+  }): Promise<any> {
+    const response = await fetch(`${API_BASE_URL}/api/v1/notifications/preferences`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(preferences),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to save notification preferences (${response.status})`);
+    }
+    return response.json();
+  },
+
+  /**
+   * Trigger / Simulate sending a topic digest push notification
+   */
+  async triggerTopicDigestPush(params: {
+    topic_id: string;
+    paper_id: string;
+    paper_title: string;
+    episode_id?: string;
+    abstract_snippet?: string;
+    target_user_id?: string;
+  }): Promise<any> {
+    const response = await fetch(`${API_BASE_URL}/api/v1/notifications/send-digest`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to send topic digest push (${response.status})`);
+    }
+    return response.json();
+  },
+
+  /**
+   * Trigger / Simulate sending a spaced study reminder push notification
+   */
+  async triggerStudyReminderPush(params: {
+    user_id: string;
+    paper_id: string;
+    paper_title: string;
+    episode_id?: string;
+    resume_timestamp_ms: number;
+  }): Promise<any> {
+    const response = await fetch(`${API_BASE_URL}/api/v1/notifications/send-reminder`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(params),
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to send study reminder push (${response.status})`);
+    }
+    return response.json();
+  },
 };
+
 

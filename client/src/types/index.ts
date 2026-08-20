@@ -166,3 +166,51 @@ export interface IngestionProgress {
   current_step: string;
   error_message?: string;
 }
+
+export interface ResearchTopic {
+  id: string;
+  title: string;
+  category_code: string;
+  description: string;
+  icon: string;
+  color: string;
+  subscriber_count: string;
+  featured_paper: string;
+  featured_paper_id: string;
+}
+
+export type DigestFrequency = 'daily_morning' | 'evening_commute' | 'weekly_digest' | 'disabled';
+
+export interface NotificationPreference {
+  user_id: string;
+  subscribed_topics: string[];
+  digest_frequency: DigestFrequency;
+  digest_time: string;
+  reminder_time?: string;
+  study_reminders_enabled: boolean;
+  reminder_interval_hours: number;
+  push_token?: string;
+  onesignal_player_id?: string;
+  updated_at?: string;
+}
+
+export interface DeepLinkPayload {
+  type: 'topic_digest' | 'study_reminder' | 'paper_detail' | 'player';
+  paper_id: string;
+  episode_id?: string;
+  timestamp_ms?: number;
+  topic_id?: string;
+  deep_link_url?: string;
+  headings?: Record<string, string>;
+  contents?: Record<string, string>;
+}
+
+export interface DeepLinkTarget {
+  type: 'player' | 'detail' | 'settings' | 'home';
+  paperId?: string;
+  episodeId?: string;
+  timestampMs?: number;
+  topicId?: string;
+  source: 'push' | 'link' | 'simulation';
+}
+

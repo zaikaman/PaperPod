@@ -26,6 +26,7 @@ import {
   Search,
   Crown,
   Zap,
+  Bell,
 } from 'lucide-react-native';
 import { theme } from '../theme';
 import { api } from '../services/api';
@@ -38,6 +39,7 @@ interface HomeScreenProps {
   onSelectPaper: (paper: Paper, episodeId?: string) => void;
   onOpenDetail?: (paper: Paper) => void;
   onOpenCustomerCenter?: () => void;
+  onOpenTopicDigests?: () => void;
 }
 
 const CATEGORIES = [
@@ -104,6 +106,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onSelectPaper,
   onOpenDetail,
   onOpenCustomerCenter,
+  onOpenTopicDigests,
 }) => {
   const [arxivInput, setArxivInput] = useState('');
   const [isIngesting, setIsIngesting] = useState(false);
@@ -180,17 +183,29 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           <ArrowLeft size={20} color="#FFFFFF" />
         </TouchableOpacity>
 
-        {/* Customer Center & Membership Pill */}
-        <TouchableOpacity
-          style={styles.membershipPill}
-          onPress={() => (onOpenCustomerCenter ? onOpenCustomerCenter() : openPaywall('CUSTOMER_CENTER_UPGRADE'))}
-          activeOpacity={0.8}
-        >
-          <Crown size={14} color={isPro ? '#F59E0B' : theme.colors.primary} />
-          <Text style={[styles.membershipPillText, isPro && styles.membershipPillTextPro]}>
-            {isPro ? 'PRO' : `${conversionsUsed}/2 USED`}
-          </Text>
-        </TouchableOpacity>
+        <View style={styles.headerRightGroup}>
+          {/* Research Topic Digests & Reminders Bell Button */}
+          <TouchableOpacity
+            style={styles.digestBellBtn}
+            onPress={onOpenTopicDigests}
+            activeOpacity={0.75}
+          >
+            <Bell size={16} color="#FFFFFF" />
+            <View style={styles.bellActiveDot} />
+          </TouchableOpacity>
+
+          {/* Customer Center & Membership Pill */}
+          <TouchableOpacity
+            style={styles.membershipPill}
+            onPress={() => (onOpenCustomerCenter ? onOpenCustomerCenter() : openPaywall('CUSTOMER_CENTER_UPGRADE'))}
+            activeOpacity={0.8}
+          >
+            <Crown size={14} color={isPro ? '#F59E0B' : theme.colors.primary} />
+            <Text style={[styles.membershipPillText, isPro && styles.membershipPillTextPro]}>
+              {isPro ? 'PRO' : `${conversionsUsed}/2 USED`}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView
@@ -249,6 +264,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         {/* POPULAR CATEGORIES Section */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>POPULAR CATEGORIES</Text>
+          {onOpenTopicDigests ? (
+            <TouchableOpacity onPress={onOpenTopicDigests} activeOpacity={0.7}>
+              <Text style={styles.sectionActionLink}>MANAGE DIGESTS →</Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
 
         <ScrollView
@@ -262,6 +282,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <TouchableOpacity
                 key={cat.id}
                 style={[styles.categoryCard, idx === 0 && styles.categoryCardFirst]}
+                onPress={onOpenTopicDigests}
                 activeOpacity={0.75}
               >
                 <View style={styles.categoryIconBox}>
@@ -338,6 +359,37 @@ const styles = StyleSheet.create({
   },
   navIconBtn: {
     padding: 6,
+  },
+  headerRightGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  digestBellBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.07)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  bellActiveDot: {
+    position: 'absolute',
+    top: 6,
+    right: 7,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#06B6D4',
+  },
+  sectionActionLink: {
+    fontSize: 9.5,
+    fontWeight: '700',
+    color: '#06B6D4',
+    letterSpacing: 0.8,
   },
   membershipPill: {
     flexDirection: 'row',

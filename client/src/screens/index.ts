@@ -3,3 +3,4 @@ export * from './HomeScreen';
 export * from './PaperDetailScreen';
 export * from './PlayerScreen';
 export * from './CustomerCenterScreen';
+export * from './TopicDigestSettingsScreen';
