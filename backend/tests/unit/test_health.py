@@ -1,4 +1,5 @@
 """Unit test for FastAPI healthcheck and application initialization."""
+
 import pytest
 from httpx import ASGITransport, AsyncClient
 

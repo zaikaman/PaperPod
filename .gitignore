@@ -62,3 +62,7 @@ Thumbs.db
 # Audio and generated temporary artifacts
 backend/storage_temp/
 backend/tests/fixtures/output/
+
+.agents
+.codex
+examples

@@ -28,6 +28,7 @@ select = [
 ignore = [
     "E501", # line too long (handled by formatter)
     "B008", # do not perform function calls in argument defaults (FastAPI Depends)
+    "C901", # function too complex (for PDF layout parsing state machine)
 ]
 
 [tool.ruff.lint.isort]

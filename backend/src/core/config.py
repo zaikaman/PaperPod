@@ -1,4 +1,5 @@
 """PaperPod Backend Configuration Module."""
+
 from functools import lru_cache
 
 from pydantic import Field, field_validator
@@ -29,6 +30,7 @@ class Settings(BaseSettings):
         if isinstance(v, str):
             if v.startswith("[") and v.endswith("]"):
                 import json
+
                 try:
                     return json.loads(v)
                 except Exception:

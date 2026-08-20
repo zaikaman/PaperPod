@@ -1,4 +1,5 @@
 """Pydantic V2 Schemas for PaperPod Data Models & API Contracts."""
+
 from datetime import date, datetime
 from enum import StrEnum
 from typing import Any
@@ -46,6 +47,7 @@ class EntitlementTier(StrEnum):
 # Core Entity Schemas
 # ============================================================================
 
+
 class BoundingBox(BaseModel):
     x0: float = Field(..., description="Left coordinate in PDF points")
     y0: float = Field(..., description="Top coordinate in PDF points")
@@ -56,8 +58,10 @@ class BoundingBox(BaseModel):
 class PaperFigureSchema(BaseModel):
     id: str | None = None
     paper_id: str | None = None
-    figure_number: str = Field(..., example="Figure 1")
-    caption: str = Field(..., example="Transformer model architecture diagram.")
+    figure_number: str = Field(..., json_schema_extra={"example": "Figure 1"})
+    caption: str = Field(
+        ..., json_schema_extra={"example": "Transformer model architecture diagram."}
+    )
     storage_path: str = Field(..., description="Path in Supabase Storage figures bucket")
     public_url: str | None = None
     page_number: int = Field(..., ge=1)
@@ -70,7 +74,7 @@ class PaperSectionSchema(BaseModel):
     id: str | None = None
     paper_id: str | None = None
     section_index: int
-    heading: str = Field(..., example="3. Model Architecture")
+    heading: str = Field(..., json_schema_extra={"example": "3. Model Architecture"})
     content_text: str
     latex_equations: list[str] = Field(default_factory=list)
     embedding: list[float] | None = None
@@ -98,6 +102,12 @@ class PaperSchema(BaseModel):
     updated_at: datetime | None = None
 
 
+class WordTimingSchema(BaseModel):
+    text: str
+    start_ms: int = Field(..., ge=0)
+    end_ms: int = Field(..., ge=0)
+
+
 class DialogueSegmentSchema(BaseModel):
     id: str | None = None
     episode_id: str | None = None
@@ -108,6 +118,7 @@ class DialogueSegmentSchema(BaseModel):
     audio_end_ms: int = Field(..., ge=0)
     referenced_figure_id: str | None = None
     referenced_figure: PaperFigureSchema | None = None
+    words: list[WordTimingSchema] = Field(default_factory=list)
 
 
 class EpisodeSchema(BaseModel):
@@ -127,10 +138,11 @@ class EpisodeSchema(BaseModel):
 # API Request / Response Schemas
 # ============================================================================
 
+
 class ArxivIngestRequest(BaseModel):
     arxiv_url_or_id: str = Field(
         ...,
-        example="https://arxiv.org/abs/1706.03762",
+        json_schema_extra={"example": "https://arxiv.org/abs/1706.03762"},
         description="arXiv link or standard arXiv ID (e.g. 1706.03762)",
     )
     user_id: str | None = None
@@ -140,7 +152,9 @@ class IngestionProgressResponse(BaseModel):
     paper_id: str
     status: PaperStatus
     progress_percentage: int = Field(..., ge=0, le=100)
-    current_step: str = Field(..., example="Extracting figures and math equations...")
+    current_step: str = Field(
+        ..., json_schema_extra={"example": "Extracting figures and math equations..."}
+    )
     error_message: str | None = None
 
 

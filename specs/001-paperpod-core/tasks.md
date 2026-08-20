@@ -48,22 +48,22 @@
 
 ### Tests for User Story 1
 
-- [ ] T017 [P] [US1] Unit test for PDF layout parsing and LaTeX equation extraction in `backend/tests/unit/test_parser.py`
-- [ ] T018 [P] [US1] Unit test for Gemini 3.1 Flash Lite 2-host script prompt formatting and structured JSON output in `backend/tests/unit/test_script_gen.py`
-- [ ] T019 [P] [US1] Contract test for `/api/v1/papers/upload` and `/api/v1/papers/arxiv` in `backend/tests/contract/test_ingestion_api.py`
+- [x] T017 [P] [US1] Unit test for PDF layout parsing and LaTeX equation extraction in `backend/tests/unit/test_parser.py`
+- [x] T018 [P] [US1] Unit test for Gemini 3.1 Flash Lite 2-host script prompt formatting and structured JSON output in `backend/tests/unit/test_script_gen.py`
+- [x] T019 [P] [US1] Contract test for `/api/v1/papers/upload` and `/api/v1/papers/arxiv` in `backend/tests/contract/test_ingestion_api.py`
 
 ### Implementation for User Story 1
 
-- [ ] T020 [P] [US1] Implement PyMuPDF document parser to extract metadata, two-column text sections, and LaTeX equations in `backend/src/services/parser.py`
-- [ ] T021 [P] [US1] Implement arXiv fetching service using BeautifulSoup and urllib in `backend/src/services/arxiv_fetcher.py`
-- [ ] T022 [US1] Implement Gemini 3.1 Flash Lite (`gemini-3.1-flash-lite`) conversational script generator converting technical sections and math notation into 2-host dialogue (Alex & Dr. Taylor) in `backend/src/services/script_gen.py`
-- [ ] T023 [US1] Implement multi-voice Edge-TTS synthesizer generating synchronized word/sentence audio offsets in `backend/src/services/audio_tts.py`
-- [ ] T024 [US1] Implement paper ingestion and episode generation endpoints in `backend/src/api/papers.py`
-- [ ] T025 [P] [US1] Implement client API service for paper upload and arXiv import in `client/src/services/api.ts`
-- [ ] T026 [P] [US1] Implement client Audio Player engine with Expo Audio supporting play, pause, seek, buffer state, and 0.75x–2.0x playback speed in `client/src/services/audioPlayer.ts`
-- [ ] T027 [US1] Implement Paper Ingestion screen with URL input, PDF upload dropzone, and extraction progress skeleton in `client/src/screens/HomeScreen.tsx`
-- [ ] T028 [US1] Implement Interactive Audio Player Screen with tactile scrubber, host avatar indicators, and interactive transcript highlight in `client/src/screens/PlayerScreen.tsx`
-- [ ] T029 [US1] Implement animated waveform visualizer component in `client/src/components/audio/WaveformVisualizer.tsx`
+- [x] T020 [P] [US1] Implement PyMuPDF document parser to extract metadata, two-column text sections, and LaTeX equations in `backend/src/services/parser.py`
+- [x] T021 [P] [US1] Implement arXiv fetching service using BeautifulSoup and urllib in `backend/src/services/arxiv_fetcher.py`
+- [x] T022 [US1] Implement Gemini 3.1 Flash Lite (`gemini-3.1-flash-lite`) conversational script generator converting technical sections and math notation into 2-host dialogue (Alex & Dr. Taylor) in `backend/src/services/script_gen.py`
+- [x] T023 [US1] Implement multi-voice Edge-TTS synthesizer generating synchronized word/sentence audio offsets in `backend/src/services/audio_tts.py`
+- [x] T024 [US1] Implement paper ingestion and episode generation endpoints in `backend/src/api/papers.py`
+- [x] T025 [P] [US1] Implement client API service for paper upload and arXiv import in `client/src/services/api.ts`
+- [x] T026 [P] [US1] Implement client Audio Player engine with Expo Audio supporting play, pause, seek, buffer state, and 0.75x–2.0x playback speed in `client/src/services/audioPlayer.ts`
+- [x] T027 [US1] Implement Paper Ingestion screen with URL input, PDF upload dropzone, and extraction progress skeleton in `client/src/screens/HomeScreen.tsx`
+- [x] T028 [US1] Implement Interactive Audio Player Screen with tactile scrubber, host avatar indicators, and interactive transcript highlight in `client/src/screens/PlayerScreen.tsx`
+- [x] T029 [US1] Implement animated waveform visualizer component in `client/src/components/audio/WaveformVisualizer.tsx`
 
 **Checkpoint**: User Story 1 complete — End-to-end PDF/arXiv ingestion to 2-host conversational audio playback functional.
 

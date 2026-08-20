@@ -1,4 +1,5 @@
 """Supabase Client wrapper and storage/database helpers."""
+
 import logging
 from typing import Any
 

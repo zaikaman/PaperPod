@@ -67,16 +67,24 @@ export interface Paper {
   updated_at?: string;
 }
 
+export interface WordTiming {
+  text: string;
+  start_ms: number;
+  end_ms: number;
+}
+
 export interface DialogueSegment {
-  id: string;
-  episode_id: string;
+  id?: string;
+  episode_id?: string;
   sequence_index: number;
   speaker: SpeakerRole;
   dialogue_text: string;
   audio_start_ms: number;
   audio_end_ms: number;
+  referenced_figure_number?: string | null;
   referenced_figure_id?: string | null;
   referenced_figure?: PaperFigure | null;
+  words?: WordTiming[];
 }
 
 export interface Episode {

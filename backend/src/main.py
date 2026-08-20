@@ -1,4 +1,5 @@
 """PaperPod FastAPI Application Entry Point."""
+
 import logging
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
@@ -6,6 +7,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.api.papers import router as papers_router
 from src.core.config import get_settings
 
 logging.basicConfig(
@@ -42,6 +44,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Mount API Routers
+app.include_router(papers_router)
+
 
 @app.get("/health", tags=["System"], status_code=status.HTTP_200_OK)
 async def healthcheck() -> dict[str, str]:
@@ -66,6 +71,7 @@ async def root() -> dict[str, str]:
 
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(
         "src.main:app",
         host=settings.HOST,
