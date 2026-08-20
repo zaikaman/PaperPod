@@ -26,15 +26,15 @@
 
 **⚠️ CRITICAL**: Must complete before implementing any User Story.
 
-- [ ] T008 Create Supabase SQL migration script for all tables (`users`, `user_entitlements`, `papers`, `paper_sections`, `paper_figures`, `episodes`, `episode_dialogue_segments`, `voice_interruption_logs`, `summary_cards`, `audio_bookmarks`) and `pgvector` extension in `backend/migrations/001_initial_schema.sql`
-- [ ] T009 Create Supabase Storage bucket initialization script for `papers`, `figures`, and `audio` buckets with public read policies in `backend/migrations/002_storage_buckets.sql`
-- [ ] T010 [P] Implement backend configuration loader and environment settings in `backend/src/core/config.py`
-- [ ] T011 [P] Implement backend Supabase client wrapper and database helper in `backend/src/core/supabase_client.py`
-- [ ] T012 [P] Implement shared Pydantic data schemas in `backend/src/models/schemas.py`
-- [ ] T013 [P] Implement shared TypeScript data types and API response interfaces in `client/src/types/index.ts`
-- [ ] T014 [P] Implement client Supabase client singleton and auth listeners in `client/src/services/supabase.ts`
-- [ ] T015 [P] Create test fixtures repository with sample arXiv PDF (`1706.03762`), extracted JSON, and mock audio in `backend/tests/fixtures/sample_paper.pdf`
-- [ ] T016 Setup FastAPI application entry point, CORS middleware, and healthcheck router in `backend/src/main.py`
+- [x] T008 Create Supabase SQL migration script for all tables (`users`, `user_entitlements`, `papers`, `paper_sections`, `paper_figures`, `episodes`, `episode_dialogue_segments`, `voice_interruption_logs`, `summary_cards`, `audio_bookmarks`) and `pgvector` extension in `backend/migrations/001_initial_schema.sql`
+- [x] T009 Create Supabase Storage bucket initialization script for `papers`, `figures`, and `audio` buckets with public read policies in `backend/migrations/002_storage_buckets.sql`
+- [x] T010 [P] Implement backend configuration loader and environment settings in `backend/src/core/config.py`
+- [x] T011 [P] Implement backend Supabase client wrapper and database helper in `backend/src/core/supabase_client.py`
+- [x] T012 [P] Implement shared Pydantic data schemas in `backend/src/models/schemas.py`
+- [x] T013 [P] Implement shared TypeScript data types and API response interfaces in `client/src/types/index.ts`
+- [x] T014 [P] Implement client Supabase client singleton and auth listeners in `client/src/services/supabase.ts`
+- [x] T015 [P] Create test fixtures repository with sample arXiv PDF (`1706.03762`), extracted JSON, and mock audio in `backend/tests/fixtures/sample_paper.pdf`
+- [x] T016 Setup FastAPI application entry point, CORS middleware, and healthcheck router in `backend/src/main.py`
 
 **Checkpoint**: Core database, storage, schemas, and API foundation ready.
 

@@ -1,0 +1,42 @@
+{
+  "title": "Attention Is All You Need",
+  "authors": [
+    "Ashish Vaswani",
+    "Noam Shazeer",
+    "Niki Parmar",
+    "Jakob Uszkoreit"
+  ],
+  "arxiv_id": "1706.03762",
+  "abstract": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks. We propose the Transformer, a model architecture eschewing recurrence and entirely relying on an attention mechanism to draw global dependencies between input and output.",
+  "total_pages": 1,
+  "sections": [
+    {
+      "section_index": 1,
+      "heading": "1. Introduction",
+      "content_text": "Recurrent neural networks, particularly LSTM and gated recurrent neural networks, have been firmly established as state of the art approaches in sequence modeling. The Transformer allows for significantly more parallelization.",
+      "latex_equations": []
+    },
+    {
+      "section_index": 2,
+      "heading": "3. Model Architecture",
+      "content_text": "Most competitive neural sequence transduction models have an encoder-decoder structure. An attention function can be described as mapping a query and a set of key-value pairs to an output.",
+      "latex_equations": [
+        "Attention(Q, K, V) = softmax((Q * K^T) / sqrt(d_k)) * V"
+      ]
+    }
+  ],
+  "figures": [
+    {
+      "figure_number": "Figure 1",
+      "caption": "Figure 1: The Transformer - model architecture diagram.",
+      "page_number": 1,
+      "bounding_box": {
+        "x0": 150.0,
+        "y0": 470.0,
+        "x1": 450.0,
+        "y1": 670.0
+      },
+      "aspect_ratio": 1.5
+    }
+  ]
+}

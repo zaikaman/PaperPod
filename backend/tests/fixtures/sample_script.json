@@ -1,0 +1,30 @@
+{
+  "episode_title": "Understanding Attention and the Transformer Revolution",
+  "summary": "Alex and Dr. Taylor break down the seminal paper 'Attention Is All You Need', explaining how self-attention replaced recurrence in AI.",
+  "segments": [
+    {
+      "sequence_index": 1,
+      "speaker": "alex",
+      "dialogue_text": "Welcome back to PaperPod! Today, Dr. Taylor and I are diving into one of the most cited papers of the century: 'Attention Is All You Need'. Dr. Taylor, why was ditching recurrence such a massive deal?",
+      "referenced_figure_number": null
+    },
+    {
+      "sequence_index": 2,
+      "speaker": "taylor",
+      "dialogue_text": "Great question, Alex. Traditional recurrent models processed words one by one, like reading a book through a keyhole. The Transformer looks at the entire sentence at once using self-attention. Think of it like a spotlight that illuminates relationships between all words simultaneously.",
+      "referenced_figure_number": "Figure 1"
+    },
+    {
+      "sequence_index": 3,
+      "speaker": "alex",
+      "dialogue_text": "And in Figure 1, we can see the entire encoder-decoder layout. But what about the math in Equation 1? Scaled dot-product attention looks intimidating!",
+      "referenced_figure_number": "Figure 1"
+    },
+    {
+      "sequence_index": 4,
+      "speaker": "taylor",
+      "dialogue_text": "It is actually very intuitive when you break it down! Think of Queries, Keys, and Values like a library lookup. Your query is what you want to find, the keys are book titles, and the values are the book contents. The dot product computes relevance scores, and dividing by the square root of the key dimension keeps gradients stable.",
+      "referenced_figure_number": null
+    }
+  ]
+}
