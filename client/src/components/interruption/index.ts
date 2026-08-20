@@ -1,2 +1,2 @@
-// PaperPod Interruption Components
-export {};
+export { VoiceInterruptModal } from './VoiceInterruptModal';
+export { ClarificationBubble } from './ClarificationBubble';

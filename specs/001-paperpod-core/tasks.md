@@ -102,18 +102,18 @@
 
 ### Tests for User Story 3
 
-- [ ] T039 [P] [US3] Unit test for section vector embedding and similarity search in `backend/tests/unit/test_rag.py`
-- [ ] T040 [P] [US3] Contract test for `/api/v1/episodes/{episode_id}/interrupt` in `backend/tests/contract/test_interruption_api.py`
+- [x] T039 [P] [US3] Unit test for section vector embedding and similarity search in `backend/tests/unit/test_rag.py`
+- [x] T040 [P] [US3] Contract test for `/api/v1/episodes/{episode_id}/interrupt` in `backend/tests/contract/test_interruption_api.py`
 
 ### Implementation for User Story 3
 
-- [ ] T041 [P] [US3] Implement paper section embedding generator using text embedding model in `backend/src/services/embeddings.py`
-- [ ] T042 [US3] Implement Interruption Q&A RAG engine using Gemini 3.1 Flash Lite (`gemini-3.1-flash-lite`) retrieving relevant paper context and generating concise host clarification dialogue in `backend/src/services/interruption.py`
-- [ ] T043 [US3] Implement rapid single-turn neural TTS generation for clarification answers in `backend/src/services/interruption_tts.py`
-- [ ] T044 [US3] Implement live voice interruption endpoint `/api/v1/episodes/{episode_id}/interrupt` in `backend/src/api/interruption.py`
-- [ ] T045 [P] [US3] Implement client Interruption State Machine (`PLAYING` $\rightarrow$ `RECORDING` $\rightarrow$ `CLARIFYING` $\rightarrow$ `RESUMING`) in `client/src/services/interruptionManager.ts`
-- [ ] T046 [US3] Implement Voice Recording modal / Text input fallback sheet with haptic feedback in `client/src/components/interruption/VoiceInterruptModal.tsx`
-- [ ] T047 [US3] Implement Host Clarification floating bubble showing animated Dr. Taylor avatar and spoken audio playback in `client/src/components/interruption/ClarificationBubble.tsx`
+- [x] T041 [P] [US3] Implement paper section embedding generator using text embedding model in `backend/src/services/embeddings.py`
+- [x] T042 [US3] Implement Interruption Q&A RAG engine using Gemini 3.1 Flash Lite (`gemini-3.1-flash-lite`) retrieving relevant paper context and generating concise host clarification dialogue in `backend/src/services/interruption.py`
+- [x] T043 [US3] Implement rapid single-turn neural TTS generation for clarification answers in `backend/src/services/interruption_tts.py`
+- [x] T044 [US3] Implement live voice interruption endpoint `/api/v1/episodes/{episode_id}/interrupt` in `backend/src/api/interruption.py`
+- [x] T045 [P] [US3] Implement client Interruption State Machine (`PLAYING` $\rightarrow$ `RECORDING` $\rightarrow$ `CLARIFYING` $\rightarrow$ `RESUMING`) in `client/src/services/interruptionManager.ts`
+- [x] T046 [US3] Implement Voice Recording modal / Text input fallback sheet with haptic feedback in `client/src/components/interruption/VoiceInterruptModal.tsx`
+- [x] T047 [US3] Implement Host Clarification floating bubble showing animated Dr. Taylor avatar and spoken audio playback in `client/src/components/interruption/ClarificationBubble.tsx`
 
 **Checkpoint**: Live Voice Interruption fully functional with seamless audio pause, RAG clarification, and auto-resume.
 

@@ -112,4 +112,41 @@ export const api = {
     }
     return response.json();
   },
+
+  /**
+   * Submit live voice or text interruption question during audio playback
+   */
+  async submitVoiceInterruption(
+    episodeId: string,
+    playbackTimestampMs: number,
+    queryText: string,
+    userId: string = '00000000-0000-0000-0000-000000000001'
+  ): Promise<{
+    interruption_id: string;
+    clarification_text: string;
+    audio_url: string;
+    duration_ms: number;
+    resume_timestamp_ms: number;
+    relevant_section_heading?: string;
+    latency_ms: number;
+  }> {
+    const response = await fetch(`${API_BASE_URL}/api/v1/episodes/${episodeId}/interrupt`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        playback_timestamp_ms: playbackTimestampMs,
+        query_text: queryText,
+        user_id: userId,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to process voice interruption (${response.status}): ${errorText}`);
+    }
+
+    return response.json();
+  },
 };

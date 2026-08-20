@@ -31,6 +31,8 @@ import { audioPlayer, PlaybackState } from '../services/audioPlayer';
 import { getSegmentWords } from '../utils/transcript';
 import { DEMO_EPISODE_SEGMENTS } from '../data/demoEpisode';
 import { FigureHud, FigureGallery, ZoomableFigure } from '../components/hud';
+import { VoiceInterruptModal, ClarificationBubble } from '../components/interruption';
+import { interruptionManager, InterruptionStateData } from '../services/interruptionManager';
 
 interface PlayerScreenProps {
   paper: Paper;
@@ -115,6 +117,19 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
   const [galleryVisible, setGalleryVisible] = useState(false);
   const [fullscreenModalVisible, setFullscreenModalVisible] = useState(false);
   const [inspectFigure, setInspectFigure] = useState<PaperFigure | null>(null);
+
+  // Live Voice Interruption state
+  const [interruptionData, setInterruptionData] = useState<InterruptionStateData>(
+    interruptionManager.getData()
+  );
+  const [interruptionModalVisible, setInterruptionModalVisible] = useState(false);
+
+  useEffect(() => {
+    const unsub = interruptionManager.subscribe((data) => {
+      setInterruptionData(data);
+    });
+    return () => unsub();
+  }, []);
 
   // Load episode audio, timeline, and figure triggers dynamically
   useEffect(() => {
@@ -371,17 +386,40 @@ export const PlayerScreen: React.FC<PlayerScreenProps> = ({
         </View>
       </ScrollView>
 
+      {/* Floating Host Clarification Bubble during live interruption */}
+      {interruptionData.state === 'CLARIFYING' ? (
+        <View style={styles.floatingClarificationContainer}>
+          <ClarificationBubble
+            data={interruptionData}
+            onDismiss={() => interruptionManager.resumeBriefing()}
+          />
+        </View>
+      ) : null}
+
       {/* Floating Live Interruption Button */}
       <View style={styles.floatingMicContainer}>
         <TouchableOpacity
           style={styles.floatingMicBtn}
-          onPress={onOpenInterruptionModal}
+          onPress={async () => {
+            await interruptionManager.startInterruption();
+            setInterruptionModalVisible(true);
+            if (onOpenInterruptionModal) {
+              onOpenInterruptionModal();
+            }
+          }}
           activeOpacity={0.85}
         >
           <Mic size={16} color="#FFFFFF" />
           <Text style={styles.floatingMicText}>Tap to Interrupt & Ask</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Live Voice / Text Interruption Modal */}
+      <VoiceInterruptModal
+        visible={interruptionModalVisible}
+        episodeId={initialEpisodeId || currentEpisode?.id || 'demo-episode-1706'}
+        onClose={() => setInterruptionModalVisible(false)}
+      />
 
       {/* Figure Gallery Drawer Modal */}
       <FigureGallery
@@ -664,12 +702,20 @@ const styles = StyleSheet.create({
     color: '#8B8F97',
     paddingLeft: 38,
   },
+  floatingClarificationContainer: {
+    position: 'absolute',
+    bottom: 74,
+    left: 0,
+    right: 0,
+    zIndex: 99,
+  },
   floatingMicContainer: {
     position: 'absolute',
     bottom: 20,
     left: 20,
     right: 20,
     alignItems: 'center',
+    zIndex: 90,
   },
   floatingMicBtn: {
     flexDirection: 'row',
