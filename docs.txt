@@ -1,0 +1,429 @@
+# RevenueCat Documentation
+
+> RevenueCat is the most popular way to build, analyze, and grow in-app purchases and subscriptions on iOS, Android, and the web â€” no server code required. Each link below points to the Markdown version of a documentation page; append `.md` to any docs URL to fetch its clean Markdown for AI agents and LLMs.
+
+For the complete documentation as a single Markdown file, see [llms-full.txt](https://www.revenuecat.com/docs/llms-full.txt).
+
+## API Reference
+
+- [REST API v1 Reference](https://www.revenuecat.com/docs/api-v1): Full REST API v1 reference.
+- [REST API v2 Reference](https://www.revenuecat.com/docs/api-v2): Full REST API v2 reference.
+
+## Welcome & Account Setup
+
+- [Welcome to RevenueCat](https://www.revenuecat.com/docs/welcome/overview.md): Build, Analyze, and Grow In-App Revenue with Ease
+- [Billing and account settings](https://www.revenuecat.com/docs/welcome/set-up-revenuecat/account-management.md): Managing your account and changing plans
+- [Data & Compliance](https://www.revenuecat.com/docs/welcome/set-up-revenuecat/data-and-compliance.md): RevenueCat's data and privacy policies
+- [HackerOne Vulnerability Disclosure Program](https://www.revenuecat.com/docs/welcome/set-up-revenuecat/hackerone.md): Claim bug bounties by submitting vulnerabilities to our program
+- [Account security](https://www.revenuecat.com/docs/welcome/set-up-revenuecat/security.md): Two-factor authentication, OAuth tokens, and SSO for your RevenueCat account
+
+## Getting Started
+
+- [Install the AdMob Adapter SDK](https://www.revenuecat.com/docs/getting-started/adapter-sdks/admob.md): Install and configure the RevenueCat AdMob adapter for iOS and Android
+- [Configuring the SDK](https://www.revenuecat.com/docs/getting-started/configuring-sdk.md)
+- [iOS App Extensions](https://www.revenuecat.com/docs/getting-started/configuring-sdk/ios-app-extensions.md)
+- [Displaying Products](https://www.revenuecat.com/docs/getting-started/displaying-products.md): Build dynamic paywalls and control available products remotely
+- [Entitlements](https://www.revenuecat.com/docs/getting-started/entitlements.md): Use Entitlements to manage access to content in your app
+- [Amazon Product Setup](https://www.revenuecat.com/docs/getting-started/entitlements/amazon-product-setup.md): Setting up your in-app purchases in the Amazon Appstore
+- [Google Play Product Setup](https://www.revenuecat.com/docs/getting-started/entitlements/android-products.md): Setting up your in-app purchases in Google Play Billing
+- [Galaxy Store Product Setup](https://www.revenuecat.com/docs/getting-started/entitlements/galaxy-products.md): Setting up your in-app purchases in Galaxy Store
+- [Google Subscriptions and Backwards Compatibility](https://www.revenuecat.com/docs/getting-started/entitlements/google-subscriptions-and-backwards-compatibility.md)
+- [iOS Product Setup](https://www.revenuecat.com/docs/getting-started/entitlements/ios-products.md): Setting up your in-app purchases in App Store Connect
+- [Paddle Product Setup](https://www.revenuecat.com/docs/getting-started/entitlements/paddle-products.md): Setting up products in the Paddle Dashboard
+- [Roku Product Setup](https://www.revenuecat.com/docs/getting-started/entitlements/roku-products.md): Setting up your in-app purchases in Roku
+- [Stripe Product Setup](https://www.revenuecat.com/docs/getting-started/entitlements/stripe-products.md): Setting up products in the Stripe Dashboard
+- [Installing the SDK](https://www.revenuecat.com/docs/getting-started/installation.md): Add the Purchases SDK to your mobile app
+- [Android](https://www.revenuecat.com/docs/getting-started/installation/android.md): Instructions for installing the RevenueCat SDK for Android
+- [App Builders / No-Code](https://www.revenuecat.com/docs/getting-started/installation/app-builders.md): No and Low Code Development Tools, RevenueCat, and You
+- [Capacitor](https://www.revenuecat.com/docs/getting-started/installation/capacitor.md): Instructions for installing Purchases SDK for Capacitor
+- [Cordova](https://www.revenuecat.com/docs/getting-started/installation/cordova.md): Instructions for installing Purchases SDK for Cordova
+- [Expo](https://www.revenuecat.com/docs/getting-started/installation/expo.md): Instructions for using RevenueCat with Expo
+- [Flutter](https://www.revenuecat.com/docs/getting-started/installation/flutter.md): Instructions for installing Purchases SDK for Flutter
+- [iOS & Apple Platforms](https://www.revenuecat.com/docs/getting-started/installation/ios.md): Instructions for installing the RevenueCat SDK for iOS
+- [Kotlin Multiplatform](https://www.revenuecat.com/docs/getting-started/installation/kotlin-multiplatform.md): Instructions for installing Purchases SDK for Kotlin Multiplatform
+- [React Native](https://www.revenuecat.com/docs/getting-started/installation/reactnative.md): Instructions for installing Purchases SDK for React Native
+- [Roku](https://www.revenuecat.com/docs/getting-started/installation/roku.md): Instructions for installing RevenueCat's Roku SDK
+- [Unity](https://www.revenuecat.com/docs/getting-started/installation/unity.md): Instructions for installing Purchases SDK for Unity
+- [Web](https://www.revenuecat.com/docs/getting-started/installation/web-sdk.md): Instructions for installing the Web SDK to enable purchases on the web
+- [Making Purchases](https://www.revenuecat.com/docs/getting-started/making-purchases.md): Process a transaction with Apple or Google
+- [Android with Jetpack Compose](https://www.revenuecat.com/docs/getting-started/making-purchases/android-with-jetpack-compose.md): Process a transaction with an Android app built with Jetpack Compose
+- [SDK Quickstart](https://www.revenuecat.com/docs/getting-started/quickstart.md): Get up and running with mobile subscriptions
+- [Restoring Purchases](https://www.revenuecat.com/docs/getting-started/restoring-purchases.md): Re-sync purchased transactions from Apple, Google, or Amazon
+- [Stripe Projects quickstart](https://www.revenuecat.com/docs/getting-started/stripe-projects-quickstart.md): Provision a RevenueCat account, project, and API keys from inside Stripe with one command.
+- [Tracking Custom Paywall Impressions](https://www.revenuecat.com/docs/getting-started/tracking-custom-paywall-impressions.md): Track paywall impressions for custom paywalls to power analytics
+
+## SDK Guides
+
+- [Android Native - 4.x to 5.x Migration](https://www.revenuecat.com/docs/sdk-guides/android-native-4x-to-5x-migration.md)
+- [Android Native - 5.x to 6.x Migration](https://www.revenuecat.com/docs/sdk-guides/android-native-5x-to-6x-migration.md): New Google subscription model migration
+- [Android Native - 6.x to 7.x Migration](https://www.revenuecat.com/docs/sdk-guides/android-native-6x-to-7x-migration.md)
+- [Android Native - 7.x to 8.x Migration](https://www.revenuecat.com/docs/sdk-guides/android-native-7x-to-8x-migration.md)
+- [Android Native - 8.x to 9.x Migration](https://www.revenuecat.com/docs/sdk-guides/android-native-8x-to-9x-migration.md)
+- [iOS Native - 3.x to 4.x Migration](https://www.revenuecat.com/docs/sdk-guides/ios-native-3x-to-4x-migration.md)
+- [iOS Native - 4.x to 5.x Migration](https://www.revenuecat.com/docs/sdk-guides/ios-native-4x-to-5x-migration.md)
+
+## Products & Offerings
+
+- [Offerings](https://www.revenuecat.com/docs/offerings/overview.md): Group products together to display to users in a paywall
+- [Product Configuration](https://www.revenuecat.com/docs/offerings/products-overview.md): Use Entitlements and Offerings to organize and display products
+- [Troubleshooting Empty Products/Offerings](https://www.revenuecat.com/docs/offerings/troubleshooting-offerings.md)
+- [Virtual Currency](https://www.revenuecat.com/docs/offerings/virtual-currency.md): Enable transactions for virtual items in your app
+- [Virtual Currency Events](https://www.revenuecat.com/docs/offerings/virtual-currency/events.md)
+- [Expiring Currencies](https://www.revenuecat.com/docs/offerings/virtual-currency/expiring-currencies.md)
+- [Balance Source of Truth](https://www.revenuecat.com/docs/offerings/virtual-currency/faq/balance-source-of-truth.md)
+- [Grant Cadence](https://www.revenuecat.com/docs/offerings/virtual-currency/grant-cadence.md)
+- [Refunds](https://www.revenuecat.com/docs/offerings/virtual-currency/refunds.md)
+- [Subscriptions](https://www.revenuecat.com/docs/offerings/virtual-currency/subscriptions.md)
+
+## Customer Management
+
+- [Blocking Customers](https://www.revenuecat.com/docs/customers/blocking-customers.md): How to block RevenueCat customers
+- [Setting Attributes](https://www.revenuecat.com/docs/customers/customer-attributes.md): Adding custom properties to users in RevenueCat
+- [Getting Subscription Status](https://www.revenuecat.com/docs/customers/customer-info.md): Determining the subscription status for a user.
+- [Identifying Customers](https://www.revenuecat.com/docs/customers/identifying-customers.md): How RevenueCat handles user identity
+- [Refund Control](https://www.revenuecat.com/docs/customers/refund-control.md): How RevenueCat responds to Apple and Google refund requests
+- [Configure refund policies](https://www.revenuecat.com/docs/customers/refund-control/configure-refund-policies.md): Configure project-level Refund Control policies for Apple and Google
+- [Troubleshooting Refund Control](https://www.revenuecat.com/docs/customers/refund-control/troubleshooting.md): Diagnose common Refund Control configuration and reporting issues
+- [Trusted Entitlements](https://www.revenuecat.com/docs/customers/trusted-entitlements.md): Protect your purchases from attackers by enabling Response Signature Verification
+- [Customers in RevenueCat](https://www.revenuecat.com/docs/customers/user-ids.md)
+
+## Projects & Security
+
+- [API Keys](https://www.revenuecat.com/docs/projects/authentication.md): Manage your API keys to authenticate with RevenueCat
+- [Collaboration](https://www.revenuecat.com/docs/projects/collaborators.md): Invite others to collaborate on your project
+- [Configuring Products](https://www.revenuecat.com/docs/projects/configuring-products.md): Set up products, entitlements, and offerings to start testing purchases
+- [Connect Apps & Web Providers](https://www.revenuecat.com/docs/projects/connect-a-store.md): Connect supported apps and web providers to your project
+- [OAuth](https://www.revenuecat.com/docs/projects/oauth-overview.md): Connect a third-party client to your RevenueCat account, and revoke that access when you no longer need it.
+- [Create an OAuth client](https://www.revenuecat.com/docs/projects/oauth-setup.md): Register an OAuth client and implement RevenueCat's authorization flow
+- [Projects](https://www.revenuecat.com/docs/projects/overview.md): The top-level entity for RevenueCat
+- [Restore Behavior](https://www.revenuecat.com/docs/projects/restore-behavior.md)
+- [Sandbox Testing Access](https://www.revenuecat.com/docs/projects/sandbox-access.md)
+- [Single Sign-On (SSO)](https://www.revenuecat.com/docs/projects/sso.md): Log into RevenueCat using Single Sign-On (SSO)
+
+## Core Tools
+
+- [RevenueCat AI Toolkit](https://www.revenuecat.com/docs/tools/ai-toolkit.md): Set up RevenueCat, integrate the Purchases SDK, and access your revenue data from your AI coding assistant
+- [Customer Center](https://www.revenuecat.com/docs/tools/customer-center.md)
+- [Configuring Change Plans for Customer Center (iOS)](https://www.revenuecat.com/docs/tools/customer-center/customer-center-change-plans-ios.md)
+- [Configure Customer Center](https://www.revenuecat.com/docs/tools/customer-center/customer-center-configuration.md)
+- [Integrating Customer Center on Flutter](https://www.revenuecat.com/docs/tools/customer-center/customer-center-flutter.md)
+- [Installing the SDK](https://www.revenuecat.com/docs/tools/customer-center/customer-center-installation.md)
+- [Integrating Customer Center](https://www.revenuecat.com/docs/tools/customer-center/customer-center-integration.md)
+- [Integrating Customer Center on Android](https://www.revenuecat.com/docs/tools/customer-center/customer-center-integration-android.md)
+- [Integrating Customer Center on iOS](https://www.revenuecat.com/docs/tools/customer-center/customer-center-integration-ios.md)
+- [Integrating Customer Center on Kotlin Multiplatform](https://www.revenuecat.com/docs/tools/customer-center/customer-center-kmp.md)
+- [Configuring Apple Promotional Offers for Customer Center](https://www.revenuecat.com/docs/tools/customer-center/customer-center-promo-offers-apple.md)
+- [Configuring Google Promotional Offers](https://www.revenuecat.com/docs/tools/customer-center/customer-center-promo-offers-google.md)
+- [Integrating Customer Center on React Native](https://www.revenuecat.com/docs/tools/customer-center/customer-center-react-native.md)
+- [Integrating Customer Center on Unity](https://www.revenuecat.com/docs/tools/customer-center/customer-center-unity.md)
+- [Experiments](https://www.revenuecat.com/docs/tools/experiments-v1.md): Take the guesswork out of pricing & paywalls
+- [Configuring Experiments](https://www.revenuecat.com/docs/tools/experiments-v1/configuring-experiments-v1.md)
+- [Creating Offerings to Test](https://www.revenuecat.com/docs/tools/experiments-v1/creating-offerings-to-test.md)
+- [Experiment Performance Alerts](https://www.revenuecat.com/docs/tools/experiments-v1/experiment-performance-alerts.md)
+- [Experiment Results Summaries](https://www.revenuecat.com/docs/tools/experiments-v1/experiment-results-summaries.md)
+- [Getting Started with Experiments](https://www.revenuecat.com/docs/tools/experiments-v1/experiments-overview-v1.md)
+- [Experiments Results](https://www.revenuecat.com/docs/tools/experiments-v1/experiments-results-v1.md)
+- [Funnels](https://www.revenuecat.com/docs/tools/funnels.md)
+- [Analyzing Funnels](https://www.revenuecat.com/docs/tools/funnels/analyzing-funnels.md)
+- [Configuring Payments](https://www.revenuecat.com/docs/tools/funnels/configuring-payments.md)
+- [Creating Funnels](https://www.revenuecat.com/docs/tools/funnels/creating-funnels.md)
+- [Deploying Funnels](https://www.revenuecat.com/docs/tools/funnels/deploying-funnels.md)
+- [Experimenting with Funnels](https://www.revenuecat.com/docs/tools/funnels/experimenting-with-funnels.md)
+- [Funnel Integrations](https://www.revenuecat.com/docs/tools/funnels/integrations.md)
+- [RevenueCat MCP Server](https://www.revenuecat.com/docs/tools/mcp.md): AI-powered subscription management through natural language interactions
+- [Best Practices & Troubleshooting](https://www.revenuecat.com/docs/tools/mcp/best-practices-and-troubleshooting.md): Best practices, troubleshooting, and security considerations for RevenueCat MCP
+- [RevenueCat MCP Server Setup](https://www.revenuecat.com/docs/tools/mcp/setup.md): Configure RevenueCat MCP Server for your AI assistant
+- [RevenueCat MCP Tools Reference](https://www.revenuecat.com/docs/tools/mcp/tools-reference.md): Tools available through the RevenueCat MCP server, organized by category
+- [RevenueCat MCP Usage Examples](https://www.revenuecat.com/docs/tools/mcp/usage-examples.md): Natural language interaction examples with RevenueCat MCP server
+- [Offering metadata](https://www.revenuecat.com/docs/tools/offering-metadata.md)
+- [Offering metadata example use cases](https://www.revenuecat.com/docs/tools/offering-metadata/offering-metadata-examples.md)
+- [Paywalls](https://www.revenuecat.com/docs/tools/paywalls.md): Remotely configure your entire paywall view without code changes using RevenueCat Paywalls.
+- [Paywalls (Legacy)](https://www.revenuecat.com/docs/tools/paywalls-legacy.md)
+- [Creating Paywalls (Legacy)](https://www.revenuecat.com/docs/tools/paywalls-legacy/creating-paywalls.md)
+- [Displaying Paywalls](https://www.revenuecat.com/docs/tools/paywalls-legacy/displaying-paywalls.md)
+- [Installing the SDK](https://www.revenuecat.com/docs/tools/paywalls-legacy/installation.md)
+- [Changelog](https://www.revenuecat.com/docs/tools/paywalls/change-log.md)
+- [Creating Paywalls](https://www.revenuecat.com/docs/tools/paywalls/creating-paywalls.md): How to build, customize, and publish paywalls using the RevenueCat Paywall Editor.
+- [Getting your paywall approved through app review](https://www.revenuecat.com/docs/tools/paywalls/creating-paywalls/app-review.md)
+- [Component Properties](https://www.revenuecat.com/docs/tools/paywalls/creating-paywalls/component-properties.md)
+- [Components](https://www.revenuecat.com/docs/tools/paywalls/creating-paywalls/components.md)
+- [Designing for other customer states](https://www.revenuecat.com/docs/tools/paywalls/creating-paywalls/customer-states.md)
+- [Importing from Figma](https://www.revenuecat.com/docs/tools/paywalls/creating-paywalls/importing-from-figma.md)
+- [Localization](https://www.revenuecat.com/docs/tools/paywalls/creating-paywalls/localization.md)
+- [Product changes (Google Play)](https://www.revenuecat.com/docs/tools/paywalls/creating-paywalls/product-changes.md)
+- [Rules](https://www.revenuecat.com/docs/tools/paywalls/creating-paywalls/rules.md)
+- [Supporting offers](https://www.revenuecat.com/docs/tools/paywalls/creating-paywalls/supporting-offers.md)
+- [Variables](https://www.revenuecat.com/docs/tools/paywalls/creating-paywalls/variables.md)
+- [Web Purchase Button](https://www.revenuecat.com/docs/tools/paywalls/creating-paywalls/web-purchase-button.md)
+- [Displaying Paywalls](https://www.revenuecat.com/docs/tools/paywalls/displaying-paywalls.md)
+- [Installing the SDK](https://www.revenuecat.com/docs/tools/paywalls/installation.md)
+- [Paywall integrations](https://www.revenuecat.com/docs/tools/paywalls/integrations.md): Send RevenueCat Paywall events to your analytics platforms and webhooks
+- [Testing Paywalls](https://www.revenuecat.com/docs/tools/paywalls/testing-paywalls.md)
+- [Rico](https://www.revenuecat.com/docs/tools/rico.md): Your AI-powered app growth advisor, built into RevenueCat
+- [Targeting](https://www.revenuecat.com/docs/tools/targeting.md): Create rules to serve distinct audiences their own Offerings.
+- [Fallback paywalls by SDK version](https://www.revenuecat.com/docs/tools/targeting/fallback-paywalls-by-sdk-version.md)
+- [By Placement](https://www.revenuecat.com/docs/tools/targeting/placements.md)
+
+## Platform Resources
+
+- [Amazon Platform Resources](https://www.revenuecat.com/docs/platform-resources/amazon-platform-resources.md)
+- [Amazon Small Business Accelerator Program](https://www.revenuecat.com/docs/platform-resources/amazon-platform-resources/amazon-small-business-accelerator-program.md)
+- [Apple Platform Resources](https://www.revenuecat.com/docs/platform-resources/apple-platform-resources.md): Additional resources for easy RevenueCat & Apple Platform development
+- [App Store Connect Setup Guide for First-Time Developers](https://www.revenuecat.com/docs/platform-resources/apple-platform-resources/app-store-connect-setup-guide.md): A complete walkthrough of setting up your first subscription app in App Store Connect, from developerâ€¦
+- [App Store Small Business Program](https://www.revenuecat.com/docs/platform-resources/apple-platform-resources/app-store-small-business-program.md): How to have the reduced commission rate reflected in RevenueCat
+- [Apple Alternative EU Terms Addendum](https://www.revenuecat.com/docs/platform-resources/apple-platform-resources/apple-alternative-eu-terms-addendum.md): How to have AEUTA commission rates reflected in RevenueCat
+- [Apple App Privacy](https://www.revenuecat.com/docs/platform-resources/apple-platform-resources/apple-app-privacy.md): How to fill out the questionnaire
+- [Apple Family Sharing](https://www.revenuecat.com/docs/platform-resources/apple-platform-resources/apple-family-sharing.md): Let users share their subscriptions with Family Sharing
+- [Apple Retention Messaging API](https://www.revenuecat.com/docs/platform-resources/apple-platform-resources/apple-retention-messaging-api.md): Enable Apple's retention messaging to reduce churn and improve subscription retention
+- [Apple Video Partner Program](https://www.revenuecat.com/docs/platform-resources/apple-platform-resources/apple-video-partner-program.md): How to have Apple Video Partner Program commission rates reflected in RevenueCat
+- [Payments from Stores and Country Availability](https://www.revenuecat.com/docs/platform-resources/developer-store-payments.md): How and when developers receive their payouts
+- [Connect the Galaxy Store to RevenueCat](https://www.revenuecat.com/docs/platform-resources/galaxy-platform-resources/galaxy-setup-guide.md): How to create your Galaxy Store app in RevenueCat and connect it with a Seller Portal service account
+- [Publish your app on the Galaxy Store](https://www.revenuecat.com/docs/platform-resources/galaxy-platform-resources/galaxy-store-onboarding.md): How to create a Samsung Seller Portal account, register your app, and set up in-app purchases in the Galaxyâ€¦
+- [Google Platform Resources](https://www.revenuecat.com/docs/platform-resources/google-platform-resources.md)
+- [15% Reduced Service Fee](https://www.revenuecat.com/docs/platform-resources/google-platform-resources/15-reduced-service-fee.md): How to have the reduced commission rate reflected in RevenueCat
+- [Google Play Pass](https://www.revenuecat.com/docs/platform-resources/google-platform-resources/google-play-pass.md)
+- [Google Play Quota Increase Request](https://www.revenuecat.com/docs/platform-resources/google-platform-resources/google-play-quota-increase-request.md): What to do when you hit the Google Play Developer API limit
+- [Google Play's Data Safety](https://www.revenuecat.com/docs/platform-resources/google-platform-resources/google-plays-data-safety.md): How to fill out the questionnaire
+- [Non-Subscription Purchases](https://www.revenuecat.com/docs/platform-resources/non-subscriptions.md): Using RevenueCat beyond subscriptions
+- [Sample Apps](https://www.revenuecat.com/docs/platform-resources/sample-apps.md): Example usage of RevenueCat's SDK
+- [SDK Reference](https://www.revenuecat.com/docs/platform-resources/sdk-reference.md)
+- [Platform Server Notifications](https://www.revenuecat.com/docs/platform-resources/server-notifications.md): Informing RevenueCat of updates to user purchases
+- [Amazon Appstore Real-time Notifications](https://www.revenuecat.com/docs/platform-resources/server-notifications/amazon-server-notifications.md): Sending Amazon Appstore real-time notifications to RevenueCat
+- [Apple App Store Server Notifications](https://www.revenuecat.com/docs/platform-resources/server-notifications/apple-server-notifications.md): Sending App Store server notifications to RevenueCat
+- [Galaxy Store Real-time Notifications](https://www.revenuecat.com/docs/platform-resources/server-notifications/galaxy-server-notifications.md): Sending Galaxy Store real-time notifications to RevenueCat
+- [Google Real-Time Developer Notifications](https://www.revenuecat.com/docs/platform-resources/server-notifications/google-server-notifications.md): Sending Google Play server notifications to RevenueCat
+- [Paddle Server Notifications](https://www.revenuecat.com/docs/platform-resources/server-notifications/paddle-server-notifications.md): Sending Paddle server notifications to RevenueCat
+- [Stripe Server Notifications](https://www.revenuecat.com/docs/platform-resources/server-notifications/stripe-server-notifications.md): Sending Stripe server notifications to RevenueCat
+
+## Subscription Guidance
+
+- [Apple Monthly Subscription with 12-Month Commitment](https://www.revenuecat.com/docs/subscription-guidance/apple-monthly-with-commitment.md): How RevenueCat supports Apple annual subscriptions with monthly commitment terms.
+- [Google Prepaid Plans](https://www.revenuecat.com/docs/subscription-guidance/google-prepaid-plans.md): Setting up your prepaid plan in Google Play Console
+- [Google Subscription with Add-ons](https://www.revenuecat.com/docs/subscription-guidance/google-subscription-with-addons.md)
+- [Billing Issues & Grace Periods](https://www.revenuecat.com/docs/subscription-guidance/how-grace-periods-work.md): What happens when a user encounters a billing issue
+- [Upgrades, Downgrades, & Management](https://www.revenuecat.com/docs/subscription-guidance/managing-subscriptions.md): Making changes to a customer's subscription
+- [Changing Prices](https://www.revenuecat.com/docs/subscription-guidance/price-changes.md): Adjusting your pricing model
+- [Handling Refunds](https://www.revenuecat.com/docs/subscription-guidance/refunds.md): Handling and reacting to refunded purchases
+- [Free Trials & Promo Offers](https://www.revenuecat.com/docs/subscription-guidance/subscription-offers.md): How to give your customers subscription discounts
+- [Google Play Offers](https://www.revenuecat.com/docs/subscription-guidance/subscription-offers/google-play-offers.md): Setting up your offers in Google Play Console
+- [iOS Subscription Offers](https://www.revenuecat.com/docs/subscription-guidance/subscription-offers/ios-subscription-offers.md): Implementing iOS Subscription Offers with Purchases SDK
+- [Stripe Free Trials](https://www.revenuecat.com/docs/subscription-guidance/subscription-offers/stripe-free-trials.md): Setting up free trials in Stripe or Stripe Checkout
+
+## Migrating to RevenueCat
+
+- [Importing your Historical Purchases](https://www.revenuecat.com/docs/migrating-to-revenuecat/migrating-existing-subscriptions.md): How to migrate subscriptions from your existing setup
+- [Google Historical Import](https://www.revenuecat.com/docs/migrating-to-revenuecat/migrating-existing-subscriptions/google-historical-import.md): Importing historical Google Play transactions into RevenueCat
+- [Bulk Imports](https://www.revenuecat.com/docs/migrating-to-revenuecat/migrating-existing-subscriptions/receipt-imports.md): Importing existing customers into RevenueCat
+- [Migrate to RevenueCat](https://www.revenuecat.com/docs/migrating-to-revenuecat/migration-paths.md): How to migrate existing apps to RevenueCat
+- [Do I need the SDK?](https://www.revenuecat.com/docs/migrating-to-revenuecat/sdk-or-not.md): Determining whether or not you need to integrate the RevenueCat SDK
+- [Using the SDK with your own IAP Code (formerly: Observer Mode)](https://www.revenuecat.com/docs/migrating-to-revenuecat/sdk-or-not/finishing-transactions.md): Using RevenueCat without changing existing purchase code
+- [Using RevenueCat without the SDK](https://www.revenuecat.com/docs/migrating-to-revenuecat/sdk-or-not/sdk-less-integration.md): Integrating RevenueCat without the SDK
+- [SwiftyStoreKit Migration](https://www.revenuecat.com/docs/migrating-to-revenuecat/swiftystorekit.md): Migrate your SwiftyStoreKit app to RevenueCat
+
+## Web & Alternative Platforms
+
+- [Connect to your Stripe account](https://www.revenuecat.com/docs/web/connect-stripe-account.md): Instructions to connect your apps to one or more Stripe accounts
+- [Custom Metadata](https://www.revenuecat.com/docs/web/custom-metadata.md)
+- [Custom Branding](https://www.revenuecat.com/docs/web/customization.md): Customizing subscriber-facing features
+- [Web Purchase FAQs](https://www.revenuecat.com/docs/web/faqs.md)
+- [Paddle app-to-web purchases](https://www.revenuecat.com/docs/web/guides/paddle-app-to-web.md): Configure a web purchase flow linked from an iOS paywall, using web purchase links and Paddle Billing
+- [Paddle Billing](https://www.revenuecat.com/docs/web/integrations/paddle.md): Allow your users to subscribe to your app via Paddle
+- [Stripe Billing](https://www.revenuecat.com/docs/web/integrations/stripe.md): Sell Stripe Billing products in RevenueCat Web
+- [Stripe Managed Payments](https://www.revenuecat.com/docs/web/integrations/stripe/stripe-managed-payments.md): RevenueCat-managed web purchase flows powered by Stripe
+- [Track External Purchases](https://www.revenuecat.com/docs/web/integrations/stripe/track-external-purchases.md): Import Stripe purchases made outside of RevenueCat purchase flows
+- [Getting Started With RevenueCat Web](https://www.revenuecat.com/docs/web/overview.md): Overview of web purchases support in RevenueCat
+- [Web Paywalls](https://www.revenuecat.com/docs/web/paywalls.md): How to use RevenueCat Paywalls on the web
+- [Redemption Links](https://www.revenuecat.com/docs/web/redemption-links.md): Allow customers to purchase products and subscriptions on the web and seamlessly access them in-app
+- [Checkout](https://www.revenuecat.com/docs/web/web-billing/checkout.md): Configure the RevenueCat Billing checkout experience, including billing address collection and terms consent
+- [RevenueCat Billing](https://www.revenuecat.com/docs/web/web-billing/configuring-overview.md): Setting up your web purchases using RevenueCat Billing
+- [Customer Portal](https://www.revenuecat.com/docs/web/web-billing/customer-portal.md): How customers can manage their own RevenueCat Billing subscriptions
+- [Discounts](https://www.revenuecat.com/docs/web/web-billing/discounts.md): How to configure and use discounts in RevenueCat Billing
+- [Lifecycle emails](https://www.revenuecat.com/docs/web/web-billing/lifecycle-emails.md): Details of emails sent to subscribers about their purchases and subscriptions
+- [Localization](https://www.revenuecat.com/docs/web/web-billing/localization.md)
+- [Managing Subscriptions](https://www.revenuecat.com/docs/web/web-billing/managing-customer-subscriptions.md): How to manage RevenueCat Billing customer subscriptions in the dashboard
+- [Supporting Multiple Currencies](https://www.revenuecat.com/docs/web/web-billing/multi-currency-support.md)
+- [Apple Pay & Google Pay](https://www.revenuecat.com/docs/web/web-billing/payment-methods.md)
+- [Configure Products & Prices](https://www.revenuecat.com/docs/web/web-billing/product-setup.md): Setting up your web products, pricing structure and upgrade paths
+- [Refunding Payments](https://www.revenuecat.com/docs/web/web-billing/refunding-payments.md): How to refund a customer's payment in the dashboard
+- [Subscription Lifecycle](https://www.revenuecat.com/docs/web/web-billing/subscription-lifecycle.md): RevenueCat Billing subscription lifecycle
+- [Sales Tax & VAT](https://www.revenuecat.com/docs/web/web-billing/tax.md): How to configure and charge sales tax & VAT to customers purchasing through RevenueCat Billing
+- [Testing Purchases](https://www.revenuecat.com/docs/web/web-billing/testing.md): How to test RevenueCat Web purchase flows
+- [Web Purchase Links](https://www.revenuecat.com/docs/web/web-billing/web-purchase-links.md): Generate a RevenueCat hosted paywall and checkout flow with just a few clicks
+- [Web SDK](https://www.revenuecat.com/docs/web/web-billing/web-sdk.md): Offer web subscriptions with RevenueCat Web
+- [Win-back campaigns](https://www.revenuecat.com/docs/web/winback-campaigns.md): Automatically re-engage churned subscribers with a targeted offer to re-subscribe on the web
+
+## Integrations
+
+- [Attribution Providers](https://www.revenuecat.com/docs/integrations/attribution.md): Integrate and collect attribution data with Purchases SDK
+- [Adjust](https://www.revenuecat.com/docs/integrations/attribution/adjust.md): Integrate Purchases SDK with Adjust for precise revenue tracking
+- [Airbridge](https://www.revenuecat.com/docs/integrations/attribution/airbridge.md): Integrate Purchases SDK with Airbridge for precise revenue tracking
+- [Apple Search Ads](https://www.revenuecat.com/docs/integrations/attribution/apple-search-ads.md): Collect and view Apple Search Ads attribution in RevenueCat using AdServices
+- [AppsFlyer](https://www.revenuecat.com/docs/integrations/attribution/appsflyer.md): Integrate Purchases SDK with AppsFlyer for precise revenue tracking
+- [Appstack](https://www.revenuecat.com/docs/integrations/attribution/appstack.md): Integrate RevenueCat with Appstack for attribution and targeting
+- [Asapty](https://www.revenuecat.com/docs/integrations/attribution/asapty.md): Track Apple Search Ads subscription revenue with Asapty
+- [Branch](https://www.revenuecat.com/docs/integrations/attribution/branch.md): Integrate Purchases SDK with Branch for precise revenue tracking
+- [Getting Started with Attribution Integrations](https://www.revenuecat.com/docs/integrations/attribution/getting-started.md): Prepare your app, dashboard configuration, and tests for attribution provider integrations
+- [Kochava](https://www.revenuecat.com/docs/integrations/attribution/kochava.md): Integrate Purchases SDK with Kochava for precise revenue tracking
+- [Meta Ads](https://www.revenuecat.com/docs/integrations/attribution/meta-ads.md): Integrate Purchases SDK with Meta Ads for precise revenue tracking
+- [Attribution Provider Comparison](https://www.revenuecat.com/docs/integrations/attribution/provider-comparison.md): Compare RevenueCat attribution provider integrations
+- [Attribution Setup Checklist](https://www.revenuecat.com/docs/integrations/attribution/setup-checklist.md): Check app setup, provider configuration, event settings, and testing steps for attribution integrations
+- [Singular](https://www.revenuecat.com/docs/integrations/attribution/singular.md): Integrate Purchases SDK with Singular for precise revenue tracking
+- [Solar Engine](https://www.revenuecat.com/docs/integrations/attribution/solarengine.md): Integrate Purchases SDK with Solar Engine for precise revenue tracking
+- [SplitMetrics Acquire](https://www.revenuecat.com/docs/integrations/attribution/splitmetrics-acquire.md): Formerly SearchAdsHQ
+- [Tenjin](https://www.revenuecat.com/docs/integrations/attribution/tenjin.md): Integrate Purchases SDK with Tenjin for precise revenue tracking
+- [Attribution Troubleshooting](https://www.revenuecat.com/docs/integrations/attribution/troubleshooting.md): Troubleshoot RevenueCat attribution provider integrations by symptom
+- [Customer Support Tools](https://www.revenuecat.com/docs/integrations/customer-support.md): Reference RevenueCat data in your customer support tools.
+- [Intercom](https://www.revenuecat.com/docs/integrations/customer-support/intercom.md): Display RevenueCat customer subscription data directly in your Intercom Support inbox
+- [Zendesk](https://www.revenuecat.com/docs/integrations/customer-support/zendesk.md): Display RevenueCat customer subscription data directly in your Zendesk Support ticket sidebar
+- [Data Onboarding](https://www.revenuecat.com/docs/integrations/data-onboarding.md): Get Started with Your Data in RevenueCat
+- [Events Overview](https://www.revenuecat.com/docs/integrations/integrations.md): Learn about events and integrations from RevenueCat
+- [Partner-Built Integrations](https://www.revenuecat.com/docs/integrations/partner-built-integrations.md): Connecting RevenueCat to Alternative Platforms
+- [Scheduled Data Exports](https://www.revenuecat.com/docs/integrations/scheduled-data-exports.md): Export Transactions and Virtual Currency data to cloud storage on a schedule, with selectable columns per feed
+- [Azure Blob Storage](https://www.revenuecat.com/docs/integrations/scheduled-data-exports/scheduled-data-exports-azure.md): Setting up a connection string and container for Scheduled Data Exports
+- [Google Cloud Storage](https://www.revenuecat.com/docs/integrations/scheduled-data-exports/scheduled-data-exports-gcp.md): Setting up credentials and a Google Cloud Storage bucket for Scheduled Data Exports
+- [Amazon S3](https://www.revenuecat.com/docs/integrations/scheduled-data-exports/scheduled-data-exports-s3.md): Setting up credentials and an S3 bucket for Scheduled Data Exports
+- [Selecting columns for an export](https://www.revenuecat.com/docs/integrations/scheduled-data-exports/selecting-columns.md): How to choose which columns are included in each Scheduled Data Export feed
+- [Stripe Dashboard App](https://www.revenuecat.com/docs/integrations/stripe-app.md): Install and use the RevenueCat App in Stripe App Marketplace
+- [Third Party Integrations](https://www.revenuecat.com/docs/integrations/third-party-integrations.md): RevenueCat can automatically send subscription events to the integration platform of your choice.
+- [Airship](https://www.revenuecat.com/docs/integrations/third-party-integrations/airship.md): Integrate in-app purchase events from RevenueCat with Airship
+- [Amplitude](https://www.revenuecat.com/docs/integrations/third-party-integrations/amplitude.md): Integrate in-app subscription events from RevenueCat with Amplitude
+- [Braze](https://www.revenuecat.com/docs/integrations/third-party-integrations/braze.md): Integrate in-app subscription events from RevenueCat with Braze
+- [CleverTap](https://www.revenuecat.com/docs/integrations/third-party-integrations/clevertap.md): Integrate in-app subscription events from RevenueCat with CleverTap
+- [Customer.io](https://www.revenuecat.com/docs/integrations/third-party-integrations/customerio.md): Integrate in-app subscription events from RevenueCat with Customer.io
+- [Discord](https://www.revenuecat.com/docs/integrations/third-party-integrations/discord.md): Send in-app subscription events to Discord
+- [Firebase](https://www.revenuecat.com/docs/integrations/third-party-integrations/firebase-integration.md): Integrate in-app purchase events from RevenueCat with Firebase
+- [Google AdMob](https://www.revenuecat.com/docs/integrations/third-party-integrations/google-admob.md): Connect your AdMob account to enrich RevenueCat ad charts with readable ad unit names
+- [Intercom](https://www.revenuecat.com/docs/integrations/third-party-integrations/intercom.md): Send in-app subscription events from RevenueCat to Intercom
+- [Iterable](https://www.revenuecat.com/docs/integrations/third-party-integrations/iterable.md): Integrate in-app purchase events from RevenueCat with Iterable
+- [Mixpanel](https://www.revenuecat.com/docs/integrations/third-party-integrations/mixpanel.md): Integrate in-app subscription events from RevenueCat with Mixpanel
+- [mParticle](https://www.revenuecat.com/docs/integrations/third-party-integrations/mparticle.md): Integrate in-app subscription events from RevenueCat with mParticle
+- [OneSignal](https://www.revenuecat.com/docs/integrations/third-party-integrations/onesignal.md): Integrate RevenueCat subscription status with OneSignal
+- [PostHog](https://www.revenuecat.com/docs/integrations/third-party-integrations/posthog.md): Integrate in-app subscription events from RevenueCat with PostHog
+- [Segment](https://www.revenuecat.com/docs/integrations/third-party-integrations/segment.md): Integrate in-app subscription events from RevenueCat with Segment
+- [Slack](https://www.revenuecat.com/docs/integrations/third-party-integrations/slack.md): Send in-app subscription events to Slack
+- [Statsig](https://www.revenuecat.com/docs/integrations/third-party-integrations/statsig.md): Integrate in-app subscription events from RevenueCat with Statsig
+- [Superwall](https://www.revenuecat.com/docs/integrations/third-party-integrations/superwall.md): Integrate in-app purchase events from RevenueCat with Superwall
+- [Paywall component interaction events](https://www.revenuecat.com/docs/integrations/third-party-integrations/supporting-files/paywall-component-interaction-events.md): Reference for paywall_component_interacted analytics events across platforms
+- [TelemetryDeck](https://www.revenuecat.com/docs/integrations/third-party-integrations/telemetrydeck.md): Integrate in-app subscription events from RevenueCat with TelemetryDeck
+- [Webhooks](https://www.revenuecat.com/docs/integrations/webhooks.md): Enhanced server-to-server notifications from webhooks
+- [Common Webhook Flows](https://www.revenuecat.com/docs/integrations/webhooks/event-flows.md): How webhooks are sent from RevenueCat
+- [Event Types and Fields](https://www.revenuecat.com/docs/integrations/webhooks/event-types-and-fields.md): The types of webhooks sent from RevenueCat
+- [Sample Events](https://www.revenuecat.com/docs/integrations/webhooks/sample-events.md): Example webhooks sent from RevenueCat
+
+## Dashboard & Metrics
+
+- [Anomaly Detection Notifications](https://www.revenuecat.com/docs/dashboard-and-metrics/anomaly-detection-notifications.md): Get notified about revenue anomalies with custom threshold or auto detection alerts
+- [Audiences](https://www.revenuecat.com/docs/dashboard-and-metrics/audiences.md): Cohort, save, and export customer audiences
+- [Audit Logs](https://www.revenuecat.com/docs/dashboard-and-metrics/audit-logs.md)
+- [Benchmarks](https://www.revenuecat.com/docs/dashboard-and-metrics/benchmarks.md): Compare your app's performance to similar apps
+- [Charts Overview](https://www.revenuecat.com/docs/dashboard-and-metrics/charts.md): Analyzing your subscription business with visualizations
+- [Active Subscriptions Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/active-subscriptions-chart.md)
+- [Active Subscriptions Movement Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/active-subscriptions-movement-chart.md)
+- [Active Trials Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/active-trials-chart.md)
+- [Active Trials Movement Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/active-trials-movement-chart.md)
+- [Ad ARPDAU Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/ad-arpdau-chart.md)
+- [Ad Clicks Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/ad-clicks-chart.md)
+- [Ad CTR Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/ad-ctr-chart.md)
+- [Ad eCPM Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/ad-ecpm-chart.md)
+- [Ad Fill Rate Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/ad-fill-rate-chart.md)
+- [Ad Impressions Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/ad-impressions-chart.md)
+- [Ad Monetized Customers Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/ad-monetized-customers-chart.md)
+- [Ad Revenue Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/ad-revenue-chart.md)
+- [Ads Charts](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/ads.md): Track and analyze ad monetization metrics
+- [Annual Recurring Revenue (ARR) Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/annual-recurring-revenue-arr-chart.md)
+- [App Store Refund Requests Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/app-store-refund-requests-chart.md)
+- [App Store Save Outcomes Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/app-store-save-outcomes-chart.md)
+- [App Store Save Rate Conversion Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/app-store-save-rate-conversion-chart.md)
+- [Charts Feature: Incomplete Periods](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/charts-feature-incomplete-periods.md)
+- [Churn Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/churn-chart.md)
+- [Cohort Explorer](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/cohort-explorer.md)
+- [Conversion to Paying Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/conversion-to-paying-chart.md)
+- [Customer Center Survey Responses Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/customer-center-survey-responses-chart.md)
+- [Initial Conversion Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/initial-conversion-chart.md)
+- [Monthly Recurring Revenue Movement Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/monthly-recurring-revenue-movement-chart.md)
+- [Monthly Recurring Revenue (MRR) Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/monthly-recurring-revenue-mrr-chart.md)
+- [New Customers Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/new-customers-chart.md)
+- [New Paid Subscriptions Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/new-paid-subscriptions-chart.md)
+- [New Trials Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/new-trials-chart.md)
+- [Non-subscription Purchases Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/non-subscription-purchases-chart.md)
+- [Paywall Abandonment Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/paywall-abandonment-chart.md)
+- [Paywall Conversion Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/paywall-conversion-chart.md)
+- [Paywall Encounter Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/paywall-encounter-chart.md)
+- [Paywall LTV Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/paywall-ltv-chart.md)
+- [Play Store Cancel Reasons Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/play-store-cancel-reasons-chart.md)
+- [Prediction Explorer](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/prediction-explorer.md)
+- [Realized LTV per Customer Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/realized-ltv-per-customer-chart.md)
+- [Realized LTV per Paying Customer Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/realized-ltv-per-paying-customer-chart.md)
+- [Refund Rate Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/refund-rate-chart.md)
+- [Revenue Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/revenue-chart.md)
+- [Subscription Retention Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/subscription-retention-chart.md)
+- [Subscription Status Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/subscription-status-chart.md)
+- [Trial Conversion Chart](https://www.revenuecat.com/docs/dashboard-and-metrics/charts/trial-conversion-chart.md)
+- [Customer Profile](https://www.revenuecat.com/docs/dashboard-and-metrics/customer-profile.md)
+- [Display Currency](https://www.revenuecat.com/docs/dashboard-and-metrics/display-currency.md): Customize your display currency
+- [Overview Metrics](https://www.revenuecat.com/docs/dashboard-and-metrics/overview.md): In-app purchase dashboard
+- [Performance Summaries](https://www.revenuecat.com/docs/dashboard-and-metrics/performance-summaries.md): Get a weekly recap of key subscription metrics in your inbox
+- [Reconciling with App Store Financial Reports](https://www.revenuecat.com/docs/dashboard-and-metrics/reconciling-with-financial-reports.md)
+- [Supporting Your Customers](https://www.revenuecat.com/docs/dashboard-and-metrics/supporting-your-customers.md): Support Quickstart Guide
+- [Taxes and Commissions](https://www.revenuecat.com/docs/dashboard-and-metrics/taxes-and-commissions.md): How RevenueCat estimates taxes and commissions for transactions
+
+## Testing & Launch
+
+- [Apple App Store Rejections](https://www.revenuecat.com/docs/test-and-launch/app-store-rejections.md): Your app was rejected. Now what?
+- [Debugging](https://www.revenuecat.com/docs/test-and-launch/debugging.md): View and understand Purchases logs
+- [Caching](https://www.revenuecat.com/docs/test-and-launch/debugging/caching.md): How caching works with RevenueCat
+- [Troubleshooting the SDKs](https://www.revenuecat.com/docs/test-and-launch/debugging/troubleshooting-the-sdks.md)
+- [Error Handling](https://www.revenuecat.com/docs/test-and-launch/errors.md): Handling errors in Purchases SDK
+- [App Subscription Launch Checklist](https://www.revenuecat.com/docs/test-and-launch/launch-checklist.md): RevenueCat pre-launch checklist
+- [Sandbox Testing](https://www.revenuecat.com/docs/test-and-launch/sandbox.md): Making in-app purchases from a test account
+- [Amazon Appstore](https://www.revenuecat.com/docs/test-and-launch/sandbox/amazon-store-sandbox-testing.md)
+- [Apple App Store & TestFlight](https://www.revenuecat.com/docs/test-and-launch/sandbox/apple-app-store.md): Testing purchases in App Store Sandbox
+- [Google Play Store](https://www.revenuecat.com/docs/test-and-launch/sandbox/google-play-store.md): Testing purchases in Play Store Sandbox
+- [RevenueCat Test Store](https://www.revenuecat.com/docs/test-and-launch/sandbox/test-store.md): Testing purchases in RevenueCat Test Store
+- [Submitting an iOS Subscription App](https://www.revenuecat.com/docs/test-and-launch/submitting-ios-subscription-app.md): Let's get your iOS app with subscriptions shipped!
+
+## Developer Guides
+
+- [App Environment Strategies](https://www.revenuecat.com/docs/guides/environment-strategies.md): Strategies for using different environments in your app
+- [Promotional Subscription Extensions](https://www.revenuecat.com/docs/guides/promotional-subscription-extensions.md): Automatically extend subscriptions as a promotional offer when customers make a purchase
+
+## Playbooks
+
+- [Freemium Paywalls](https://www.revenuecat.com/docs/playbooks/guides/freemium.md)
+- [Hard Paywalls](https://www.revenuecat.com/docs/playbooks/guides/hard-paywall.md)
+- [Playbooks](https://www.revenuecat.com/docs/playbooks/overview.md)
+
+## Support
+
+- [General Troubleshooting](https://www.revenuecat.com/docs/revenuecat-support/general-troubleshooting.md)
+- [Support First Steps](https://www.revenuecat.com/docs/revenuecat-support/support-first-steps.md): We can help, but we need your help first.
+
+## Known Store Issues
+
+- [Play Billing Library Known Issues](https://www.revenuecat.com/docs/known-store-issues/play-billing-library.md)
+- [ProxyBillingActivity Crash](https://www.revenuecat.com/docs/known-store-issues/play-billing-library/proxy-billing-activity-crash.md)
+- [Restoring consumable purchases won't work in Google's Billing Client 8](https://www.revenuecat.com/docs/known-store-issues/play-billing-library/restore-consumable-purchases-bc8.md)
+- [StoreKit Issues](https://www.revenuecat.com/docs/known-store-issues/storekit.md)
+- [iOS 18.2.X Purchase Sheet May Fail to Appear](https://www.revenuecat.com/docs/known-store-issues/storekit/ios-18-2-purchase-sheet-may-fail-to-appear.md)
+- [iOS 18.3.1-18.5 Canceled State After Successful Purchase](https://www.revenuecat.com/docs/known-store-issues/storekit/ios-18-4-canceled-state-after-successful-purchase.md)
+- [iOS 18.4 Simulator Fails to Load Products](https://www.revenuecat.com/docs/known-store-issues/storekit/ios-18-4-simulator-fails-to-load-products.md)
+- [iOS 18-18.3.2 Purchases May Fail Due to StoreKit Daemon Connection Issue](https://www.revenuecat.com/docs/known-store-issues/storekit/ios-18-purchase-fails-due-to-failed-storekitdaemon-connection.md)
+- [Xcode 26 beta Known Issues](https://www.revenuecat.com/docs/known-store-issues/xcode-26.md)
+- [URLSessionConfiguration Crash](https://www.revenuecat.com/docs/known-store-issues/xcode-26/app-crash-urlsessionconfiguration.md)
+
+## Service Credentials
+
+- [Amazon Appstore Shared Secret](https://www.revenuecat.com/docs/service-credentials/amazon-appstore-credentials.md): Getting your Amazon Appstore Shared Secret
+- [Google Play Store](https://www.revenuecat.com/docs/service-credentials/creating-play-service-credentials.md): Step-by-step guide for creating your Play service credentials
+- [Google Play Checklists](https://www.revenuecat.com/docs/service-credentials/creating-play-service-credentials/google-play-checklists.md): Check your configuration setup step by step.
+- [App Store Connect App-Specific Shared Secret](https://www.revenuecat.com/docs/service-credentials/itunesconnect-app-specific-shared-secret.md): Getting your App Store Connect App-Specific Shared Secret
+- [App Store Connect API Key Configuration](https://www.revenuecat.com/docs/service-credentials/itunesconnect-app-specific-shared-secret/app-store-connect-api-key-configuration.md)
+- [In-App Purchase Key Configuration](https://www.revenuecat.com/docs/service-credentials/itunesconnect-app-specific-shared-secret/in-app-purchase-key-configuration.md): Guide on how to set up iOS in-app purchase keys.
+- [Roku Channel](https://www.revenuecat.com/docs/service-credentials/roku-credentials.md): Getting your Roku Pay API Keys
+
+## Ad Monetization
+
+- [Ad Monetization](https://www.revenuecat.com/docs/ad-monetization.md): Track ad revenue and impressions alongside your subscription data
+- [AdMob SDK integration](https://www.revenuecat.com/docs/ad-monetization/admob.md): Quick setup for AdMob ad monetization on iOS and Android with RevenueCat
+- [Manual Integration](https://www.revenuecat.com/docs/ad-monetization/manual-integration.md): Track ad events from any mediation platform that provides ILRD
+- [Granting Ad Rewards](https://www.revenuecat.com/docs/ad-monetization/rewards.md): Reward users for completing AdMob rewarded ads, verified server-side by RevenueCat
